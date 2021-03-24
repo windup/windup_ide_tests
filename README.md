@@ -8,7 +8,6 @@ This project is for creating automated tests for verifying the functionality of 
 - VS Code
 
 **Supported OS**
-
 Works on Linux/RHEL/Fedora with X11 windowing system enabled (does not work with Wayland scheme)
 
 ## Getting Started
