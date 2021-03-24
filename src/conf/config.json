@@ -1,0 +1,9 @@
+{
+    "ide_paths" : 
+    {
+        "rh_code_ready_studio" : "",
+        "eclipse" : "",
+        "vs_code" : ""
+    },
+    "timeout_in_seconds" : 15.0
+}
