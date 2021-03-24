@@ -3,11 +3,14 @@
 ## About the project
 This project is for creating automated tests for verifying the functionality of MTA IDE plugin. This is an extension of [windup_integration_test](https://github.com/windup/windup_integration_test) extensively created for coverage of IDEs. Currently below IDEs have been covered :
 
-- Redhat Code Ready Studio
-- Eclipse
-- VS Code
+| IDE           | Version |
+| ------------- | ------------- |
+| Redhat Code Ready Studio  | Version: 12.18.0.GA  |
+| Eclipse IDE   | Eclipse 2020-09  |
+| VS Code  | v1.52.1/v0.0.62  |
 
 **Supported OS**
+
 Works on Linux/RHEL/Fedora with X11 windowing system enabled (does not work with Wayland scheme)
 
 ## Getting Started
@@ -35,7 +38,7 @@ Sample project can be downloaded from [link](https://drive.google.com/file/d/1l4
 
 3. Activate virtual env
 
-    `source .virt-env/bin/activate`
+    `source .ide-env/bin/activate`
 
 4. Install from setup
 
