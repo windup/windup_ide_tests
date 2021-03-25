@@ -1,17 +1,17 @@
 # windup_ide_tests
 
 ## About the project
-This project is for creating automated tests for verifying the functionality of MTA IDE plugin. This is an extension of [windup_integration_test](https://github.com/windup/windup_integration_test) extensively created for coverage of IDEs. Currently below IDEs have been covered :
+This project is for creating automated tests for verifying the functionality of MTA IDE plugin. This is an extension of [windup_integration_test](https://github.com/windup/windup_integration_test) extensively created for coverage of IDEs. Currently below IDEs have been covered:
 
 | IDE           | Version |
 | ------------- | ------------- |
-| Redhat Code Ready Studio  | Version: 12.18.0.GA  |
-| Eclipse IDE   | Eclipse 2020-09  |
-| VS Code  | v1.52.1/v0.0.62  |
+| Redhat Code Ready Studio  | 12.18.0.GA  |
+| Eclipse IDE   | 2020-12  |
+| VS Code  | 1.54.1 |
 
 **Supported OS**
 
-Works on Linux/RHEL/Fedora with X11 windowing system enabled (does not work with Wayland scheme)
+Works on *Linux/RHEL/Fedora* with X11 windowing system enabled (does not work with Wayland scheme)
 
 ## Getting Started
 To get started with project in development mode or basic usage, follow the below steps:
@@ -23,7 +23,9 @@ To get started with project in development mode or basic usage, follow the below
 - MTA IDE plugin installed in that IDE
 - The project to be analysed is imported in IDE
 
-Sample project can be downloaded from [link](https://drive.google.com/file/d/1l4VaWeYbsz7OMFZPT_OBY1ERntxNOUPp/view?usp=sharing_eil&ts=605ab414)
+Sample project can be downloaded
+
+- [weblogic-jms-case](https://drive.google.com/file/d/1l4VaWeYbsz7OMFZPT_OBY1ERntxNOUPp/view?usp=sharing_eil&ts=605ab414)
 
 **Installation**
 
@@ -38,13 +40,13 @@ Sample project can be downloaded from [link](https://drive.google.com/file/d/1l4
 
 3. Activate virtual env
 
-    `source .ide-env/bin/activate`
+    `source .ide_env/bin/activate`
 
 4. Install from setup
 
     `pip install .`
 
-5. Edit the config.json file and provide the full path to executable of respective ide
+5. Edit the **config.json** file and provide full path to the executable of respective IDE
 
     `cd ~/windup-ide-tests/src/conf`
 
