@@ -1,12 +1,14 @@
 import json
-import pytest
 import os
+
+import pytest
+
 from src.lib.application import CodeReadyStudio
 from src.lib.application import Eclipse
 
 
 CONF_DIR = os.path.dirname(os.path.dirname(
-        os.path.realpath(__file__)))+'/conf/'
+    os.path.realpath(__file__)))+'/conf/'
 
 
 @pytest.fixture(scope='session')

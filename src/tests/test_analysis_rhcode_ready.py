@@ -1,5 +1,3 @@
-
-
 def test_run_analysis(setup_codereadystudio):
     """
     Test to run a simple analysis on existing project in CodeReadyStudio IDE

@@ -1,9 +1,10 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='windup_ide_tests',
     version='1.0',
-    description='Test Framework for Red Hat Application Migration Toolkit IDE plugin',
+    description='Test Framework for Red Hat Application \
+        Migration Toolkit IDE plugin',
     license='Eclipse Public License 2.0',
     long_description='README.md',
     long_description_content_type='text/markdown',

@@ -1,5 +1,3 @@
-
-
 def test_run_analysis(setup_eclipse):
     """
     Test to run a simple analysis on existing project in Eclipse IDE

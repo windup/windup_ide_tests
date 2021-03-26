@@ -1,6 +1,7 @@
-from RPA.Desktop import Desktop
-import os
 import logging
+import os
+
+from RPA.Desktop import Desktop
 
 
 class Application(Desktop):
