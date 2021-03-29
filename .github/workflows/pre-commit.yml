@@ -1,0 +1,22 @@
+name: windup-ide-tests
+
+on: [push, pull_request]
+
+jobs:
+  pre-commit:
+    name: Pre-Commit Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to master
+        uses: actions/checkout@main
+
+      - name: Setup python
+        uses: actions/setup-python@v3
+
+      - name: Pre-Commit Checks
+        run: |
+            python -m pip install pre-commit
+            pre-commit run -a
+      - name: Analysis (git diff)
+        if: failure()
+        run: git diff
