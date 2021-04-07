@@ -262,11 +262,13 @@ class Application(Desktop):
 
         Returns:
             None
-        """
-        """
-        Click on Run MTA Configuration icon -> Add Project button
-        -> Type Project name -> Click on OK button
-        Confirm analysis has started by finding generating report
+
+        Steps:
+            1) Click on Run MTA Configuration icon
+            2) Click Add Project button
+            3) Type Project name
+            4) Click on OK button
+            5) Confirm analysis has started
         """
         self.click_element(locator_type="image", locator="mta_run.png")
         self.click_element(locator_type="image", locator="run_conf_header.png")
@@ -290,7 +292,7 @@ class Application(Desktop):
         Checks if run analysis has been completed
 
         Returns:
-            bool: True if analysis was completed
+            (bool): True if analysis was completed
         """
         self.wait_find_element(
             locator_type="image", locator="run_complete.png", timeout=120.0, interval=5.0,
@@ -370,11 +372,13 @@ class VisualStudioCode(Application):
 
         Returns:
             None
-        """
-        """
-        Click on Run MTA Configuration icon -> Click new config
-        -> Type Project name -> Right click on config and run
-        Confirm analysis has started by finding generating report
+
+        Steps:
+            1) Click on MTA Configuration icon
+            2) Click new config(+) icon
+            3) Type project name in source
+            4) Right click on config name and run
+            5) Confirm analysis has started
         """
         self.wait_find_element(locator_type="image", locator="create_new_config.png")
         self.click_element(locator_type="image", locator="create_new_config.png")
@@ -387,16 +391,13 @@ class VisualStudioCode(Application):
         # Click the first match out of the two same buttons found
         self.click(add_project_buttons[0])
         self.type_text(text=project, enter=True)
-        add_target_locator = self.image_locator("add_project_button.png")
-        add_target_buttons = self.find_elements(add_target_locator)
-        self.click(add_target_buttons[1])
-        self.type_text(text="eap7", enter=True)
         config_run_region = self.two_coordinate_locator(
             locator_type="point", x_coordinate=110, y_coordinate=870,
         )
         self.click(config_run_region)
         self.type_text(config_name)
         run_config_locator = self.image_locator("run_config_highlighter.png")
+        # Find config name highlighted and select correct config if multiple matches are found
         try:
             self.wait_find_element(locator_type="image", locator="run_config_highlighter.png")
             self.move_mouse(run_config_locator)
