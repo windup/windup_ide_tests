@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 
 from RPA.Desktop import Desktop
 
@@ -24,6 +25,9 @@ class Application(Desktop):
         """
         if isinstance(self, CodeReadyStudio) or isinstance(self, Eclipse):
             return f"image:{self.IMG_DIR}/codeready_eclipse_common/{locator}"
+
+        if isinstance(self, VisualStudioCode):
+            return f"image:{self.IMG_DIR}/vscode/{locator}"
 
     def text_locator(self, locator):
         """
@@ -258,11 +262,13 @@ class Application(Desktop):
 
         Returns:
             None
-        """
-        """
-        Click on Run MTA Configuration icon -> Add Project button
-        -> Type Project name -> Click on OK button
-        Confirm analysis has started by finding generating report
+
+        Steps:
+            1) Click on Run MTA Configuration icon
+            2) Click Add Project button
+            3) Type Project name
+            4) Click on OK button
+            5) Confirm analysis has started
         """
         self.click_element(locator_type="image", locator="mta_run.png")
         self.click_element(locator_type="image", locator="run_conf_header.png")
@@ -286,7 +292,7 @@ class Application(Desktop):
         Checks if run analysis has been completed
 
         Returns:
-            bool: True if analysis was completed
+            (bool): True if analysis was completed
         """
         self.wait_find_element(
             locator_type="image", locator="run_complete.png", timeout=120.0, interval=5.0,
@@ -296,7 +302,7 @@ class Application(Desktop):
 
 class CodeReadyStudio(Application):
     """
-    CodeReadyStudio class for managing RH Code Ready Studio application
+    Class for managing RH Code Ready Studio application
     """
 
     pass
@@ -304,7 +310,115 @@ class CodeReadyStudio(Application):
 
 class Eclipse(Application):
     """
-    Eclipse class for managing Eclipse application
+    Class for managing Eclipse application
     """
 
     pass
+
+
+class VisualStudioCode(Application):
+    """
+    Class for managing VSCode application
+    """
+
+    def close_ide(self):
+        """
+        Closes the IDE
+        """
+        self.press_keys("ctrl", "q")
+
+    def is_open_mta_perspective(self):
+        """
+        Checks if MTA perspective is already opened in VS Code
+
+        Returns:
+            (bool): True or False
+        """
+        try:
+            self.wait_find_element(locator_type="image", locator="mta_config_active.png")
+            return True
+        except Exception as exc:
+            logging.debug(
+                "An error occured while finding \
+                MTA perspective tab ! {}".format(
+                    str(exc),
+                ),
+            )
+            if "No matches found" in str(exc):
+                return False
+            else:
+                raise Exception(exc)
+
+    def open_mta_perspective(self):
+        """
+        Opens MTA perspective in VSCode IDE
+        """
+        if self.is_open_mta_perspective():
+            logging.info("MTA perspective is already opened !")
+            return
+        else:
+            """
+            Click on the MTA icon in left sidebar
+            """
+            self.click_element(locator_type="image", locator="mta_config_view.png")
+
+    def run_simple_analysis(self, project, packages=[]):
+        """
+        Runs analysis by adding the project and/or packages passed as argument
+
+        Args:
+            project (str): Full name of project to be analysed
+            packages (list): List of packages to be added to analysis
+
+        Returns:
+            None
+
+        Steps:
+            1) Click on MTA Configuration icon
+            2) Click new config(+) icon
+            3) Type project name in source
+            4) Right click on config name and run
+            5) Confirm analysis has started
+        """
+        self.wait_find_element(locator_type="image", locator="create_new_config.png")
+        self.click_element(locator_type="image", locator="create_new_config.png")
+        self.wait_find_element(locator_type="image", locator="config_screen.png")
+        # Region defining the configuration name
+        config_name_region = self.define_region(707, 222, 1167, 271)
+        config_name = self.read_text(locator=config_name_region, invert=True)
+        add_project_locator = self.image_locator("add_project_button.png")
+        add_project_buttons = self.find_elements(add_project_locator)
+        # Click the first match out of the two same buttons found
+        self.click(add_project_buttons[0])
+        self.type_text(text=project, enter=True)
+        config_run_region = self.two_coordinate_locator(
+            locator_type="point", x_coordinate=110, y_coordinate=870,
+        )
+        self.click(config_run_region)
+        self.type_text(config_name)
+        run_config_locator = self.image_locator("run_config_highlighter.png")
+        # Find config name highlighted and select correct config if multiple matches are found
+        try:
+            self.wait_find_element(locator_type="image", locator="run_config_highlighter.png")
+            self.move_mouse(run_config_locator)
+        except Exception as exc:
+            if re.match(r"Found [0-9] matches+", str(exc)):
+                run_config_matches = self.find_elements(run_config_locator)
+                self.move_mouse(run_config_matches[-1])
+            else:
+                raise Exception(exc)
+        self.click(action="right_click")
+        self.press_keys("up")
+        self.press_keys("enter")
+        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=90.0)
+        self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
+
+    def is_analysis_complete(self):
+        """
+        Checks if run analysis has been completed
+
+        Returns:
+            bool: True if analysis was completed
+        """
+        self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
+        return True

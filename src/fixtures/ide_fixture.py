@@ -5,6 +5,7 @@ import pytest
 
 from src.lib.application import CodeReadyStudio
 from src.lib.application import Eclipse
+from src.lib.application import VisualStudioCode
 
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/conf/"
@@ -45,3 +46,16 @@ def setup_eclipse(config):
     eclipse.set_default_timeout(timeout=config["timeout_in_seconds"])
     yield eclipse
     eclipse.close_ide()
+
+
+@pytest.fixture(scope="function")
+def setup_vscode(config):
+    """
+    Fixture to setup vs code application
+    """
+    vscode = VisualStudioCode()
+    path = config["ide_paths"]["vs_code"]
+    vscode.open_application(path)
+    vscode.set_default_timeout(timeout=config["timeout_in_seconds"])
+    yield vscode, config
+    vscode.close_ide()
