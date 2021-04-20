@@ -76,8 +76,7 @@ class Application(Desktop):
         Forms and returns the actual locator based on type
 
         Args:
-            locator_type (str): The type of locator
-                                supported types-
+            locator_type (str): Valid values for locator_type -
                                 text, image, offset, region, point, size
             locator (str): Locator string containing text or image name
             coordinates (list): List of integers
@@ -151,8 +150,7 @@ class Application(Desktop):
         of element located by image or text or any locator
 
         Args:
-            locator_type (str): The type of locator
-                                supported types-
+            locator_type (str): Valid values for locator_type -
                                 text, image, offset, region, point, size
             locator (str): Locator string containing text or image name
             coordinates (list): List of integers provided as
@@ -175,8 +173,7 @@ class Application(Desktop):
         Wait untill timeout and find element based on locator
 
         Args:
-            locator_type (str): The type of locator
-                                supported types-
+            locator_type (str): Valid values for locator_type -
                                 text, image, offset, region, point, size
             locator (str): Locator string containing text or image name
             coordinates (list): List of integers provided as
@@ -226,15 +223,18 @@ class Application(Desktop):
     def open_mta_perspective(self):
         """
         Opens MTA perspective in IDE
+
+        Steps:
+            1) Click on Window menu item
+            2) Click Perspective from dropdown menu
+            3) Click on Open Perspective
+            4) Select Other and then click MTA
+            5) Click on Open button
         """
         if self.is_open_mta_perspective():
             logging.info("MTA perspective is already opened !")
             return
         else:
-            """
-            Click on Window -> Perspective -> Open Perspective
-            -> Other -> MTA -> Click on Open button
-            """
             self.click_element(locator_type="text", locator="Window")
             self.click_element(locator_type="text", locator="Perspective")
             self.click_element(locator_type="image", locator="open_perspective.png")
@@ -357,9 +357,7 @@ class VisualStudioCode(Application):
             logging.info("MTA perspective is already opened !")
             return
         else:
-            """
-            Click on the MTA icon in left sidebar
-            """
+            # Click on the MTA icon in left sidebar
             self.click_element(locator_type="image", locator="mta_config_view.png")
 
     def run_simple_analysis(self, project, packages=[]):
@@ -418,7 +416,7 @@ class VisualStudioCode(Application):
         Checks if run analysis has been completed
 
         Returns:
-            bool: True if analysis was completed
+            (bool): True if analysis was completed
         """
         self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
         return True
