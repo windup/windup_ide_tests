@@ -6,6 +6,7 @@ import pytest
 from src.lib.application import CodeReadyStudio
 from src.lib.application import Eclipse
 from src.lib.application import VisualStudioCode
+from src.lib.web import EclipseChe
 
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/conf/"
@@ -59,3 +60,14 @@ def setup_vscode(config):
     vscode.set_default_timeout(timeout=config["timeout_in_seconds"])
     yield vscode, config
     vscode.close_ide()
+
+
+@pytest.fixture(scope="function")
+def setup_eclipse_che():
+    """
+    Fixture to setup eclipse che workspace
+    """
+    eclipse_che = EclipseChe("chrome")
+    eclipse_che.open_workspace()
+    yield eclipse_che
+    eclipse_che.close_browser()
