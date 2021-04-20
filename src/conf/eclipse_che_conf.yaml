@@ -2,11 +2,10 @@ apiVersion: 1.0.0
 metadata:
   name: che-ide-tests
 projects:
-  - name: acmeair-webapp
+  - name: rulesets-demo
     source:
-      location: 'https://github.com/nitishSr/acmeair-webapp-1.0-SNAPSHOT.git'
+      location: 'https://github.com/windup/windup-rulesets'
       type: git
-      branch: main
 components:
   - memoryLimit: 1500M
     type: chePlugin
