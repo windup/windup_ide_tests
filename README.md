@@ -6,7 +6,7 @@ This project is for creating automated tests for verifying the functionality of 
 | IDE           | Version |
 | ------------- | ------------- |
 | Redhat Code Ready Studio  | 12.18.0.GA  |
-| Eclipse IDE for J2EE developers  | 2020-12  |
+| Eclipse IDE for J2EE developers  | 2020-09  |
 | VS Code  | 1.54.1 |
 | Eclipse CHE  | theia |
 
