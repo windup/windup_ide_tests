@@ -175,6 +175,47 @@ class EclipseChe(WebBrowser):
 
     def __init__(self, browser):
         super().__init__(browser)
+        self.configuration_name = None
+        self.configuration_ele_locator = None
+
+    def create_run_configuration(self):
+        """
+        Creates run configuration for MTA
+        """
+        self.driver.switch_to.default_content()
+        self.wait_switch_frame(By.ID, "ide-application-iframe", 60)
+        # Click on MTA Explorer icon
+        mta_plugin_ele = self.wait_find_element(
+            By.XPATH,
+            "//div/ul[@class='p-TabBar-content']\
+            /li[@id='shell-tab-plugin-view-container:rhamt-explorer']",
+            120,
+        )
+        mta_icon_click_counter = 2
+        if "p-mod-current" not in mta_plugin_ele.get_attribute("class"):
+            mta_icon_click_counter = 3
+        for _ in range(mta_icon_click_counter):
+            mta_plugin_ele.click()
+        # Create new run configuration
+        self.wait_click_element(By.XPATH, "//div[@title='New Configuration']")
+        # Wait for all the page frames to load
+        time.sleep(20)
+        # Switch to the last frame to find main html content for configuration
+        self.wait_switch_frame(By.TAG_NAME, "iframe")
+        self.wait_switch_frame(By.XPATH, "//iframe[@id='active-frame']", 60)
+        self.wait_switch_frame(By.TAG_NAME, "iframe")
+        config_name_ele = self.wait_find_element(By.XPATH, "//input[@id='name-input']")
+        self.configuration_name = config_name_ele.get_attribute("value")
+        self.driver.switch_to.default_content()
+        self.wait_switch_frame(By.ID, "ide-application-iframe", 60)
+        config_ele_locator = self.wait_find_element(
+            By.XPATH,
+            "//div[@class='ReactVirtualized__Grid__innerScrollContainer' and @role='rowgroup']\
+                //div[@class='noWrapInfoTree']/span[contains(text(), '{}')]".format(
+                self.configuration_name,
+            ),
+        )
+        self.configuration_ele_locator = config_ele_locator
 
     def handle_login_interrupt(self):
         """
@@ -233,73 +274,40 @@ class EclipseChe(WebBrowser):
         if final_workspace_status != "running":
             raise Exception("The workspace could not be started !")
         self.wait_click_element(By.XPATH, "//a[contains(text(), 'Open')]")
-        # Check workspace has loaded
+        # Check workspace frame has loaded
         self.wait_switch_frame(By.ID, "ide-application-iframe", 90)
 
-    def run_analysis(self):
+    def run_analysis(self, migration_target="quarkus1"):
         """
         Runs analysis on project in eclipse che workspace and returns story points
 
         Args:
-            None
+            migration_target (str): Migration target for project analysis
 
         Returns:
             story_points (str): Story points for project analysis
         """
-        # Click on MTA Explorer icon
-        mta_plugin_ele = self.wait_find_element(
-            By.XPATH,
-            "//div/ul[@class='p-TabBar-content']\
-            /li[@id='shell-tab-plugin-view-container:rhamt-explorer']",
-            120,
-        )
-        mta_icon_click_counter = 2
-        if "p-mod-current" not in mta_plugin_ele.get_attribute("class"):
-            mta_icon_click_counter = 3
-        for _ in range(mta_icon_click_counter):
-            mta_plugin_ele.click()
-        # Create new run configuration
-        self.wait_click_element(By.XPATH, "//div[@title='New Configuration']")
+        if self.configuration_name is None and self.configuration_ele_locator is None:
+            raise Exception("Configuration has not been created !")
         self.driver.switch_to.default_content()
         self.wait_switch_frame(By.ID, "ide-application-iframe")
-        # Wait for all the page frames to load
-        time.sleep(30)
         # Switch to the last frame to find main html content for configuration
         self.wait_switch_frame(By.TAG_NAME, "iframe")
         self.wait_switch_frame(By.XPATH, "//iframe[@id='active-frame']", 60)
         self.wait_switch_frame(By.TAG_NAME, "iframe")
-        # Enter project name and select quarkus 1 as target
+        # Enter project name and select migration_target
         self.wait_click_element(By.XPATH, "//span[@id='input-details']/dl/dd/div/a")
         self.write_text(
             By.XPATH, "//input[@id='editDialogInput']", config_data["workspace_project_path"],
         )
         self.driver.find_element_by_xpath("//input[@id='editDialogInput']").send_keys(Keys.ENTER)
-        self.wait_click_element(By.XPATH, "//input[@id='target-quarkus1']")
-        # Get the configuration name and locator from sidebar
+        self.wait_click_element(By.XPATH, "//input[@id='target-{}']".format(migration_target))
+        # Run the configuration from sidebar
         self.driver.switch_to.default_content()
         self.wait_switch_frame(By.ID, "ide-application-iframe")
-        run_configurations = self.driver.find_elements_by_xpath(
-            "//div[@class='ReactVirtualized__Grid__innerScrollContainer' and @role='rowgroup']/div",
-        )
-        total_configs = len(run_configurations)
-        config_to_run = self.wait_find_element(
-            By.XPATH,
-            "//div[@class='ReactVirtualized__Grid__innerScrollContainer' \
-            and @role='rowgroup']/div[{}]".format(
-                total_configs,
-            ),
-        )
-        config_name_ele = self.wait_find_element(
-            By.XPATH,
-            "//div[@class='ReactVirtualized__Grid__innerScrollContainer' and \
-                @role='rowgroup']/div[{}]//div[@class='noWrapInfoTree']/span".format(
-                total_configs,
-            ),
-        )
-        configuration_name = str(config_name_ele.text)
         action = ActionChains(self.driver)
         # Right click action and run the analysis
-        action.context_click(config_to_run).perform()
+        action.context_click(self.configuration_ele_locator).perform()
         self.wait_click_element(
             By.XPATH, "//div[@class='p-Widget p-Menu']/ul/li/div[contains(text(), 'Run')]",
         )
@@ -329,8 +337,18 @@ class EclipseChe(WebBrowser):
         story_points = self.wait_find_element(By.XPATH, "//span[@class='points']").text
         # Switch back to workspace tab
         self.driver.switch_to.window(self.driver.window_handles[0])
-        time.sleep(2)
-        # Delete the configuration
+        return story_points
+
+    def delete_configuration(self, configuration_name):
+        """
+        Deletes the configuration based on its name
+
+        Args:
+            configuration_name (str): The name of configuration to be deleted
+
+        Returns:
+            None
+        """
         self.driver.switch_to.default_content()
         self.wait_switch_frame(By.ID, "ide-application-iframe")
         config_to_delete = self.wait_find_element(
@@ -346,4 +364,3 @@ class EclipseChe(WebBrowser):
         self.wait_click_element(
             By.XPATH, "//div[@class='p-Widget p-Menu']/ul/li/div[contains(text(), 'Delete')]",
         )
-        return story_points
