@@ -70,4 +70,5 @@ def setup_eclipse_che():
     eclipse_che = EclipseChe("chrome")
     eclipse_che.open_workspace()
     yield eclipse_che
+    eclipse_che.delete_configuration(eclipse_che.configuration_name)
     eclipse_che.close_browser()
