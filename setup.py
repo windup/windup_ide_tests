@@ -15,5 +15,6 @@ setup(
         "rpaframework[cv]",
         "tesseract",
         "pytest",
+        "selenium",
     ],
 )

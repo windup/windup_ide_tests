@@ -6,5 +6,17 @@
         "vs_code" : ""
     },
     "timeout_in_seconds" : 15.0,
-    "project_path" : ""
+    "project_path" : "",
+    "driver_paths" :
+    {
+        "firefox" : "",
+        "chrome" : ""
+    },
+    "workspace_credentials" :
+    {
+        "username" : "",
+        "password" : ""
+    },
+    "workspace_url" : "https://codeready-codeready-workspaces-operator.apps.sandbox.x8i5.p1.openshiftapps.com/dashboard/#/workspaces",
+    "workspace_project_path" : "/projects/rulesets-demo/rules-reviewed/quarkus1/quarkus1-12/tests/data"
 }

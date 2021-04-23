@@ -6,8 +6,9 @@ This project is for creating automated tests for verifying the functionality of 
 | IDE           | Version |
 | ------------- | ------------- |
 | Redhat Code Ready Studio  | 12.18.0.GA  |
-| Eclipse IDE   | 2020-12  |
+| Eclipse IDE for J2EE developers  | 2020-09  |
 | VS Code  | 1.54.1 |
+| Eclipse CHE  | theia |
 
 **Supported OS**
 
@@ -22,10 +23,21 @@ To get started with project in development mode or basic usage, follow the below
 - Respective IDE (to be tested) installed on local machine
 - MTA IDE plugin installed in that IDE
 - The project to be analysed is imported in IDE
+- Selenium webdriver installed locally (chromedriver or geckodriver)
 
 Sample project can be downloaded
 
 - [weblogic-jms-case](https://drive.google.com/file/d/1l4VaWeYbsz7OMFZPT_OBY1ERntxNOUPp/view?usp=sharing_eil&ts=605ab414)
+
+**Eclipse CHE setup**
+
+- The workspace should be created before running test using devfile yaml
+
+    `~/windup_ide_tests/src/conf/eclipse_che_conf.yaml`
+
+- Use JIRA credentials for login, the same must be provided in config.json
+
+    `~/windup_ide_tests/src/conf/config.json`
 
 **Installation**
 
@@ -48,7 +60,7 @@ Sample project can be downloaded
 
 5. Edit the **config.json** file and provide full path to the executable of respective IDE
 
-    `cd ~/windup-ide-tests/src/conf`
+    `cd ~/windup_ide_tests/src/conf`
 
 **Contributing to the project**
 
