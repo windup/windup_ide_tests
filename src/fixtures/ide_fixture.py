@@ -7,6 +7,7 @@ from src.lib.application import CodeReadyStudio
 from src.lib.application import Eclipse
 from src.lib.application import VisualStudioCode
 from src.lib.web import EclipseChe
+from src.lib.application import Intellij
 
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/conf/"
@@ -72,3 +73,16 @@ def setup_eclipse_che():
     yield eclipse_che
     eclipse_che.delete_configuration(eclipse_che.configuration_name)
     eclipse_che.close_browser()
+
+
+@pytest.fixture(scope="function")
+def setup_intellij(config):
+    """
+    Fixture to setup intellij application
+    """
+    intellij = Intellij()
+    path = config["ide_paths"]["intellij"]
+    intellij.open_application(path)
+    intellij.set_default_timeout(timeout=config["timeout_in_seconds"])
+    yield intellij
+    intellij.close_ide()
