@@ -5,9 +5,9 @@ import pytest
 
 from src.lib.application import CodeReadyStudio
 from src.lib.application import Eclipse
+from src.lib.application import Intellij
 from src.lib.application import VisualStudioCode
 from src.lib.web import EclipseChe
-from src.lib.application import Intellij
 
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/conf/"
