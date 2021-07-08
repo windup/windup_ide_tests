@@ -203,6 +203,18 @@ class Application(Desktop):
         self.click_element(locator_type="text", locator="File")
         self.click_element(locator_type="text", locator="Exit")
 
+    def close_report_tab(self):
+        """
+        Closes the current browser tab having report opened in it
+        """
+        self.press_keys("ctrl", "w")
+
+    def switch_tab(self):
+        """
+        Switch context between apps using home+tab buttons
+        """
+        self.press_keys("cmd", "tab")
+
     def is_open_mta_perspective(self):
         """
         Checks if MTA perspective is already opened in IDE
@@ -283,13 +295,16 @@ class Application(Desktop):
         self.click(locator=add_buttons[0])
         self.click_element(locator_type="image", locator="projects_header.png")
         self.type_text(text=project, enter=True)
-        # Disable generate report from options
-        self.click_element(locator_type="text", locator="Options")
-        self.click_element(locator_type="image", locator="generate_report_checkbox.png")
         self.click_element(locator_type="image", locator="run_config_button.png")
-        self.wait_find_element(locator_type="image", locator="generating_report.png")
+        try:
+            self.wait_find_element(locator_type="image", locator="generating_report.png")
+        except Exception as exc:
+            if re.match(r"Found [0-9] matches+", str(exc)):
+                logging.debug("Detected the start of analysis")
+            else:
+                raise Exception(exc)
         self.wait_find_element(
-            locator_type="image", locator="run_complete.png", timeout=120.0, interval=5.0,
+            locator_type="image", locator="report_page_header.png", timeout=120.0, interval=5.0,
         )
 
     def is_analysis_complete(self):
@@ -299,10 +314,26 @@ class Application(Desktop):
         Returns:
             (bool): True if analysis was completed
         """
-        self.wait_find_element(
-            locator_type="image", locator="run_complete.png", timeout=120.0, interval=5.0,
-        )
-        return True
+        try:
+            self.wait_find_element(
+                locator_type="image", locator="report_page_header.png", timeout=120.0, interval=5.0,
+            )
+            return True
+        except Exception:
+            return False
+
+    def verify_story_points(self):
+        """
+        Verifies the story points in report after analysis
+
+        Returns:
+            (bool): True if story points were accurate
+        """
+        try:
+            self.wait_find_element(locator_type="image", locator="story_points.png")
+            return True
+        except Exception:
+            return False
 
 
 class CodeReadyStudio(Application):
@@ -523,7 +554,6 @@ class Intellij(Application):
         self.press_keys("page_down")
         self.click_element(locator_type="image", locator="add_project_button.png")
         self.type_text(text=target, enter=True)
-        self.click_element(locator_type="image", locator="skip_reports_selector.png")
         config_run_region = self.two_coordinate_locator(
             locator_type="point", x_coordinate=110, y_coordinate=870,
         )
@@ -536,15 +566,16 @@ class Intellij(Application):
         self.click(action="right_click")
         self.press_keys("up")
         self.press_keys("enter")
+        # Wait for analysis to be completed in IDE terminal
         self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=90.0)
-        self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
-
-    def is_analysis_complete(self):
-        """
-        Checks if run analysis has been completed
-
-        Returns:
-            (bool): True if analysis was completed
-        """
-        self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
-        return True
+        self.wait_find_element(
+            locator_type="image", locator="analysis_complete_terminal.png", timeout=120.0,
+        )
+        # Select the run configuration and open report page in browser
+        self.click_element(locator_type="image", locator="mta_perspective_active.png")
+        self.type_text("mtaConfiguration")
+        self.press_keys("up")
+        self.click_element(locator_type="image", locator="open_details_toggle.png")
+        self.click_element(locator_type="image", locator="report_selector.png")
+        # Verify the report page is opened
+        self.wait_find_element(locator_type="image", locator="report_page_header.png")

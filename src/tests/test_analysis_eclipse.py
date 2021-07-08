@@ -6,3 +6,4 @@ def test_run_analysis(setup_eclipse):
     eclipse.open_mta_perspective()
     eclipse.run_simple_analysis(project="acme")
     assert eclipse.is_analysis_complete()
+    assert eclipse.verify_story_points()

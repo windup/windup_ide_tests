@@ -6,3 +6,4 @@ def test_run_analysis(setup_codereadystudio):
     codereadystudio.open_mta_perspective()
     codereadystudio.run_simple_analysis(project="acme")
     assert codereadystudio.is_analysis_complete()
+    assert codereadystudio.verify_story_points()

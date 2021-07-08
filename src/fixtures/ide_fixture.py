@@ -34,6 +34,9 @@ def setup_codereadystudio(config):
     codereadystudio.set_default_timeout(timeout=config["timeout_in_seconds"])
     yield codereadystudio
     # codereadystudio.close_application(codereadystudio_app)
+    # Close the report tab and switch back to IDE
+    codereadystudio.close_report_tab()
+    codereadystudio.switch_tab()
     codereadystudio.close_ide()
 
 
@@ -47,6 +50,9 @@ def setup_eclipse(config):
     eclipse.open_application(path)
     eclipse.set_default_timeout(timeout=config["timeout_in_seconds"])
     yield eclipse
+    # Close the report tab and switch back to IDE
+    eclipse.close_report_tab()
+    eclipse.switch_tab()
     eclipse.close_ide()
 
 
@@ -85,4 +91,7 @@ def setup_intellij(config):
     intellij.open_application(path)
     intellij.set_default_timeout(timeout=config["timeout_in_seconds"])
     yield intellij
+    # Close the report tab and switch back to IDE
+    intellij.close_report_tab()
+    intellij.switch_tab()
     intellij.close_ide()
