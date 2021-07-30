@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+import time
 
 from RPA.Desktop import Desktop
 
@@ -44,7 +45,7 @@ class Application(Desktop):
         Returns:
             (str): Text locator string
         """
-        return "ocr:{}".format(locator)
+        return 'ocr:"{}"'.format(locator)
 
     def region_locator(self, left, top, right, bottom):
         """
@@ -269,7 +270,7 @@ class Application(Desktop):
             self.move_mouse(open_perspective_button)
             self.click(action="double_click")
 
-    def run_simple_analysis(self, project, packages=[]):
+    def run_simple_analysis(self, project, migration_target, packages=[]):
         """
         Runs analysis by adding the project and/or packages passed as argument
 
@@ -285,7 +286,8 @@ class Application(Desktop):
             2) Click Add Project button
             3) Type Project name
             4) Click on OK button
-            5) Confirm analysis has started
+            5) Select the target technology
+            6) Confirm analysis has started
         """
         self.click_element(locator_type="image", locator="mta_run.png")
         self.click_element(locator_type="image", locator="run_conf_header.png")
@@ -295,6 +297,36 @@ class Application(Desktop):
         self.click(locator=add_buttons[0])
         self.click_element(locator_type="image", locator="projects_header.png")
         self.type_text(text=project, enter=True)
+        # Ensure that Anything to EAP 7 is selected in migration path
+        self.click_element(locator_type="image", locator="target_dropdown.png")
+        self.click()
+        for i in range(0, 15):
+            self.press_keys("up")
+        # Select target, by opening options
+        self.click_element(locator_type="text", locator="Options")
+        self.click_element(locator_type="image", locator="add_button.png")
+        self.click_element(locator_type="image", locator="target_dropdown.png")
+        # Select "target" option from dropdown as key
+        self.click_element(locator_type="text", locator="target")
+        # Select the target based on its position in dropdown
+        self.click_element(locator_type="image", locator="target_value_dropdown.png")
+        self.click()
+        target_position = 0
+        try:
+            if migration_target == "eap7":
+                target_position = 6
+            elif migration_target == "eapxp":
+                target_position = 7
+            elif migration_target == "quarkus1":
+                target_position = 18
+            else:
+                logging.debug("Unknown migration target selected !")
+                raise Exception()
+            self.select_target(target_position)
+        except Exception as exc:
+            logging.debug(str(exc))
+            raise Exception(exc)
+        self.click_element(locator_type="image", locator="ok_button.png")
         self.click_element(locator_type="image", locator="run_config_button.png")
         try:
             self.wait_find_element(locator_type="image", locator="generating_report.png")
@@ -322,18 +354,40 @@ class Application(Desktop):
         except Exception:
             return False
 
-    def verify_story_points(self):
+    def verify_story_points(self, target):
         """
         Verifies the story points in report after analysis
 
         Returns:
             (bool): True if story points were accurate
         """
+        if target == "eap7":
+            story_point_locator = "eap7_story_points.png"
+        elif target == "quarkus1":
+            story_point_locator = "quarkus1_story_points.png"
+        elif target == "eapxp":
+            story_point_locator = "eapxp_story_points.png"
+        else:
+            logging.debug("Unknown target provided !")
+            raise Exception()
         try:
-            self.wait_find_element(locator_type="image", locator="story_points.png")
+            self.wait_find_element(locator_type="image", locator=story_point_locator)
             return True
         except Exception:
             return False
+        finally:
+            self.close_report_tab()
+            self.switch_tab()
+
+    def select_target(self, position):
+        """
+        Press down arrow key to select appropriate migration target from dropdown
+
+        Args:
+            position(int): The position of target in drop down
+        """
+        for i in range(0, position):
+            self.press_keys("down")
 
 
 class CodeReadyStudio(Application):
@@ -396,7 +450,7 @@ class VisualStudioCode(Application):
             # Click on the MTA icon in left sidebar
             self.click_element(locator_type="image", locator="mta_config_view.png")
 
-    def run_simple_analysis(self, project, packages=[]):
+    def run_simple_analysis(self, project, migration_target, packages=[]):
         """
         Runs analysis by adding the project and/or packages passed as argument
 
@@ -416,19 +470,41 @@ class VisualStudioCode(Application):
         """
         self.wait_find_element(locator_type="image", locator="create_new_config.png")
         self.click_element(locator_type="image", locator="create_new_config.png")
-        self.wait_find_element(locator_type="image", locator="config_screen.png")
+        # Wait for configuration page to load
+        time.sleep(3)
         # Region defining the configuration name
         config_name_region = self.define_region(707, 222, 1167, 271)
         config_name = self.read_text(locator=config_name_region, invert=True)
-        add_project_locator = self.image_locator("add_project_button.png")
-        add_project_buttons = self.find_elements(add_project_locator)
-        # Click the first match out of the two same buttons found
-        self.click(add_project_buttons[0])
-        self.type_text(text=project, enter=True)
+        is_terminal_opened = False
+        try:
+            self.wait_find_element(locator_type="image", locator="terminal_opened.png", timeout=5)
+            is_terminal_opened = True
+        except Exception as exc:
+            logging.debug("Output terminal is not opened ! {}".format(str(exc)))
+        if migration_target != "eap7":
+            self.click_element(locator_type="image", locator="eap7_target_checked.png")
+        if is_terminal_opened:
+            self.click_element(locator_type="image", locator="add_project_button.png")
+            self.type_text(text=project, enter=True)
+            self.press_keys("page_down")
+            self.click_element(locator_type="image", locator="add_project_button.png")
+        else:
+            add_project_locator = self.image_locator("add_project_button.png")
+            add_project_buttons = self.find_elements(add_project_locator)
+            # Click the first match out of the two same buttons found
+            self.click(add_project_buttons[0])
+            self.type_text(text=project, enter=True)
+            add_project_locator = self.image_locator("add_project_button.png")
+            add_project_buttons = self.find_elements(add_project_locator)
+            self.click(add_project_buttons[1])
+        self.type_text(text=migration_target, enter=True)
         config_run_region = self.two_coordinate_locator(
             locator_type="point", x_coordinate=110, y_coordinate=870,
         )
         self.click(config_run_region)
+        # Clear the text before writing
+        for i in range(0, 20):
+            self.press_keys("backspace")
         self.type_text(config_name)
         run_config_locator = self.image_locator("run_config_highlighter.png")
         # Find config name highlighted and select correct config if multiple matches are found
@@ -454,8 +530,17 @@ class VisualStudioCode(Application):
         Returns:
             (bool): True if analysis was completed
         """
-        self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
-        return True
+        try:
+            self.wait_find_element(
+                locator_type="image", locator="analysis_complete.png", timeout=120.0,
+            )
+            return True
+        except Exception:
+            return False
+
+    def open_report_page(self):
+        self.click_element(locator_type="image", locator="open_report_button.png")
+        self.wait_find_element(locator_type="image", locator="report_page_header.png")
 
 
 class Intellij(Application):
