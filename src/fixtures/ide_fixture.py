@@ -5,6 +5,7 @@ import pytest
 
 from src.lib.application import CodeReadyStudio
 from src.lib.application import Eclipse
+from src.lib.application import Intellij
 from src.lib.application import VisualStudioCode
 from src.lib.web import EclipseChe
 
@@ -22,7 +23,7 @@ def config():
     return config_data
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def setup_codereadystudio(config):
     """
     Fixture to setup codereadystudio application
@@ -32,11 +33,10 @@ def setup_codereadystudio(config):
     codereadystudio.open_application(path)
     codereadystudio.set_default_timeout(timeout=config["timeout_in_seconds"])
     yield codereadystudio
-    # codereadystudio.close_application(codereadystudio_app)
     codereadystudio.close_ide()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def setup_eclipse(config):
     """
     Fixture to setup eclipse application
@@ -49,7 +49,7 @@ def setup_eclipse(config):
     eclipse.close_ide()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def setup_vscode(config):
     """
     Fixture to setup vs code application
@@ -72,3 +72,16 @@ def setup_eclipse_che():
     yield eclipse_che
     eclipse_che.delete_configuration(eclipse_che.configuration_name)
     eclipse_che.close_browser()
+
+
+@pytest.fixture(scope="session")
+def setup_intellij(config):
+    """
+    Fixture to setup intellij application
+    """
+    intellij = Intellij()
+    path = config["ide_paths"]["intellij"]
+    intellij.open_application(path)
+    intellij.set_default_timeout(timeout=config["timeout_in_seconds"])
+    yield intellij
+    intellij.close_ide()

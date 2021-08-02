@@ -9,6 +9,7 @@ This project is for creating automated tests for verifying the functionality of 
 | Eclipse IDE for J2EE developers  | 2020-09  |
 | VS Code  | 1.54.1 |
 | Eclipse CHE  | theia |
+| IntelliJ IDEA  | 2021.1.3 |
 
 **Supported OS**
 
@@ -68,7 +69,7 @@ Sample project can be downloaded
 2. Clone the forked repo `git clone https://github.com/<user>/windup-ide-tests.git`
 3. Run the aforementioned installation steps
 4. Create new branch `git checkout -b <new_branch_name>`
-5. Commit the changes `git commit -m 'Explantory commit message'`
+5. Commit the changes `git commit -m 'Explanatory commit message'`
 6. Push your changes to branch `git push origin <new_branch_name>`
 7. Open new pull request
 

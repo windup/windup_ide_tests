@@ -1,8 +1,11 @@
 import logging
 import os
 import re
+import time
 
 from RPA.Desktop import Desktop
+
+from src.lib.config import config_data
 
 
 class Application(Desktop):
@@ -29,6 +32,9 @@ class Application(Desktop):
         if isinstance(self, VisualStudioCode):
             return f"image:{self.IMG_DIR}/vscode/{locator}"
 
+        if isinstance(self, Intellij):
+            return f"image:{self.IMG_DIR}/intellij/{locator}"
+
     def text_locator(self, locator):
         """
         Forms text locator string (ocr)
@@ -39,7 +45,7 @@ class Application(Desktop):
         Returns:
             (str): Text locator string
         """
-        return "ocr:{}".format(locator)
+        return 'ocr:"{}"'.format(locator)
 
     def region_locator(self, left, top, right, bottom):
         """
@@ -198,6 +204,20 @@ class Application(Desktop):
         self.click_element(locator_type="text", locator="File")
         self.click_element(locator_type="text", locator="Exit")
 
+    def close_report_tab(self):
+        """
+        Closes the current browser tab having report opened in it
+        """
+        pass
+        # Need to write logic to handle browser window, when single tab is only open
+        # self.press_keys("ctrl", "w")
+
+    def switch_tab(self):
+        """
+        Switch context between apps using home+tab buttons
+        """
+        self.press_keys("cmd", "tab")
+
     def is_open_mta_perspective(self):
         """
         Checks if MTA perspective is already opened in IDE
@@ -252,7 +272,7 @@ class Application(Desktop):
             self.move_mouse(open_perspective_button)
             self.click(action="double_click")
 
-    def run_simple_analysis(self, project, packages=[]):
+    def run_simple_analysis(self, project, migration_target, packages=[]):
         """
         Runs analysis by adding the project and/or packages passed as argument
 
@@ -268,7 +288,8 @@ class Application(Desktop):
             2) Click Add Project button
             3) Type Project name
             4) Click on OK button
-            5) Confirm analysis has started
+            5) Select the target technology
+            6) Confirm analysis has started
         """
         self.click_element(locator_type="image", locator="mta_run.png")
         self.click_element(locator_type="image", locator="run_conf_header.png")
@@ -278,13 +299,46 @@ class Application(Desktop):
         self.click(locator=add_buttons[0])
         self.click_element(locator_type="image", locator="projects_header.png")
         self.type_text(text=project, enter=True)
-        # Disable generate report from options
+        # Ensure that Anything to EAP 7 is selected in migration path
+        self.click_element(locator_type="image", locator="target_dropdown.png")
+        self.click()
+        for i in range(0, 15):
+            self.press_keys("up")
+        # Select target, by opening options
         self.click_element(locator_type="text", locator="Options")
-        self.click_element(locator_type="image", locator="generate_report_checkbox.png")
+        self.click_element(locator_type="image", locator="add_button.png")
+        self.click_element(locator_type="image", locator="target_dropdown.png")
+        # Select "target" option from dropdown as key
+        self.click_element(locator_type="text", locator="target")
+        # Select the target based on its position in dropdown
+        self.click_element(locator_type="image", locator="target_value_dropdown.png")
+        self.click()
+        target_position = 0
+        try:
+            if migration_target == "eap7":
+                target_position = 6
+            elif migration_target == "eapxp":
+                target_position = 7
+            elif migration_target == "quarkus1":
+                target_position = 18
+            else:
+                logging.debug("Unknown migration target selected !")
+                raise Exception()
+            self.select_target(target_position)
+        except Exception as exc:
+            logging.debug(str(exc))
+            raise Exception(exc)
+        self.click_element(locator_type="image", locator="ok_button.png")
         self.click_element(locator_type="image", locator="run_config_button.png")
-        self.wait_find_element(locator_type="image", locator="generating_report.png")
+        try:
+            self.wait_find_element(locator_type="image", locator="generating_report.png")
+        except Exception as exc:
+            if re.match(r"Found [0-9] matches+", str(exc)):
+                logging.debug("Detected the start of analysis")
+            else:
+                raise Exception(exc)
         self.wait_find_element(
-            locator_type="image", locator="run_complete.png", timeout=120.0, interval=5.0,
+            locator_type="image", locator="report_page_header.png", timeout=120.0, interval=5.0,
         )
 
     def is_analysis_complete(self):
@@ -294,10 +348,48 @@ class Application(Desktop):
         Returns:
             (bool): True if analysis was completed
         """
-        self.wait_find_element(
-            locator_type="image", locator="run_complete.png", timeout=120.0, interval=5.0,
-        )
-        return True
+        try:
+            self.wait_find_element(
+                locator_type="image", locator="report_page_header.png", timeout=120.0, interval=5.0,
+            )
+            return True
+        except Exception:
+            return False
+
+    def verify_story_points(self, target):
+        """
+        Verifies the story points in report after analysis
+
+        Returns:
+            (bool): True if story points were accurate
+        """
+        if target == "eap7":
+            story_point_locator = "eap7_story_points.png"
+        elif target == "quarkus1":
+            story_point_locator = "quarkus1_story_points.png"
+        elif target == "eapxp":
+            story_point_locator = "eapxp_story_points.png"
+        else:
+            logging.debug("Unknown target provided !")
+            raise Exception()
+        try:
+            self.wait_find_element(locator_type="image", locator=story_point_locator)
+            return True
+        except Exception:
+            return False
+        finally:
+            self.close_report_tab()
+            self.switch_tab()
+
+    def select_target(self, position):
+        """
+        Press down arrow key to select appropriate migration target from dropdown
+
+        Args:
+            position(int): The position of target in drop down
+        """
+        for i in range(0, position):
+            self.press_keys("down")
 
 
 class CodeReadyStudio(Application):
@@ -360,7 +452,7 @@ class VisualStudioCode(Application):
             # Click on the MTA icon in left sidebar
             self.click_element(locator_type="image", locator="mta_config_view.png")
 
-    def run_simple_analysis(self, project, packages=[]):
+    def run_simple_analysis(self, project, migration_target, packages=[]):
         """
         Runs analysis by adding the project and/or packages passed as argument
 
@@ -380,19 +472,41 @@ class VisualStudioCode(Application):
         """
         self.wait_find_element(locator_type="image", locator="create_new_config.png")
         self.click_element(locator_type="image", locator="create_new_config.png")
-        self.wait_find_element(locator_type="image", locator="config_screen.png")
+        # Wait for configuration page to load
+        time.sleep(3)
         # Region defining the configuration name
         config_name_region = self.define_region(707, 222, 1167, 271)
         config_name = self.read_text(locator=config_name_region, invert=True)
-        add_project_locator = self.image_locator("add_project_button.png")
-        add_project_buttons = self.find_elements(add_project_locator)
-        # Click the first match out of the two same buttons found
-        self.click(add_project_buttons[0])
-        self.type_text(text=project, enter=True)
+        is_terminal_opened = False
+        try:
+            self.wait_find_element(locator_type="image", locator="terminal_opened.png", timeout=5)
+            is_terminal_opened = True
+        except Exception as exc:
+            logging.debug("Output terminal is not opened ! {}".format(str(exc)))
+        if migration_target != "eap7":
+            self.click_element(locator_type="image", locator="eap7_target_checked.png")
+        if is_terminal_opened:
+            self.click_element(locator_type="image", locator="add_project_button.png")
+            self.type_text(text=project, enter=True)
+            self.press_keys("page_down")
+            self.click_element(locator_type="image", locator="add_project_button.png")
+        else:
+            add_project_locator = self.image_locator("add_project_button.png")
+            add_project_buttons = self.find_elements(add_project_locator)
+            # Click the first match out of the two same buttons found
+            self.click(add_project_buttons[0])
+            self.type_text(text=project, enter=True)
+            add_project_locator = self.image_locator("add_project_button.png")
+            add_project_buttons = self.find_elements(add_project_locator)
+            self.click(add_project_buttons[1])
+        self.type_text(text=migration_target, enter=True)
         config_run_region = self.two_coordinate_locator(
             locator_type="point", x_coordinate=110, y_coordinate=870,
         )
         self.click(config_run_region)
+        # Clear the text before writing
+        for i in range(0, 20):
+            self.press_keys("backspace")
         self.type_text(config_name)
         run_config_locator = self.image_locator("run_config_highlighter.png")
         # Find config name highlighted and select correct config if multiple matches are found
@@ -418,5 +532,163 @@ class VisualStudioCode(Application):
         Returns:
             (bool): True if analysis was completed
         """
-        self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
-        return True
+        try:
+            self.wait_find_element(
+                locator_type="image", locator="analysis_complete.png", timeout=120.0,
+            )
+            return True
+        except Exception:
+            return False
+
+    def open_report_page(self):
+        self.click_element(locator_type="image", locator="open_report_button.png")
+        self.wait_find_element(locator_type="image", locator="report_page_header.png")
+
+
+class Intellij(Application):
+    """
+    Class for managing IntelliJ application
+    """
+
+    def close_ide(self):
+        """
+        Closes the IDE
+        """
+        self.click_element(locator_type="image", locator="file_menu.png")
+        self.press_keys("up")
+        self.press_keys("enter")
+        try:
+            self.wait_find_element(locator_type="image", locator="confirm_exit.png", timeout=5.0)
+            self.click_element(locator_type="image", locator="exit_button.png")
+        except Exception:
+            logging.info("No exit confirmation dialog found !")
+
+    def is_open_mta_perspective(self):
+        """
+        Checks if MTA perspective is already opened in IntelliJ
+
+        Returns:
+            (bool): True or False
+        """
+        try:
+            self.wait_find_element(locator_type="image", locator="mta_perspective_active.png")
+            return True
+        except Exception as exc:
+            try:
+                self.wait_find_element(
+                    locator_type="image", locator="mta_perspective_active_alt.png",
+                )
+                return True
+            except Exception:
+                logging.debug(
+                    "An error occured while finding \
+                    MTA perspective tab ! {}".format(
+                        str(exc),
+                    ),
+                )
+            if "No matches found" in str(exc):
+                return False
+            else:
+                raise Exception(exc)
+
+    def open_mta_perspective(self):
+        """
+        Opens MTA perspective in IntelliJ
+        """
+        if self.is_open_mta_perspective():
+            logging.info("MTA perspective is already opened !")
+            return
+        else:
+            # Click on the MTA tab in left sidebar
+            self.click_element(locator_type="image", locator="mta_tab.png")
+
+    def run_simple_analysis(self, project, migration_target, packages=[]):
+        """
+        Runs analysis by adding the project and/or packages passed as argument
+
+        Args:
+            project (str): Full name of project to be analysed
+            migration_target (str): Target technology for migration
+            packages (list): List of packages to be added to analysis
+
+        Returns:
+            None
+
+        Steps:
+            1) Click on MTA Configuration tab
+            2) Right click anywhere and create new configuration
+            3) Type project name in source
+            4) Provide mta cli path, if not present
+            5) Select the target technology
+            6) Right click on config name and run
+            7) Confirm analysis has started
+        """
+        try:
+            self.click_element(locator_type="image", locator="console_opened.png")
+            self.press_keys("shift", "esc")
+        except Exception as exc:
+            try:
+                self.click_element(locator_type="image", locator="console_opened_alt.png")
+                self.press_keys("shift", "esc")
+            except Exception:
+                logging.debug("Console is already closed !")
+            logging.debug("Console is not opened ! {}".format(str(exc)))
+        config_create_region = self.two_coordinate_locator(
+            locator_type="point", x_coordinate=110, y_coordinate=370,
+        )
+        self.click(config_create_region)
+        self.click(action="right_click")
+        self.press_keys("down")
+        self.press_keys("enter")
+        self.wait_find_element(locator_type="image", locator="mta_config_page_opened.png")
+        # Region defining the configuration name
+        config_name_region = self.define_region(778, 248, 1125, 284)
+        # Provide mta cli path
+        try:
+            self.click_element(locator_type="image", locator="mta_cli_input.png")
+            self.type_text(config_data["mta_cli_path"])
+        except Exception as exc:
+            logging.debug("MTA cli path is already present ! {}".format(exc))
+        if migration_target != "eap7":
+            try:
+                self.wait_find_element(locator_type="image", locator="eap7_checked.png")
+                self.click_element(locator_type="image", locator="eap7_checked.png")
+            except Exception as exc:
+                logging.debug("Default target eap7 is not checked ! {}".format(str(exc)))
+        add_project_locator = self.image_locator("add_project_button.png")
+        add_project_buttons = self.find_elements(add_project_locator)
+        # Click the first match out of the two same buttons found
+        self.click(add_project_buttons[1])
+        self.type_text(text=project, enter=True)
+        self.click(config_name_region)
+        self.press_keys("page_down")
+        self.click_element(locator_type="image", locator="add_project_button.png")
+        self.type_text(text=migration_target, enter=True)
+        config_run_region = self.two_coordinate_locator(
+            locator_type="point", x_coordinate=110, y_coordinate=870,
+        )
+        self.click(config_run_region)
+        # Search for configuration name that has to be run
+        self.type_text("mtaConfiguration")
+        self.press_keys("up")
+        # Find config name highlighted and select correct config if multiple matches are found
+        self.wait_find_element(locator_type="image", locator="config_name_highlighted.png")
+        self.click(action="right_click")
+        self.press_keys("up")
+        self.press_keys("enter")
+        # Wait for analysis to be completed in IDE terminal
+        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=90.0)
+        self.wait_find_element(
+            locator_type="image", locator="analysis_complete_terminal.png", timeout=120.0,
+        )
+        # Select the run configuration and open report page in browser
+        try:
+            self.click_element(locator_type="image", locator="mta_perspective_active.png")
+        except Exception:
+            self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
+        self.type_text("mtaConfiguration")
+        self.press_keys("up")
+        self.click_element(locator_type="image", locator="open_details_toggle.png")
+        self.click_element(locator_type="image", locator="report_selector.png")
+        # Verify the report page is opened
+        self.wait_find_element(locator_type="image", locator="report_page_header.png")
