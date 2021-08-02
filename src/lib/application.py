@@ -208,7 +208,9 @@ class Application(Desktop):
         """
         Closes the current browser tab having report opened in it
         """
-        self.press_keys("ctrl", "w")
+        pass
+        # Need to write logic to handle browser window, when single tab is only open
+        # self.press_keys("ctrl", "w")
 
     def switch_tab(self):
         """
@@ -553,7 +555,8 @@ class Intellij(Application):
         Closes the IDE
         """
         self.click_element(locator_type="image", locator="file_menu.png")
-        self.click_element(locator_type="text", locator="Exit")
+        self.press_keys("up")
+        self.press_keys("enter")
         try:
             self.wait_find_element(locator_type="image", locator="confirm_exit.png", timeout=5.0)
             self.click_element(locator_type="image", locator="exit_button.png")
@@ -571,12 +574,18 @@ class Intellij(Application):
             self.wait_find_element(locator_type="image", locator="mta_perspective_active.png")
             return True
         except Exception as exc:
-            logging.debug(
-                "An error occured while finding \
-                MTA perspective tab ! {}".format(
-                    str(exc),
-                ),
-            )
+            try:
+                self.wait_find_element(
+                    locator_type="image", locator="mta_perspective_active_alt.png",
+                )
+                return True
+            except Exception:
+                logging.debug(
+                    "An error occured while finding \
+                    MTA perspective tab ! {}".format(
+                        str(exc),
+                    ),
+                )
             if "No matches found" in str(exc):
                 return False
             else:
@@ -593,13 +602,13 @@ class Intellij(Application):
             # Click on the MTA tab in left sidebar
             self.click_element(locator_type="image", locator="mta_tab.png")
 
-    def run_simple_analysis(self, project, target, packages=[]):
+    def run_simple_analysis(self, project, migration_target, packages=[]):
         """
         Runs analysis by adding the project and/or packages passed as argument
 
         Args:
             project (str): Full name of project to be analysed
-            target (str): Target technology for migration
+            migration_target (str): Target technology for migration
             packages (list): List of packages to be added to analysis
 
         Returns:
@@ -614,6 +623,16 @@ class Intellij(Application):
             6) Right click on config name and run
             7) Confirm analysis has started
         """
+        try:
+            self.click_element(locator_type="image", locator="console_opened.png")
+            self.press_keys("shift", "esc")
+        except Exception as exc:
+            try:
+                self.click_element(locator_type="image", locator="console_opened_alt.png")
+                self.press_keys("shift", "esc")
+            except Exception:
+                logging.debug("Console is already closed !")
+            logging.debug("Console is not opened ! {}".format(str(exc)))
         config_create_region = self.two_coordinate_locator(
             locator_type="point", x_coordinate=110, y_coordinate=370,
         )
@@ -630,6 +649,12 @@ class Intellij(Application):
             self.type_text(config_data["mta_cli_path"])
         except Exception as exc:
             logging.debug("MTA cli path is already present ! {}".format(exc))
+        if migration_target != "eap7":
+            try:
+                self.wait_find_element(locator_type="image", locator="eap7_checked.png")
+                self.click_element(locator_type="image", locator="eap7_checked.png")
+            except Exception as exc:
+                logging.debug("Default target eap7 is not checked ! {}".format(str(exc)))
         add_project_locator = self.image_locator("add_project_button.png")
         add_project_buttons = self.find_elements(add_project_locator)
         # Click the first match out of the two same buttons found
@@ -638,7 +663,7 @@ class Intellij(Application):
         self.click(config_name_region)
         self.press_keys("page_down")
         self.click_element(locator_type="image", locator="add_project_button.png")
-        self.type_text(text=target, enter=True)
+        self.type_text(text=migration_target, enter=True)
         config_run_region = self.two_coordinate_locator(
             locator_type="point", x_coordinate=110, y_coordinate=870,
         )
@@ -657,7 +682,10 @@ class Intellij(Application):
             locator_type="image", locator="analysis_complete_terminal.png", timeout=120.0,
         )
         # Select the run configuration and open report page in browser
-        self.click_element(locator_type="image", locator="mta_perspective_active.png")
+        try:
+            self.click_element(locator_type="image", locator="mta_perspective_active.png")
+        except Exception:
+            self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
         self.type_text("mtaConfiguration")
         self.press_keys("up")
         self.click_element(locator_type="image", locator="open_details_toggle.png")

@@ -84,7 +84,4 @@ def setup_intellij(config):
     intellij.open_application(path)
     intellij.set_default_timeout(timeout=config["timeout_in_seconds"])
     yield intellij
-    # Close the report tab and switch back to IDE
-    intellij.close_report_tab()
-    intellij.switch_tab()
     intellij.close_ide()
