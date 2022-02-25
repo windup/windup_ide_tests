@@ -3,10 +3,16 @@
     {
         "rh_code_ready_studio" : "",
         "eclipse" : "",
-        "vs_code" : ""
+        "vs_code" : "",
+        "intellij": ""
     },
     "timeout_in_seconds" : 15.0,
-    "project_path" : "",
+    "project_paths" :
+    {
+        "eap7_generic" : "",
+        "eapxp_ruleset" : "",
+        "quarkus1_ruleset" : ""
+    },
     "driver_paths" :
     {
         "firefox" : "",

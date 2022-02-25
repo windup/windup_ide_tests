@@ -338,7 +338,7 @@ class Application(Desktop):
             else:
                 raise Exception(exc)
         self.wait_find_element(
-            locator_type="image", locator="report_page_header.png", timeout=120.0, interval=5.0,
+            locator_type="image", locator="report_page_header.png", timeout=120.0, interval=1.0,
         )
 
     def is_analysis_complete(self):
@@ -375,10 +375,10 @@ class Application(Desktop):
         try:
             self.wait_find_element(locator_type="image", locator=story_point_locator)
             return True
-        except Exception:
+        except Exception as exc:
+            logging.debug(str(exc))
             return False
         finally:
-            self.close_report_tab()
             self.switch_tab()
 
     def select_target(self, position):
@@ -474,55 +474,30 @@ class VisualStudioCode(Application):
         self.click_element(locator_type="image", locator="create_new_config.png")
         # Wait for configuration page to load
         time.sleep(3)
-        # Region defining the configuration name
-        config_name_region = self.define_region(707, 222, 1167, 271)
-        config_name = self.read_text(locator=config_name_region, invert=True)
-        is_terminal_opened = False
-        try:
-            self.wait_find_element(locator_type="image", locator="terminal_opened.png", timeout=5)
-            is_terminal_opened = True
-        except Exception as exc:
-            logging.debug("Output terminal is not opened ! {}".format(str(exc)))
         if migration_target != "eap7":
             self.click_element(locator_type="image", locator="eap7_target_checked.png")
-        if is_terminal_opened:
-            self.click_element(locator_type="image", locator="add_project_button.png")
-            self.type_text(text=project, enter=True)
-            self.press_keys("page_down")
-            self.click_element(locator_type="image", locator="add_project_button.png")
-        else:
-            add_project_locator = self.image_locator("add_project_button.png")
-            add_project_buttons = self.find_elements(add_project_locator)
-            # Click the first match out of the two same buttons found
-            self.click(add_project_buttons[0])
-            self.type_text(text=project, enter=True)
-            add_project_locator = self.image_locator("add_project_button.png")
-            add_project_buttons = self.find_elements(add_project_locator)
-            self.click(add_project_buttons[1])
+        self.click_element(locator_type="image", locator="remove_project.png")
+        add_project_locator = self.image_locator("add_project_button.png")
+        add_project_buttons = self.find_elements(add_project_locator)
+        # Click the first match out of the two same buttons found
+        self.click(add_project_buttons[1])
+        self.type_text(text=project, enter=True)
+        self.press_keys("page_down")
+        self.click_element(locator_type="image", locator="add_project_button.png")
         self.type_text(text=migration_target, enter=True)
-        config_run_region = self.two_coordinate_locator(
-            locator_type="point", x_coordinate=110, y_coordinate=870,
-        )
-        self.click(config_run_region)
-        # Clear the text before writing
-        for i in range(0, 20):
-            self.press_keys("backspace")
-        self.type_text(config_name)
-        run_config_locator = self.image_locator("run_config_highlighter.png")
-        # Find config name highlighted and select correct config if multiple matches are found
         try:
-            self.wait_find_element(locator_type="image", locator="run_config_highlighter.png")
-            self.move_mouse(run_config_locator)
+            self.click_element(locator_type="image", locator="config_name_region.png")
         except Exception as exc:
             if re.match(r"Found [0-9] matches+", str(exc)):
-                run_config_matches = self.find_elements(run_config_locator)
-                self.move_mouse(run_config_matches[-1])
-            else:
-                raise Exception(exc)
+                config_region = self.image_locator("config_name_region.png")
+                config_region_circles = self.find_elements(config_region)
+                self.click(config_region_circles[-1])
+        # Clear the text before writing
         self.click(action="right_click")
         self.press_keys("up")
+        self.press_keys("up")
         self.press_keys("enter")
-        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=90.0)
+        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=120.0)
         self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
 
     def is_analysis_complete(self):
@@ -677,7 +652,6 @@ class Intellij(Application):
         self.press_keys("up")
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
-        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=90.0)
         self.wait_find_element(
             locator_type="image", locator="analysis_complete_terminal.png", timeout=120.0,
         )
