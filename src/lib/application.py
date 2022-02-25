@@ -474,9 +474,6 @@ class VisualStudioCode(Application):
         self.click_element(locator_type="image", locator="create_new_config.png")
         # Wait for configuration page to load
         time.sleep(3)
-        # Region defining the configuration name
-        config_name_region = self.define_region(707, 222, 1167, 271)
-        config_name = self.read_text(locator=config_name_region, invert=True)        
         if migration_target != "eap7":
             self.click_element(locator_type="image", locator="eap7_target_checked.png")
         self.click_element(locator_type="image", locator="remove_project.png")
@@ -655,7 +652,6 @@ class Intellij(Application):
         self.press_keys("up")
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
-        # self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=90.0)
         self.wait_find_element(
             locator_type="image", locator="analysis_complete_terminal.png", timeout=120.0,
         )
