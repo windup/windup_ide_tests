@@ -438,7 +438,7 @@ class VisualStudioCode(Application):
             (bool): True or False
         """
         try:
-            self.wait_find_element(locator_type="image", locator="mta_config_active.png")
+            self.wait_find_element(locator_type="image", locator="mta_config_inactive.png")
             return True
         except Exception as exc:
             logging.debug(
@@ -456,6 +456,7 @@ class VisualStudioCode(Application):
         """
         Opens MTA perspective in VSCode IDE
         """
+        self.click_element(locator_type="image", locator="mta_2.png")
         if self.is_open_mta_perspective():
             logging.info("MTA perspective is already opened !")
             return
@@ -487,15 +488,17 @@ class VisualStudioCode(Application):
         time.sleep(3)
         if migration_target != "eap7":
             self.click_element(locator_type="image", locator="eap7_target_checked.png")
-        self.click_element(locator_type="image", locator="remove_project.png")
-        add_project_locator = self.image_locator("add_project_button.png")
+        # self.click_element(locator_type="image", locator="remove_project.png")
+        add_project_locator = self.image_locator("vsc_add_project_jan15.png")
         add_project_buttons = self.find_elements(add_project_locator)
         # Click the first match out of the two same buttons found
-        self.click(add_project_buttons[1])
+        self.click(add_project_buttons[0])
         self.type_text(text=project, enter=True)
         self.press_keys("page_down")
-        self.click_element(locator_type="image", locator="add_project_button.png")
-        self.type_text(text=migration_target, enter=True)
+        # self.click(add_project_buttons[1])
+        if migration_target != "eap7":
+            self.click_element(locator_type="image", locator="vsc_add_project_jan15.png")
+            self.type_text(text=migration_target, enter=True)
         try:
             self.click_element(locator_type="image", locator="config_name_region.png")
         except Exception as exc:
@@ -504,10 +507,8 @@ class VisualStudioCode(Application):
                 config_region_circles = self.find_elements(config_region)
                 self.click(config_region_circles[-1])
         # Clear the text before writing
-        self.click(action="right_click")
-        self.press_keys("up")
-        self.press_keys("up")
-        self.press_keys("enter")
+        self.click(action="left_click")
+        self.click_element(locator_type="image", locator="VSC_Run.png")
         self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=120.0)
         self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
 
@@ -530,7 +531,8 @@ class VisualStudioCode(Application):
 
     def open_report_page(self):
         self.click_element(locator_type="image", locator="open_report_button.png")
-        self.wait_find_element(locator_type="image", locator="report_page_header.png")
+        # self.wait_find_element(locator_type="image", locator="report_page_header.png")
+        self.wait_find_element(locator_type="image", locator="vsc_application_list.png")
 
 
 class Intellij(Application):
