@@ -438,7 +438,7 @@ class VisualStudioCode(Application):
             (bool): True or False
         """
         try:
-            self.wait_find_element(locator_type="image", locator="mta_config_inactive.png")
+            self.wait_find_element(locator_type="image", locator="mta_config_active.png")
             return True
         except Exception as exc:
             logging.debug(
@@ -456,13 +456,12 @@ class VisualStudioCode(Application):
         """
         Opens MTA perspective in VSCode IDE
         """
-        self.click_element(locator_type="image", locator="mta_2.png")
         if self.is_open_mta_perspective():
             logging.info("MTA perspective is already opened !")
             return
         else:
             # Click on the MTA icon in left sidebar
-            self.click_element(locator_type="image", locator="mta_config_view.png")
+            self.click_element(locator_type="image", locator="mta_config_inactive.png")
 
     def run_simple_analysis(self, project, migration_target, packages=[]):
         """
@@ -479,26 +478,31 @@ class VisualStudioCode(Application):
             1) Click on MTA Configuration icon
             2) Click new config(+) icon
             3) Type project name in source
-            4) Right click on config name and run
+            4) Click on config name and run analysis
             5) Confirm analysis has started
         """
+        # Create new analysis configuration by clicking 'New Configuration' button
         self.wait_find_element(locator_type="image", locator="create_new_config.png")
         self.click_element(locator_type="image", locator="create_new_config.png")
         # Wait for configuration page to load
         time.sleep(3)
-        if migration_target != "eap7":
-            self.click_element(locator_type="image", locator="eap7_target_checked.png")
-        # self.click_element(locator_type="image", locator="remove_project.png")
-        add_project_locator = self.image_locator("vsc_add_project_jan15.png")
+
+	# Add project info to configuration
+        add_project_locator = self.image_locator("add_button.png")
         add_project_buttons = self.find_elements(add_project_locator)
         # Click the first match out of the two same buttons found
         self.click(add_project_buttons[0])
         self.type_text(text=project, enter=True)
         self.press_keys("page_down")
-        # self.click(add_project_buttons[1])
+
+	# Add migration target info to configuration
+        # Default target is eap7. Uncheck 'eap7' if target is something else.
         if migration_target != "eap7":
-            self.click_element(locator_type="image", locator="vsc_add_project_jan15.png")
+            self.click_element(locator_type="image", locator="eap7_target_checked.png")
+            self.click_element(locator_type="image", locator="add_button.png")
             self.type_text(text=migration_target, enter=True)
+
+        # Run analysis after clicking on config name
         try:
             self.click_element(locator_type="image", locator="config_name_region.png")
         except Exception as exc:
@@ -506,11 +510,10 @@ class VisualStudioCode(Application):
                 config_region = self.image_locator("config_name_region.png")
                 config_region_circles = self.find_elements(config_region)
                 self.click(config_region_circles[-1])
-        # Clear the text before writing
-        self.click(action="left_click")
-        self.click_element(locator_type="image", locator="VSC_Run.png")
-        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=120.0)
-        self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
+        self.click_element(locator_type="image", locator="run_analysis.png")
+
+	# Verify analysis has started
+        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
 
     def is_analysis_complete(self):
         """
@@ -531,8 +534,7 @@ class VisualStudioCode(Application):
 
     def open_report_page(self):
         self.click_element(locator_type="image", locator="open_report_button.png")
-        # self.wait_find_element(locator_type="image", locator="report_page_header.png")
-        self.wait_find_element(locator_type="image", locator="vsc_application_list.png")
+        self.wait_find_element(locator_type="image", locator="report_page_header.png")
 
 
 class Intellij(Application):
