@@ -10,8 +10,8 @@ from src.lib.config import config_data
 
 class Application(Desktop):
     """
-        Library for customizing the basic Desktop class
-        functionalities adapted for generic usage
+    Library for customizing the basic Desktop class
+    functionalities adapted for generic usage
     """
 
     IMG_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/images"
@@ -173,7 +173,12 @@ class Application(Desktop):
         self.click(locator=formed_locator)
 
     def wait_find_element(
-        self, locator_type, locator=None, coordinates=[], timeout=15.0, interval=0.5,
+        self,
+        locator_type,
+        locator=None,
+        coordinates=[],
+        timeout=15.0,
+        interval=0.5,
     ):
         """
         Wait untill timeout and find element based on locator
@@ -338,7 +343,10 @@ class Application(Desktop):
             else:
                 raise Exception(exc)
         self.wait_find_element(
-            locator_type="image", locator="report_page_header.png", timeout=120.0, interval=1.0,
+            locator_type="image",
+            locator="report_page_header.png",
+            timeout=120.0,
+            interval=1.0,
         )
 
     def is_analysis_complete(self):
@@ -350,7 +358,10 @@ class Application(Desktop):
         """
         try:
             self.wait_find_element(
-                locator_type="image", locator="report_page_header.png", timeout=120.0, interval=5.0,
+                locator_type="image",
+                locator="report_page_header.png",
+                timeout=120.0,
+                interval=5.0,
             )
             return True
         except Exception:
@@ -509,7 +520,9 @@ class VisualStudioCode(Application):
         """
         try:
             self.wait_find_element(
-                locator_type="image", locator="analysis_complete.png", timeout=120.0,
+                locator_type="image",
+                locator="analysis_complete.png",
+                timeout=120.0,
             )
             return True
         except Exception:
@@ -551,7 +564,8 @@ class Intellij(Application):
         except Exception as exc:
             try:
                 self.wait_find_element(
-                    locator_type="image", locator="mta_perspective_active_alt.png",
+                    locator_type="image",
+                    locator="mta_perspective_active_alt.png",
                 )
                 return True
             except Exception:
@@ -609,7 +623,9 @@ class Intellij(Application):
                 logging.debug("Console is already closed !")
             logging.debug("Console is not opened ! {}".format(str(exc)))
         config_create_region = self.two_coordinate_locator(
-            locator_type="point", x_coordinate=110, y_coordinate=370,
+            locator_type="point",
+            x_coordinate=110,
+            y_coordinate=370,
         )
         self.click(config_create_region)
         self.click(action="right_click")
@@ -640,7 +656,9 @@ class Intellij(Application):
         self.click_element(locator_type="image", locator="add_project_button.png")
         self.type_text(text=migration_target, enter=True)
         config_run_region = self.two_coordinate_locator(
-            locator_type="point", x_coordinate=110, y_coordinate=870,
+            locator_type="point",
+            x_coordinate=110,
+            y_coordinate=870,
         )
         self.click(config_run_region)
         # Search for configuration name that has to be run
@@ -653,7 +671,9 @@ class Intellij(Application):
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
         self.wait_find_element(
-            locator_type="image", locator="analysis_complete_terminal.png", timeout=120.0,
+            locator_type="image",
+            locator="analysis_complete_terminal.png",
+            timeout=120.0,
         )
         # Select the run configuration and open report page in browser
         try:
