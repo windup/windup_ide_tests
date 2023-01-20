@@ -298,7 +298,9 @@ class EclipseChe(WebBrowser):
         # Enter project name and select migration_target
         self.wait_click_element(By.XPATH, "//span[@id='input-details']/dl/dd/div/a")
         self.write_text(
-            By.XPATH, "//input[@id='editDialogInput']", config_data["workspace_project_path"],
+            By.XPATH,
+            "//input[@id='editDialogInput']",
+            config_data["workspace_project_path"],
         )
         self.driver.find_element_by_xpath("//input[@id='editDialogInput']").send_keys(Keys.ENTER)
         self.wait_click_element(By.XPATH, "//input[@id='target-{}']".format(migration_target))
@@ -309,7 +311,8 @@ class EclipseChe(WebBrowser):
         # Right click action and run the analysis
         action.context_click(self.configuration_ele_locator).perform()
         self.wait_click_element(
-            By.XPATH, "//div[@class='p-Widget p-Menu']/ul/li/div[contains(text(), 'Run')]",
+            By.XPATH,
+            "//div[@class='p-Widget p-Menu']/ul/li/div[contains(text(), 'Run')]",
         )
         # Wait for analysis to start
         self.wait_find_element(
@@ -362,5 +365,6 @@ class EclipseChe(WebBrowser):
         # Right click and delete configuration
         action.context_click(config_to_delete).perform()
         self.wait_click_element(
-            By.XPATH, "//div[@class='p-Widget p-Menu']/ul/li/div[contains(text(), 'Delete')]",
+            By.XPATH,
+            "//div[@class='p-Widget p-Menu']/ul/li/div[contains(text(), 'Delete')]",
         )
