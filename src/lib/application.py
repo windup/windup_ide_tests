@@ -487,7 +487,7 @@ class VisualStudioCode(Application):
         # Wait for configuration page to load
         time.sleep(3)
 
-	    # Add project info to configuration
+        # Add project info to configuration
         add_project_locator = self.image_locator("add_button.png")
         add_project_buttons = self.find_elements(add_project_locator)
         # Click the first match out of the two same buttons found
@@ -495,7 +495,7 @@ class VisualStudioCode(Application):
         self.type_text(text=project, enter=True)
         self.press_keys("page_down")
 
-	    # Add migration target info to configuration
+        # Add migration target info to configuration
         # Default target is eap7. Uncheck 'eap7' if target is something else.
         if migration_target != "eap7":
             self.click_element(locator_type="image", locator="eap7_target_checked.png")
@@ -512,7 +512,7 @@ class VisualStudioCode(Application):
                 self.click(config_region_circles[-1])
         self.click_element(locator_type="image", locator="run_analysis.png")
 
-	    # Verify analysis has started
+        # Verify analysis has started
         self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
 
     def is_analysis_complete(self):
@@ -524,14 +524,9 @@ class VisualStudioCode(Application):
         """
         try:
             self.wait_find_element(
-<<<<<<< HEAD
                 locator_type="image",
                 locator="analysis_complete.png",
                 timeout=120.0,
-=======
-                locator_type="image", locator="analysis_complete.png", timeout=740.0,
-
->>>>>>> 127bf62 (increase timeout while waitiing on analysis to complete)
             )
             return True
         except Exception:
