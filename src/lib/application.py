@@ -494,12 +494,13 @@ class VisualStudioCode(Application):
         # Click the first match out of the two same buttons found
         self.click(add_project_buttons[0])
         self.type_text(text=project, enter=True)
-        self.press_keys("page_down")
 
         # Add migration target info to configuration
         # Default target is eap7. Uncheck 'eap7' if target is something else.
         if migration_target != "eap7":
+            time.sleep(10)
             self.click_element(locator_type="image", locator="eap7_target_checked.png")
+            self.press_keys("page_down")
             self.click_element(locator_type="image", locator="add_button.png")
             self.type_text(text=migration_target, enter=True)
 
@@ -536,6 +537,31 @@ class VisualStudioCode(Application):
     def open_report_page(self):
         self.click_element(locator_type="image", locator="open_report_button.png")
         self.wait_find_element(locator_type="image", locator="report_page_header.png")
+
+    def verify_story_points(self, target):
+        """
+        Verifies the story points in report after analysis
+
+        Returns:
+            (bool): True if story points were accurate
+        """
+        if target == "eap7":
+            story_point_locator = "eap7_story_points.png"
+        elif target == "quarkus1":
+            story_point_locator = "quarkus1_story_points.png"
+        elif target == "eapxp":
+            story_point_locator = "eapxp_story_points.png"
+        else:
+            logging.debug("Unknown target provided !")
+            raise Exception()
+        try:
+            self.wait_find_element(locator_type="image", locator=story_point_locator)
+            return True
+        except Exception as exc:
+            logging.debug(str(exc))
+            return False
+        finally:
+            self.switch_tab()
 
 
 class Intellij(Application):
