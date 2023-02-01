@@ -10,8 +10,8 @@ from src.lib.config import config_data
 
 class Application(Desktop):
     """
-        Library for customizing the basic Desktop class
-        functionalities adapted for generic usage
+    Library for customizing the basic Desktop class
+    functionalities adapted for generic usage
     """
 
     IMG_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/images"
@@ -173,7 +173,12 @@ class Application(Desktop):
         self.click(locator=formed_locator)
 
     def wait_find_element(
-        self, locator_type, locator=None, coordinates=[], timeout=15.0, interval=0.5,
+        self,
+        locator_type,
+        locator=None,
+        coordinates=[],
+        timeout=15.0,
+        interval=0.5,
     ):
         """
         Wait untill timeout and find element based on locator
@@ -338,7 +343,10 @@ class Application(Desktop):
             else:
                 raise Exception(exc)
         self.wait_find_element(
-            locator_type="image", locator="report_page_header.png", timeout=120.0, interval=1.0,
+            locator_type="image",
+            locator="report_page_header.png",
+            timeout=120.0,
+            interval=1.0,
         )
 
     def is_analysis_complete(self):
@@ -350,7 +358,10 @@ class Application(Desktop):
         """
         try:
             self.wait_find_element(
-                locator_type="image", locator="report_page_header.png", timeout=120.0, interval=5.0,
+                locator_type="image",
+                locator="report_page_header.png",
+                timeout=120.0,
+                interval=5.0,
             )
             return True
         except Exception:
@@ -450,7 +461,7 @@ class VisualStudioCode(Application):
             return
         else:
             # Click on the MTA icon in left sidebar
-            self.click_element(locator_type="image", locator="mta_config_view.png")
+            self.click_element(locator_type="image", locator="mta_config_inactive.png")
 
     def run_simple_analysis(self, project, migration_target, packages=[]):
         """
@@ -467,24 +478,32 @@ class VisualStudioCode(Application):
             1) Click on MTA Configuration icon
             2) Click new config(+) icon
             3) Type project name in source
-            4) Right click on config name and run
+            4) Click on config name and run analysis
             5) Confirm analysis has started
         """
+        time.sleep(20)
+        # Create new analysis configuration by clicking 'New Configuration' button
         self.wait_find_element(locator_type="image", locator="create_new_config.png")
         self.click_element(locator_type="image", locator="create_new_config.png")
         # Wait for configuration page to load
         time.sleep(3)
-        if migration_target != "eap7":
-            self.click_element(locator_type="image", locator="eap7_target_checked.png")
-        self.click_element(locator_type="image", locator="remove_project.png")
-        add_project_locator = self.image_locator("add_project_button.png")
+
+        # Add project info to configuration
+        add_project_locator = self.image_locator("add_button.png")
         add_project_buttons = self.find_elements(add_project_locator)
         # Click the first match out of the two same buttons found
-        self.click(add_project_buttons[1])
+        self.click(add_project_buttons[0])
         self.type_text(text=project, enter=True)
         self.press_keys("page_down")
-        self.click_element(locator_type="image", locator="add_project_button.png")
-        self.type_text(text=migration_target, enter=True)
+
+        # Add migration target info to configuration
+        # Default target is eap7. Uncheck 'eap7' if target is something else.
+        if migration_target != "eap7":
+            self.click_element(locator_type="image", locator="eap7_target_checked.png")
+            self.click_element(locator_type="image", locator="add_button.png")
+            self.type_text(text=migration_target, enter=True)
+
+        # Run analysis after clicking on config name
         try:
             self.click_element(locator_type="image", locator="config_name_region.png")
         except Exception as exc:
@@ -492,13 +511,10 @@ class VisualStudioCode(Application):
                 config_region = self.image_locator("config_name_region.png")
                 config_region_circles = self.find_elements(config_region)
                 self.click(config_region_circles[-1])
-        # Clear the text before writing
-        self.click(action="right_click")
-        self.press_keys("up")
-        self.press_keys("up")
-        self.press_keys("enter")
-        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=120.0)
-        self.wait_find_element(locator_type="image", locator="analysis_complete.png", timeout=120.0)
+        self.click_element(locator_type="image", locator="run_analysis.png")
+
+        # Verify analysis has started
+        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
 
     def is_analysis_complete(self):
         """
@@ -509,7 +525,9 @@ class VisualStudioCode(Application):
         """
         try:
             self.wait_find_element(
-                locator_type="image", locator="analysis_complete.png", timeout=120.0,
+                locator_type="image",
+                locator="analysis_complete.png",
+                timeout=120.0,
             )
             return True
         except Exception:
@@ -553,7 +571,8 @@ class Intellij(Application):
         except Exception as exc:
             try:
                 self.wait_find_element(
-                    locator_type="image", locator="mta_perspective_active_alt.png",
+                    locator_type="image",
+                    locator="mta_perspective_active_alt.png",
                 )
                 return True
             except Exception:
@@ -612,7 +631,9 @@ class Intellij(Application):
                 logging.debug("Console is already closed !")
             logging.debug("Console is not opened ! {}".format(str(exc)))
         config_create_region = self.two_coordinate_locator(
-            locator_type="point", x_coordinate=110, y_coordinate=370,
+            locator_type="point",
+            x_coordinate=110,
+            y_coordinate=370,
         )
         self.click(config_create_region)
         self.click(action="right_click")
@@ -652,7 +673,9 @@ class Intellij(Application):
         self.click_element(locator_type="image", locator="add_project_button.png")
         self.type_text(text=migration_target, enter=True)
         config_run_region = self.two_coordinate_locator(
-            locator_type="point", x_coordinate=110, y_coordinate=870,
+            locator_type="point",
+            x_coordinate=110,
+            y_coordinate=870,
         )
         self.click(config_run_region)
         # Search for configuration name that has to be run
@@ -665,7 +688,9 @@ class Intellij(Application):
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
         self.wait_find_element(
-            locator_type="image", locator="analysis_complete_terminal.png", timeout=120.0,
+            locator_type="image",
+            locator="analysis_complete_terminal.png",
+            timeout=120.0,
         )
         # Select the run configuration and open report page in browser
         try:
