@@ -461,6 +461,7 @@ class VisualStudioCode(Application):
             return
         else:
             # Click on the MTA icon in left sidebar
+            time.sleep(10)
             self.click_element(locator_type="image", locator="mta_config_inactive.png")
 
     def run_simple_analysis(self, project, migration_target, packages=[]):
@@ -537,31 +538,6 @@ class VisualStudioCode(Application):
     def open_report_page(self):
         self.click_element(locator_type="image", locator="open_report_button.png")
         self.wait_find_element(locator_type="image", locator="report_page_header.png")
-
-    def verify_story_points(self, target):
-        """
-        Verifies the story points in report after analysis
-
-        Returns:
-            (bool): True if story points were accurate
-        """
-        if target == "eap7":
-            story_point_locator = "eap7_story_points.png"
-        elif target == "quarkus1":
-            story_point_locator = "quarkus1_story_points.png"
-        elif target == "eapxp":
-            story_point_locator = "eapxp_story_points.png"
-        else:
-            logging.debug("Unknown target provided !")
-            raise Exception()
-        try:
-            self.wait_find_element(locator_type="image", locator=story_point_locator)
-            return True
-        except Exception as exc:
-            logging.debug(str(exc))
-            return False
-        finally:
-            self.switch_tab()
 
 
 class Intellij(Application):

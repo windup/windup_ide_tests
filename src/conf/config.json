@@ -11,7 +11,7 @@
     {
         "eap7_generic" : "",
         "eapxp_ruleset" : "",
-        "quarkus1_ruleset" : ""
+        "quarkus_ruleset" : ""
     },
     "driver_paths" :
     {
