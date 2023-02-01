@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 import pytest
 
@@ -86,3 +87,4 @@ def setup_intellij(config):
     yield intellij
     # todo: investigate why sometimes configuration is not deleted,add a delete funtionality
     intellij.close_ide()
+    time.sleep(5)

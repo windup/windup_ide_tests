@@ -4,14 +4,14 @@
         "rh_code_ready_studio" : "",
         "eclipse" : "",
         "vs_code" : "",
-        "intellij": ""
+        "intellij": "/home/mohammad/.local/share/JetBrains/Toolbox/apps/IDEA-C/ch-1/221.6008.13/bin/idea.sh"
     },
     "timeout_in_seconds" : 15.0,
     "project_paths" :
     {
-        "eap7_generic" : "",
-        "eapxp_ruleset" : "",
-        "quarkus_ruleset" : ""
+        "eap7_generic" : "/home/mohammad/Documents/projects/windup-rulesets/rules/rules-reviewed/eap7/eap5/tests/data",
+        "eapxp_ruleset" : "/home/mohammad/Documents/projects/windup-rulesets/rules/rules-reviewed/eapxp/eapxp2/tests/data",
+        "quarkus_ruleset" : "/home/mohammad/Documents/projects/windup-rulesets/rules/rules-reviewed/quarkus/springboot/tests/data"
     },
     "driver_paths" :
     {
@@ -24,6 +24,6 @@
         "password" : ""
     },
     "workspace_url" : "https://codeready-codeready-workspaces-operator.apps.sandbox.x8i5.p1.openshiftapps.com/dashboard/#/workspaces",
-    "workspace_project_path" : "",
-    "mta_cli_path": ""
+    "workspace_project_path" : "/projects/rulesets-demo/rules-reviewed/quarkus1/quarkus1-12/tests/data",
+    "mta_cli_path": "/home/mohammad/Downloads/windup-cli-6.1.0-20221018.064850-1-offline/windup-cli-6.1.0-SNAPSHOT/bin/windup-cli"
 }
