@@ -74,7 +74,7 @@ def setup_eclipse_che():
     eclipse_che.close_browser()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(autouse=True)
 def setup_intellij(config):
     """
     Fixture to setup intellij application
@@ -84,4 +84,5 @@ def setup_intellij(config):
     intellij.open_application(path)
     intellij.set_default_timeout(timeout=config["timeout_in_seconds"])
     yield intellij
+    # todo: investigate why sometimes configuration is not deleted,add a delete funtionality
     intellij.close_ide()

@@ -216,7 +216,7 @@ class Application(Desktop):
         """
         Switch context between apps using home+tab buttons
         """
-        self.press_keys("cmd", "tab")
+        self.press_keys("alt", "tab")
 
     def is_open_mta_perspective(self):
         """
@@ -366,7 +366,7 @@ class Application(Desktop):
         if target == "eap7":
             story_point_locator = "eap7_story_points.png"
         elif target == "quarkus1":
-            story_point_locator = "quarkus1_story_points.png"
+            story_point_locator = "quarkus_story_points.png"
         elif target == "eapxp":
             story_point_locator = "eapxp_story_points.png"
         else:
@@ -532,11 +532,13 @@ class Intellij(Application):
         self.click_element(locator_type="image", locator="file_menu.png")
         self.press_keys("up")
         self.press_keys("enter")
-        try:
-            self.wait_find_element(locator_type="image", locator="confirm_exit.png", timeout=5.0)
-            self.click_element(locator_type="image", locator="exit_button.png")
-        except Exception:
-            logging.info("No exit confirmation dialog found !")
+        time.sleep(1)
+        self.press_keys("enter")
+        # try:
+        #     self.wait_find_element(locator_type="image", locator="confirm_exit.png", timeout=5.0)
+        #     self.click_element(locator_type="image", locator="exit_button.png")
+        # except Exception:
+        #     logging.info("No exit confirmation dialog found !")
 
     def is_open_mta_perspective(self):
         """
@@ -578,6 +580,7 @@ class Intellij(Application):
             self.click_element(locator_type="image", locator="mta_tab.png")
 
     def run_simple_analysis(self, project, migration_target, packages=[]):
+        # todo: set the migration_target to be a list instead of string
         """
         Runs analysis by adding the project and/or packages passed as argument
 
@@ -615,13 +618,20 @@ class Intellij(Application):
         self.click(action="right_click")
         self.press_keys("down")
         self.press_keys("enter")
+        time.sleep(3)
         self.wait_find_element(locator_type="image", locator="mta_config_page_opened.png")
         # Region defining the configuration name
         config_name_region = self.define_region(778, 248, 1125, 284)
+        add_project_locator = self.image_locator("add_project_button.png")
+        add_project_buttons = self.find_elements(add_project_locator)
         # Provide mta cli path
         try:
-            self.click_element(locator_type="image", locator="mta_cli_input.png")
-            self.type_text(config_data["mta_cli_path"])
+            # self.click_element(locator_type="image", locator="mta_cli_input.png")
+            self.click(add_project_buttons[0])
+            time.sleep(2)
+            for letter in config_data["mta_cli_path"]:
+                self.type_text(letter)
+            self.press_keys("enter")
         except Exception as exc:
             logging.debug("MTA cli path is already present ! {}".format(exc))
         if migration_target != "eap7":
@@ -630,13 +640,15 @@ class Intellij(Application):
                 self.click_element(locator_type="image", locator="eap7_checked.png")
             except Exception as exc:
                 logging.debug("Default target eap7 is not checked ! {}".format(str(exc)))
-        add_project_locator = self.image_locator("add_project_button.png")
-        add_project_buttons = self.find_elements(add_project_locator)
+
         # Click the first match out of the two same buttons found
         self.click(add_project_buttons[1])
         self.type_text(text=project, enter=True)
         self.click(config_name_region)
-        self.press_keys("page_down")
+        print(f'buttons found: {str(len(add_project_buttons))}')
+        # todo: find why it only finds 2 elements not 3
+        if len(add_project_buttons) != 3:
+            self.press_keys("page_down")
         self.click_element(locator_type="image", locator="add_project_button.png")
         self.type_text(text=migration_target, enter=True)
         config_run_region = self.two_coordinate_locator(
@@ -644,8 +656,8 @@ class Intellij(Application):
         )
         self.click(config_run_region)
         # Search for configuration name that has to be run
-        self.type_text("mtaConfiguration")
-        self.press_keys("up")
+        self.type_text("configuration1")
+        self.press_keys("enter")
         # Find config name highlighted and select correct config if multiple matches are found
         self.wait_find_element(locator_type="image", locator="config_name_highlighted.png")
         self.click(action="right_click")
@@ -660,7 +672,7 @@ class Intellij(Application):
             self.click_element(locator_type="image", locator="mta_perspective_active.png")
         except Exception:
             self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
-        self.type_text("mtaConfiguration")
+        self.type_text("configuration1")
         self.press_keys("up")
         self.click_element(locator_type="image", locator="open_details_toggle.png")
         self.click_element(locator_type="image", locator="report_selector.png")
