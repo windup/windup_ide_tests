@@ -461,6 +461,7 @@ class VisualStudioCode(Application):
             return
         else:
             # Click on the MTA icon in left sidebar
+            time.sleep(10)
             self.click_element(locator_type="image", locator="mta_config_inactive.png")
 
     def run_simple_analysis(self, project, migration_target, packages=[]):
@@ -481,7 +482,8 @@ class VisualStudioCode(Application):
             4) Click on config name and run analysis
             5) Confirm analysis has started
         """
-        time.sleep(20)
+        # Wait for 'New Configuration' to become visible
+        time.sleep(5)
         # Create new analysis configuration by clicking 'New Configuration' button
         self.wait_find_element(locator_type="image", locator="create_new_config.png")
         self.click_element(locator_type="image", locator="create_new_config.png")
@@ -494,12 +496,13 @@ class VisualStudioCode(Application):
         # Click the first match out of the two same buttons found
         self.click(add_project_buttons[0])
         self.type_text(text=project, enter=True)
-        self.press_keys("page_down")
 
         # Add migration target info to configuration
         # Default target is eap7. Uncheck 'eap7' if target is something else.
         if migration_target != "eap7":
+            time.sleep(10)
             self.click_element(locator_type="image", locator="eap7_target_checked.png")
+            self.press_keys("page_down")
             self.click_element(locator_type="image", locator="add_button.png")
             self.type_text(text=migration_target, enter=True)
 
