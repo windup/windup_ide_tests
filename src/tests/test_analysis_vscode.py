@@ -34,7 +34,7 @@ def test_analysis_eapxp(setup_vscode):
 
 def test_analysis_quarkus(setup_vscode):
     """
-    Test to run analysis on migration from quarkus in VSCode IDE. Note that quarkus1 was removed
+    Test to run an analysis on migration from quarkus in VSCode IDE. Note that quarkus1 was removed
     as source and target through https://issues.redhat.com/browse/WINDUP-3328 .
 
     source : windup-rulesets/target/classes/quarkus/springboot/tests/data
