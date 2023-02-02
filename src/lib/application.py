@@ -4,8 +4,6 @@ import re
 
 from RPA.Desktop import Desktop
 
-from src.lib.IDE.CodeReadyStudio import CodeReadyStudio
-from src.lib.IDE.Eclipse import Eclipse
 from src.lib.IDE.Intellij import Intellij
 from src.lib.IDE.VisualStudioCode import VisualStudioCode
 
@@ -28,9 +26,6 @@ class Application(Desktop):
         Returns:
             (str): Image locator string
         """
-        if isinstance(self, CodeReadyStudio) or isinstance(self, Eclipse):
-            return f"image:{self.IMG_DIR}/codeready_eclipse_common/{locator}"
-
         if isinstance(self, VisualStudioCode):
             return f"image:{self.IMG_DIR}/vscode/{locator}"
 
