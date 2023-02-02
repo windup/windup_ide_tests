@@ -1,11 +1,13 @@
 import logging
 import os
 import re
-import time
 
 from RPA.Desktop import Desktop
 
-from src.lib.config import config_data
+from src.lib.IDE.CodeReadyStudio import CodeReadyStudio
+from src.lib.IDE.Eclipse import Eclipse
+from src.lib.IDE.Intellij import Intellij
+from src.lib.IDE.VisualStudioCode import VisualStudioCode
 
 
 class Application(Desktop):
