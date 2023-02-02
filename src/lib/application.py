@@ -482,7 +482,8 @@ class VisualStudioCode(Application):
             4) Click on config name and run analysis
             5) Confirm analysis has started
         """
-        time.sleep(20)
+        # Wait for 'New Configuration' to become visible
+        time.sleep(5)
         # Create new analysis configuration by clicking 'New Configuration' button
         self.wait_find_element(locator_type="image", locator="create_new_config.png")
         self.click_element(locator_type="image", locator="create_new_config.png")
