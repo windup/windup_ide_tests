@@ -494,6 +494,8 @@ class VisualStudioCode(Application):
             4) Click on config name and run analysis
             5) Confirm analysis has started
         """
+        # TO DO - Create and delete analysis config files through a fixture
+
         # Wait for 'New Configuration' to become visible
         time.sleep(5)
         # Create new analysis configuration by clicking 'New Configuration' button
