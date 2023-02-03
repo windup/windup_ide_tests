@@ -430,7 +430,19 @@ class VisualStudioCode(Application):
         """
         self.press_keys("ctrl", "q")
 
-    def is_open_mta_perspective(self):
+    def delete_config_files(self):
+        try:
+            self.click_element(locator_type="image", locator="config_name_region.png")
+        except Exception as exc:
+            if re.match(r"Found [0-9] matches+", str(exc)):
+                config_region = self.image_locator("config_name_region.png")
+                config_region_circles = self.find_elements(config_region)
+                self.click(config_region_circles[0])
+                for i in config_region_circles:
+                    time.sleep(3)
+                    self.click_element(locator_type="image", locator="delete_analysis_config.png")
+
+     def is_open_mta_perspective(self):
         """
         Checks if MTA perspective is already opened in VS Code
 

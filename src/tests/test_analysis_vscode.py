@@ -1,4 +1,5 @@
-def test_analysis_eap(setup_vscode):
+import time
+def test_analysis_eap1(setup_vscode):
     """
     Test to run an analysis on migration from weblogic to EAP 7 in VSCode IDE
     source : windup-rulesets/target/classes/eap7/weblogic/tests/data
@@ -13,7 +14,7 @@ def test_analysis_eap(setup_vscode):
     assert vscode.is_analysis_complete()
     vscode.open_report_page()
     assert vscode.verify_story_points(target="eap7")
-
+    vscode.delete_config_files()
 
 def test_analysis_eapxp(setup_vscode):
     """
@@ -30,7 +31,7 @@ def test_analysis_eapxp(setup_vscode):
     assert vscode.is_analysis_complete()
     vscode.open_report_page()
     assert vscode.verify_story_points(target="eapxp")
-
+    vscode.delete_config_files()
 
 def test_analysis_quarkus(setup_vscode):
     """
@@ -49,3 +50,4 @@ def test_analysis_quarkus(setup_vscode):
     assert vscode.is_analysis_complete()
     vscode.open_report_page()
     assert vscode.verify_story_points(target="quarkus")
+    vscode.delete_config_files()
