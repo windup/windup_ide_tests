@@ -1,4 +1,3 @@
-import time
 def test_analysis_eap1(setup_vscode):
     """
     Test to run an analysis on migration from weblogic to EAP 7 in VSCode IDE
@@ -16,6 +15,7 @@ def test_analysis_eap1(setup_vscode):
     assert vscode.verify_story_points(target="eap7")
     vscode.delete_config_files()
 
+
 def test_analysis_eapxp(setup_vscode):
     """
     Test to run an analysis on migration from thorntail to eapxp2 in VSCode IDE
@@ -32,6 +32,7 @@ def test_analysis_eapxp(setup_vscode):
     vscode.open_report_page()
     assert vscode.verify_story_points(target="eapxp")
     vscode.delete_config_files()
+
 
 def test_analysis_quarkus(setup_vscode):
     """
