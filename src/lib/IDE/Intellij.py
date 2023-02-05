@@ -19,11 +19,6 @@ class Intellij(Application):
         self.press_keys("enter")
         time.sleep(1)
         self.press_keys("enter")
-        # try:
-        #     self.wait_find_element(locator_type="image", locator="confirm_exit.png", timeout=5.0)
-        #     self.click_element(locator_type="image", locator="exit_button.png")
-        # except Exception:
-        #     logging.info("No exit confirmation dialog found !")
 
     def is_open_mta_perspective(self):
         """
