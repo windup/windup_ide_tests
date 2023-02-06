@@ -430,6 +430,18 @@ class VisualStudioCode(Application):
         """
         self.press_keys("ctrl", "q")
 
+    def delete_config_files(self):
+        try:
+            self.click_element(locator_type="image", locator="config_name_region.png")
+        except Exception as exc:
+            if re.match(r"Found [0-9] matches+", str(exc)):
+                config_region = self.image_locator("config_name_region.png")
+                config_region_circles = self.find_elements(config_region)
+                self.click(config_region_circles[0])
+                for i in config_region_circles:
+                    time.sleep(3)
+                    self.click_element(locator_type="image", locator="delete_analysis_config.png")
+
     def is_open_mta_perspective(self):
         """
         Checks if MTA perspective is already opened in VS Code
@@ -482,6 +494,8 @@ class VisualStudioCode(Application):
             4) Click on config name and run analysis
             5) Confirm analysis has started
         """
+        # TO DO - Create and delete analysis config files through a fixture
+
         # Wait for 'New Configuration' to become visible
         time.sleep(5)
         # Create new analysis configuration by clicking 'New Configuration' button
@@ -669,7 +683,7 @@ class Intellij(Application):
         self.click(add_project_buttons[1])
         self.type_text(text=project, enter=True)
         self.click(config_name_region)
-        print(f'buttons found: {str(len(add_project_buttons))}')
+        print(f"buttons found: {str(len(add_project_buttons))}")
         # todo: find why it only finds 2 elements not 3
         if len(add_project_buttons) != 3:
             self.press_keys("page_down")
