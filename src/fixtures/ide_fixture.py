@@ -58,6 +58,7 @@ def setup_vscode(config):
     path = config["ide_paths"]["vs_code"]
     vscode.open_application(path)
     vscode.set_default_timeout(timeout=config["timeout_in_seconds"])
+    vscode.delete_config_files()
     yield vscode, config
     vscode.close_ide()
 

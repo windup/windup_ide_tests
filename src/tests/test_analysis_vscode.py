@@ -6,7 +6,6 @@ def test_analysis_eap(setup_vscode):
     """
     vscode, config = setup_vscode
     vscode.open_mta_perspective()
-    vscode.delete_config_files()
     vscode.run_simple_analysis(
         project=config["project_paths"]["eap7_generic"],
         migration_target="eap7",
@@ -24,7 +23,6 @@ def test_analysis_eapxp(setup_vscode):
     """
     vscode, config = setup_vscode
     vscode.open_mta_perspective()
-    vscode.delete_config_files()
     vscode.run_simple_analysis(
         project=config["project_paths"]["eapxp_ruleset"],
         migration_target="eapxp",
@@ -44,7 +42,6 @@ def test_analysis_quarkus(setup_vscode):
     """
     vscode, config = setup_vscode
     vscode.open_mta_perspective()
-    vscode.delete_config_files()
     vscode.run_simple_analysis(
         project=config["project_paths"]["quarkus_ruleset"],
         migration_target="quarkus",
