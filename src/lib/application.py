@@ -4,9 +4,6 @@ import re
 
 from RPA.Desktop import Desktop
 
-from src.lib.IDE.Intellij import Intellij
-from src.lib.IDE.VisualStudioCode import VisualStudioCode
-
 
 class Application(Desktop):
     """
@@ -18,19 +15,15 @@ class Application(Desktop):
 
     def image_locator(self, locator):
         """
-        Forms image locator string
+        Forms text locator string (ocr)
 
         Args:
-            locator (str): Image name
+            locator (str): Text name
 
         Returns:
-            (str): Image locator string
+            (str): Text locator string
         """
-        if isinstance(self, VisualStudioCode):
-            return f"image:{self.IMG_DIR}/vscode/{locator}"
-
-        if isinstance(self, Intellij):
-            return f"image:{self.IMG_DIR}/intellij/{locator}"
+        raise Exception("Method not implemented")
 
     def text_locator(self, locator):
         """

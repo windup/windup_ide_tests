@@ -20,6 +20,9 @@ class Intellij(Application):
         time.sleep(1)
         self.press_keys("enter")
 
+    def image_locator(self, locator):
+        return f"image:{self.IMG_DIR}/intellij/{locator}"
+
     def is_open_mta_perspective(self):
         """
         Checks if MTA perspective is already opened in IntelliJ
