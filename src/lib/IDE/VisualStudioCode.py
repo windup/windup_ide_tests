@@ -10,6 +10,9 @@ class VisualStudioCode(Application):
     Class for managing VSCode application
     """
 
+    def image_locator(self, locator):
+        return f"image:{self.IMG_DIR}/vscode/{locator}"
+
     def close_ide(self):
         """
         Closes the IDE

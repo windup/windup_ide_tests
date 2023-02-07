@@ -111,7 +111,6 @@ class Intellij(Application):
         add_project_buttons = self.find_elements(add_project_locator)
         # Provide mta cli path
         try:
-            # self.click_element(locator_type="image", locator="mta_cli_input.png")
             self.click(add_project_buttons[0])
             time.sleep(2)
             for letter in config_data["mta_cli_path"]:
