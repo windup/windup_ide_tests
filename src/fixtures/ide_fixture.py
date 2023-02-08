@@ -75,7 +75,7 @@ def setup_eclipse_che():
     eclipse_che.close_browser()
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(scope="session")
 def setup_intellij(config):
     """
     Fixture to setup intellij application
