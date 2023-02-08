@@ -5,19 +5,44 @@ import time
 from src.lib.application import Application
 
 
+class CodeReadyStudio(Application):
+    """
+    Class for managing RH Code Ready Studio application
+    """
+
+    pass
+
+
+class Eclipse(Application):
+    """
+    Class for managing Eclipse application
+    """
+
+    pass
+
+
 class VisualStudioCode(Application):
     """
     Class for managing VSCode application
     """
-
-    def image_locator(self, locator):
-        return f"image:{self.IMG_DIR}/vscode/{locator}"
 
     def close_ide(self):
         """
         Closes the IDE
         """
         self.press_keys("ctrl", "q")
+
+    def delete_config_files(self):
+        try:
+            self.click_element(locator_type="image", locator="config_name_region.png")
+        except Exception as exc:
+            if re.match(r"Found [0-9] matches+", str(exc)):
+                config_region = self.image_locator("config_name_region.png")
+                config_region_circles = self.find_elements(config_region)
+                self.click(config_region_circles[0])
+                for i in config_region_circles:
+                    time.sleep(3)
+                    self.click_element(locator_type="image", locator="delete_analysis_config.png")
 
     def is_open_mta_perspective(self):
         """
@@ -71,6 +96,8 @@ class VisualStudioCode(Application):
             4) Click on config name and run analysis
             5) Confirm analysis has started
         """
+        # TO DO - Create and delete analysis config files through a fixture
+
         # Wait for 'New Configuration' to become visible
         time.sleep(5)
         # Create new analysis configuration by clicking 'New Configuration' button
