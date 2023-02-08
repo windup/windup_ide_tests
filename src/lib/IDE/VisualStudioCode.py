@@ -5,22 +5,6 @@ import time
 from src.lib.application import Application
 
 
-class CodeReadyStudio(Application):
-    """
-    Class for managing RH Code Ready Studio application
-    """
-
-    pass
-
-
-class Eclipse(Application):
-    """
-    Class for managing Eclipse application
-    """
-
-    pass
-
-
 class VisualStudioCode(Application):
     """
     Class for managing VSCode application
