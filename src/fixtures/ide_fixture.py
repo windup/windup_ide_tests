@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 import pytest
 
@@ -47,7 +48,7 @@ def setup_eclipse_che():
     eclipse_che.close_browser()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def setup_intellij(config):
     """
     Fixture to setup intellij application
@@ -59,3 +60,4 @@ def setup_intellij(config):
     yield intellij
     # todo: investigate why sometimes configuration is not deleted,add a delete funtionality
     intellij.close_ide()
+    time.sleep(5)
