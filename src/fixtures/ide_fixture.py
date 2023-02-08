@@ -4,10 +4,8 @@ import time
 
 import pytest
 
-from src.lib.application import CodeReadyStudio
-from src.lib.application import Eclipse
-from src.lib.application import Intellij
-from src.lib.application import VisualStudioCode
+from src.lib.IDE.Intellij import Intellij
+from src.lib.IDE.VisualStudioCode import VisualStudioCode
 from src.lib.web import EclipseChe
 
 
@@ -22,32 +20,6 @@ def config():
     with open(CONF_DIR + "config.json") as config:
         config_data = json.load(config)
     return config_data
-
-
-@pytest.fixture(scope="session")
-def setup_codereadystudio(config):
-    """
-    Fixture to setup codereadystudio application
-    """
-    codereadystudio = CodeReadyStudio()
-    path = config["ide_paths"]["rh_code_ready_studio"]
-    codereadystudio.open_application(path)
-    codereadystudio.set_default_timeout(timeout=config["timeout_in_seconds"])
-    yield codereadystudio
-    codereadystudio.close_ide()
-
-
-@pytest.fixture(scope="session")
-def setup_eclipse(config):
-    """
-    Fixture to setup eclipse application
-    """
-    eclipse = Eclipse()
-    path = config["ide_paths"]["eclipse"]
-    eclipse.open_application(path)
-    eclipse.set_default_timeout(timeout=config["timeout_in_seconds"])
-    yield eclipse
-    eclipse.close_ide()
 
 
 @pytest.fixture(scope="session")
