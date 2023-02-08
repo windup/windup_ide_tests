@@ -39,7 +39,7 @@ class VisualStudioCode(Application):
             (bool): True or False
         """
         try:
-            self.wait_find_element(locator_type="image", locator="mta_config_active.png")
+            self.wait_find_element(locator_type="image", locator="create_new_config.png")
             return True
         except Exception as exc:
             logging.debug(
