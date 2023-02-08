@@ -15,7 +15,7 @@ class Application(Desktop):
 
     def image_locator(self, locator):
         """
-        Forms text locator string (ocr)
+        Forms image locator string
 
         Args:
             locator (str): Text name
