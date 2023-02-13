@@ -5,7 +5,9 @@ import time
 
 from src.lib.application import Application
 from src.lib.config import config_data
-from src.utils.general import download_file, unzip_file, clear_directory_by_name
+from src.utils.general import clear_directory_by_name
+from src.utils.general import download_file
+from src.utils.general import unzip_file
 
 
 class Intellij(Application):

@@ -1,7 +1,9 @@
-import requests
 import os
-import zipfile
 import shutil
+import zipfile
+
+import requests
+
 
 def download_file(url, save_path, file_name):
     response = requests.get(url)
@@ -10,7 +12,7 @@ def download_file(url, save_path, file_name):
 
 
 def unzip_file(file_path, directory):
-    with zipfile.ZipFile(file_path, 'r') as zip_ref:
+    with zipfile.ZipFile(file_path, "r") as zip_ref:
         zip_ref.extractall(directory)
 
 
@@ -24,4 +26,4 @@ def clear_directory_by_name(directory, name_contains):
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path, ignore_errors=True)
             except Exception as e:
-                print('Failed to delete %s. Reason: %s' % (file_path, e))
+                print("Failed to delete {}. Reason: {}".format(file_path, e))
