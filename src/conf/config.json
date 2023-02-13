@@ -1,29 +1,33 @@
 {
-    "ide_paths" :
-    {
-        "rh_code_ready_studio" : "",
-        "eclipse" : "",
-        "vs_code" : "",
-        "intellij": ""
-    },
-    "timeout_in_seconds" : 15.0,
-    "project_paths" :
-    {
-        "eap7_generic" : "",
-        "eapxp_ruleset" : "",
-        "quarkus_ruleset" : ""
-    },
-    "driver_paths" :
-    {
-        "firefox" : "",
-        "chrome" : ""
-    },
-    "workspace_credentials" :
-    {
-        "username" : "",
-        "password" : ""
-    },
-    "workspace_url" : "https://codeready-codeready-workspaces-operator.apps.sandbox.x8i5.p1.openshiftapps.com/dashboard/#/workspaces",
-    "workspace_project_path" : "",
-    "mta_cli_path": ""
+  "ide": {
+    "rh_code_ready_studio": "",
+    "eclipse": "",
+    "vs_code": "",
+    "intellij": {
+      "ide_path": "",
+      "plugins": [
+        {
+          "name": "org.jboss.tools.intellij.mta",
+          "plugin_url": "https://plugins.jetbrains.com/plugin/download?rel=true&updateId=262878"
+        }
+      ]
+    }
+  },
+  "timeout_in_seconds": 15.0,
+  "project_paths": {
+    "eap7_generic": "",
+    "eapxp_ruleset": "",
+    "quarkus_ruleset": ""
+  },
+  "driver_paths": {
+    "firefox": "",
+    "chrome": ""
+  },
+  "workspace_credentials": {
+    "username": "",
+    "password": ""
+  },
+  "workspace_url": "",
+  "workspace_project_path": "",
+  "mta_cli_path": ""
 }
