@@ -1,14 +1,31 @@
 import logging
+import os
+import re
 import time
 
 from src.lib.application import Application
 from src.lib.config import config_data
+from src.utils.general import download_file, unzip_file, clear_directory_by_name
 
 
 class Intellij(Application):
     """
     Class for managing IntelliJ application
     """
+
+    def get_ide_version(self, ide_directory):
+        pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
+        return [name for name in os.listdir(ide_directory) if pattern.search(name) is not None][0]
+
+    def install_plugin(self, url, ide_directory, plugin_file_name):
+
+        ide_version = self.get_ide_version(ide_directory)
+        plugin_file_path = f"{ide_directory}/{ide_version}.plugins/{plugin_file_name}"
+        download_file(url, f"{ide_directory}/{ide_version}.plugins", plugin_file_name)
+        unzip_file(plugin_file_path, f"{ide_directory}/{ide_version}.plugins/")
+
+    def uninstall_plugin(self, plugins_directory, plugin):
+        clear_directory_by_name(plugins_directory, plugin)
 
     def close_ide(self):
         """

@@ -53,3 +53,13 @@ def test_analysis_quarkus(setup_intellij):
     )
     assert intellij.is_analysis_complete()
     assert intellij.verify_story_points(target="quarkus")
+
+
+def test_install_plugin(setup_intellij):
+    """
+    Test if plugin is installed
+    """
+    intellij = setup_intellij
+    time.sleep(5)
+    intellij.open_mta_perspective()
+    time.sleep(3)
