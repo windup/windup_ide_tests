@@ -3,8 +3,6 @@ import os
 import time
 
 import pytest
-from _pytest.fixtures import FixtureRequest
-from _pytest.config import Config
 
 from src.lib.IDE.Intellij import Intellij
 from src.lib.IDE.VisualStudioCode import VisualStudioCode
@@ -21,11 +19,6 @@ def config():
     with open(CONF_DIR + "config.json") as config:
         config_data = json.load(config)
     return config_data
-
-
-@pytest.fixture(scope="session")
-def pytestconfig(request: FixtureRequest) -> Config:
-    return request.config
 
 
 @pytest.fixture(scope="session")
@@ -55,7 +48,7 @@ def setup_eclipse_che():
 
 
 @pytest.fixture(scope="session")
-def setup_intellij(config, pytestconfig):
+def setup_intellij(config):
     """
     Fixture to setup intellij application
     """
