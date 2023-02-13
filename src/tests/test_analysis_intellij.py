@@ -62,4 +62,3 @@ def test_install_plugin(setup_intellij):
     intellij = setup_intellij
     time.sleep(5)
     intellij.open_mta_perspective()
-    time.sleep(3)
