@@ -2,7 +2,7 @@ import json
 import os
 
 
-CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/conf/"
+CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
 
 
 with open(CONF_DIR + "config.json") as conf_file:

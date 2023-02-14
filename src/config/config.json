@@ -1,0 +1,8 @@
+{
+  "timeout_in_seconds": 15.0,
+  "driver_paths": {
+    "firefox": "",
+    "chrome": ""
+  },
+  "mta_cli_path": ""
+}
