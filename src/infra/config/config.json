@@ -1,6 +1,6 @@
 {
   "timeout_in_seconds": 15.0,
-  "windup_cli_path": "",
-  "project_path": "",
+  "windup_cli_path": "/home/mohammad/Downloads/windup-cli-6.1.0-20221018.064850-1-offline/windup-cli-6.1.0-SNAPSHOT/bin/windup-cli",
+  "project_path": "/home/mohammad/Documents/projects/windup-rulesets/rules/rules-reviewed",
   "data_reference_json": "/logic/lib/data/data.json"
 }
