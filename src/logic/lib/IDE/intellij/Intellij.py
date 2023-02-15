@@ -76,13 +76,13 @@ class Intellij(Application):
             self.click_element(locator_type="image", locator="mta_tab.png")
 
     def setup_configuration(
-        self,
-        configuration_name,
-        configuration_json: {},
-        project_path,
-        windup_cli_path,
-        plugin_cache_path,
-        input_tuple: {},
+            self,
+            configuration_name,
+            configuration_json: {},
+            project_path,
+            windup_cli_path,
+            plugin_cache_path,
+            input_tuple: {},
     ):
 
         configuration_object = ConfigurationsObject().from_dict(json.loads(configuration_json))

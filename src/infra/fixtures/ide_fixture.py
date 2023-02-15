@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 import pytest
 
@@ -93,5 +94,6 @@ def setup_intellij(intellij_config, config):
 
     yield intellij
 
-    # intellij.close_ide()
-    # time.sleep(5)
+    intellij.switch_tab()
+    intellij.close_ide()
+    time.sleep(5)

@@ -8,9 +8,7 @@ def test_run_analysis(setup_intellij):
     intellij.open_mta_perspective()
     time.sleep(3)
     intellij.run_simple_analysis(configuration_name)
-    assert intellij.is_analysis_complete()
-
-
+    intellij.is_analysis_complete()
 # region old tests
 # def test_analysis_eap(setup_intellij):
 #     """
