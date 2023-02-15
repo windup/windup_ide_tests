@@ -1,1 +1,1 @@
-pytest_plugins = ["src.fixtures.ide_fixture"]
+pytest_plugins = ["src.infra.fixtures.ide_fixture"]

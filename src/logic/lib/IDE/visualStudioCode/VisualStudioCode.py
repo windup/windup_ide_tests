@@ -2,7 +2,7 @@ import logging
 import re
 import time
 
-from src.lib.application import Application
+from src.logic.lib.IDE.application import Application
 
 
 class VisualStudioCode(Application):

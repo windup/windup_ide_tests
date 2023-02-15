@@ -1,11 +1,11 @@
 import json
 import os
-import time
 
 import pytest
 
-from src.lib.IDE.Intellij import Intellij
-from src.lib.IDE.VisualStudioCode import VisualStudioCode
+from src.infra.utils.general import read_file
+from src.logic.lib.IDE.intellij.Intellij import Intellij
+from src.logic.lib.IDE.visualStudioCode.VisualStudioCode import VisualStudioCode
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
 
@@ -59,8 +59,33 @@ def setup_intellij(intellij_config, config):
     """
     Fixture to setup intellij application
     """
+
     intellij = Intellij()
+
     ide_path = intellij_config["ide_path"]
+    project_path = config["project_path"]
+    plugin_cache_path = intellij_config["plugin_cache_path"]
+    windup_cli_path = config["windup_cli_path"]
+    data_reference_json = config["data_reference_json"]
+
+    # region todo: update using mark parametrize
+    configuration_name = "test_configuration"
+    input_tuple = [["eap7", "eap5"]]
+    # endregion
+
+    root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
+    configuration_json = read_file(root_path + data_reference_json)
+
+    intellij.setup_configuration(
+        configuration_name,
+        configuration_json,
+        project_path,
+        windup_cli_path,
+        plugin_cache_path,
+        input_tuple,
+    )
+
     ide_version = intellij.get_ide_version(ide_path)
     path = ide_path + f"/{ide_version}/bin/idea.sh"
     intellij.open_application(path)
@@ -68,5 +93,5 @@ def setup_intellij(intellij_config, config):
 
     yield intellij
 
-    intellij.close_ide()
-    time.sleep(5)
+    # intellij.close_ide()
+    # time.sleep(5)
