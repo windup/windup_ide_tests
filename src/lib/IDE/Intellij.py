@@ -1,10 +1,14 @@
+import json
 import logging
 import os
 import re
 import time
 
 from src.lib.application import Application
-from src.lib.config import config_data
+from src.lib.data.configuration.configurations_object import ConfigurationsObject
+from src.utils.general import generate_project_input_paths
+from src.utils.general import generate_uuid
+from src.utils.general import write_data_to_file
 
 
 class Intellij(Application):
@@ -69,77 +73,37 @@ class Intellij(Application):
             # Click on the MTA tab in left sidebar
             self.click_element(locator_type="image", locator="mta_tab.png")
 
-    def run_simple_analysis(self, project, migration_target, packages=[]):
+    def setup_configuration(
+        self,
+        configuration_name,
+        configuration_json: {},
+        project_path,
+        windup_cli_path,
+        plugin_cache_path,
+        input_tuple: {},
+    ):
+
+        configuration_object = ConfigurationsObject().from_dict(json.loads(configuration_json))
+        configuration_object.configurations[0].name = configuration_name
+        configuration_object.configurations[0].options.windup_cli = windup_cli_path
+        input_paths = generate_project_input_paths(project_path, input_tuple)
+        configuration_object.configurations[0].options.target = [
+            target for target, _ in input_tuple
+        ]
+        configuration_object.configurations[0].options.input = input_paths
+        id = generate_uuid()
+        output = f"{plugin_cache_path}/{id}"
+        configuration_object.configurations[0].id = id
+        configuration_object.configurations[0].options.output = output
+
+        final_configuration_json = json.dumps(configuration_object.to_dict())
+        write_data_to_file(f"{plugin_cache_path}/model.json", final_configuration_json)
+
+    def run_simple_analysis(self, configuration_name):
         """
         Runs analysis by adding the project and/or packages passed as argument
-
-        Args:
-            project (str): Full name of project to be analysed
-            migration_target (str): Target technology for migration
-            packages (list): List of packages to be added to analysis
-
-        Returns:
-            None
-
-        Steps:
-            1) Click on MTA Configuration tab
-            2) Right click anywhere and create new configuration
-            3) Type project name in source
-            4) Provide mta cli path, if not present
-            5) Select the target technology
-            6) Right click on config name and run
-            7) Confirm analysis has started
         """
-        try:
-            self.click_element(locator_type="image", locator="console_opened.png")
-            self.press_keys("shift", "esc")
-        except Exception as exc:
-            try:
-                self.click_element(locator_type="image", locator="console_opened_alt.png")
-                self.press_keys("shift", "esc")
-            except Exception:
-                logging.debug("Console is already closed !")
-            logging.debug("Console is not opened ! {}".format(str(exc)))
-        config_create_region = self.two_coordinate_locator(
-            locator_type="point",
-            x_coordinate=110,
-            y_coordinate=370,
-        )
-        self.click(config_create_region)
-        self.click(action="right_click")
-        self.press_keys("down")
-        self.press_keys("enter")
-        time.sleep(3)
-        self.wait_find_element(locator_type="image", locator="mta_config_page_opened.png")
-        # Region defining the configuration name
-        config_name_region = self.define_region(778, 248, 1125, 284)
-        add_project_locator = self.image_locator("add_project_button.png")
-        add_project_buttons = self.find_elements(add_project_locator)
-        # Provide mta cli path
-        try:
-            self.click(add_project_buttons[0])
-            time.sleep(2)
-            for letter in config_data["mta_cli_path"]:
-                self.type_text(letter)
-            self.press_keys("enter")
-        except Exception as exc:
-            logging.debug("MTA cli path is already present ! {}".format(exc))
-        if migration_target != "eap7":
-            try:
-                self.wait_find_element(locator_type="image", locator="eap7_checked.png")
-                self.click_element(locator_type="image", locator="eap7_checked.png")
-            except Exception as exc:
-                logging.debug("Default target eap7 is not checked ! {}".format(str(exc)))
 
-        # Click the first match out of the two same buttons found
-        self.click(add_project_buttons[1])
-        self.type_text(text=project, enter=True)
-        self.click(config_name_region)
-        print(f"buttons found: {str(len(add_project_buttons))}")
-        if len(add_project_buttons) != 3:
-            self.press_keys("page_down")
-        self.click_element(locator_type="image", locator="add_project_button.png")
-        self.type_text(text=migration_target, enter=True)
         config_run_region = self.two_coordinate_locator(
             locator_type="point",
             x_coordinate=110,
@@ -147,7 +111,7 @@ class Intellij(Application):
         )
         self.click(config_run_region)
         # Search for configuration name that has to be run
-        self.type_text("configuration1")
+        self.type_text(configuration_name)
         self.press_keys("enter")
         # Find config name highlighted and select correct config if multiple matches are found
         self.wait_find_element(locator_type="image", locator="config_name_highlighted.png")
@@ -165,7 +129,7 @@ class Intellij(Application):
             self.click_element(locator_type="image", locator="mta_perspective_active.png")
         except Exception:
             self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
-        self.type_text("configuration1")
+        self.type_text(configuration_name)
         self.press_keys("up")
         self.click_element(locator_type="image", locator="open_details_toggle.png")
         self.click_element(locator_type="image", locator="report_selector.png")

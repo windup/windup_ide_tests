@@ -1,8 +1,6 @@
 {
   "timeout_in_seconds": 15.0,
-  "driver_paths": {
-    "firefox": "",
-    "chrome": ""
-  },
-  "mta_cli_path": ""
+  "windup_cli_path": "",
+  "project_path": "",
+  "data_reference_json": "/src/lib/data/configurations_reference.json"
 }

@@ -1,6 +1,5 @@
 import logging
 import os
-import re
 
 from RPA.Desktop import Desktop
 
@@ -267,77 +266,77 @@ class Application(Desktop):
             self.move_mouse(open_perspective_button)
             self.click(action="double_click")
 
-    def run_simple_analysis(self, project, migration_target, packages=[]):
-        """
-        Runs analysis by adding the project and/or packages passed as argument
-
-        Args:
-            project (str): Full name of project to be analysed
-            packages (list): List of packages to be added to analysis
-
-        Returns:
-            None
-
-        Steps:
-            1) Click on Run MTA Configuration icon
-            2) Click Add Project button
-            3) Type Project name
-            4) Click on OK button
-            5) Select the target technology
-            6) Confirm analysis has started
-        """
-        self.click_element(locator_type="image", locator="mta_run.png")
-        self.click_element(locator_type="image", locator="run_conf_header.png")
-        # Get the multiple Add Project Buttons and select first one
-        add_button_locator = self.image_locator("add_button.png")
-        add_buttons = self.find_elements(add_button_locator)
-        self.click(locator=add_buttons[0])
-        self.click_element(locator_type="image", locator="projects_header.png")
-        self.type_text(text=project, enter=True)
-        # Ensure that Anything to EAP 7 is selected in migration path
-        self.click_element(locator_type="image", locator="target_dropdown.png")
-        self.click()
-        for i in range(0, 15):
-            self.press_keys("up")
-        # Select target, by opening options
-        self.click_element(locator_type="text", locator="Options")
-        self.click_element(locator_type="image", locator="add_button.png")
-        self.click_element(locator_type="image", locator="target_dropdown.png")
-        # Select "target" option from dropdown as key
-        self.click_element(locator_type="text", locator="target")
-        # Select the target based on its position in dropdown
-        self.click_element(locator_type="image", locator="target_value_dropdown.png")
-        self.click()
-        target_position = 0
-        try:
-            if migration_target == "eap7":
-                target_position = 6
-            elif migration_target == "eapxp":
-                target_position = 7
-            elif migration_target == "quarkus1":
-                target_position = 18
-            else:
-                logging.debug("Unknown migration target selected !")
-                raise Exception()
-            self.select_target(target_position)
-        except Exception as exc:
-            logging.debug(str(exc))
-            raise Exception(exc)
-        self.click_element(locator_type="image", locator="ok_button.png")
-        self.click_element(locator_type="image", locator="run_config_button.png")
-        try:
-            self.wait_find_element(locator_type="image", locator="generating_report.png")
-        except Exception as exc:
-            if re.match(r"Found [0-9] matches+", str(exc)):
-                logging.debug("Detected the start of analysis")
-            else:
-                raise Exception(exc)
-        self.wait_find_element(
-            locator_type="image",
-            locator="report_page_header.png",
-            timeout=120.0,
-            interval=1.0,
-        )
+    # def run_simple_analysis(self, project, migration_target, packages=[]):
+    #     """
+    #     Runs analysis by adding the project and/or packages passed as argument
+    #
+    #     Args:
+    #         project (str): Full name of project to be analysed
+    #         packages (list): List of packages to be added to analysis
+    #
+    #     Returns:
+    #         None
+    #
+    #     Steps:
+    #         1) Click on Run MTA Configuration icon
+    #         2) Click Add Project button
+    #         3) Type Project name
+    #         4) Click on OK button
+    #         5) Select the target technology
+    #         6) Confirm analysis has started
+    #     """
+    #     self.click_element(locator_type="image", locator="mta_run.png")
+    #     self.click_element(locator_type="image", locator="run_conf_header.png")
+    #     # Get the multiple Add Project Buttons and select first one
+    #     add_button_locator = self.image_locator("add_button.png")
+    #     add_buttons = self.find_elements(add_button_locator)
+    #     self.click(locator=add_buttons[0])
+    #     self.click_element(locator_type="image", locator="projects_header.png")
+    #     self.type_text(text=project, enter=True)
+    #     # Ensure that Anything to EAP 7 is selected in migration path
+    #     self.click_element(locator_type="image", locator="target_dropdown.png")
+    #     self.click()
+    #     for i in range(0, 15):
+    #         self.press_keys("up")
+    #     # Select target, by opening options
+    #     self.click_element(locator_type="text", locator="Options")
+    #     self.click_element(locator_type="image", locator="add_button.png")
+    #     self.click_element(locator_type="image", locator="target_dropdown.png")
+    #     # Select "target" option from dropdown as key
+    #     self.click_element(locator_type="text", locator="target")
+    #     # Select the target based on its position in dropdown
+    #     self.click_element(locator_type="image", locator="target_value_dropdown.png")
+    #     self.click()
+    #     target_position = 0
+    #     try:
+    #         if migration_target == "eap7":
+    #             target_position = 6
+    #         elif migration_target == "eapxp":
+    #             target_position = 7
+    #         elif migration_target == "quarkus1":
+    #             target_position = 18
+    #         else:
+    #             logging.debug("Unknown migration target selected !")
+    #             raise Exception()
+    #         self.select_target(target_position)
+    #     except Exception as exc:
+    #         logging.debug(str(exc))
+    #         raise Exception(exc)
+    #     self.click_element(locator_type="image", locator="ok_button.png")
+    #     self.click_element(locator_type="image", locator="run_config_button.png")
+    #     try:
+    #         self.wait_find_element(locator_type="image", locator="generating_report.png")
+    #     except Exception as exc:
+    #         if re.match(r"Found [0-9] matches+", str(exc)):
+    #             logging.debug("Detected the start of analysis")
+    #         else:
+    #             raise Exception(exc)
+    #     self.wait_find_element(
+    #         locator_type="image",
+    #         locator="report_page_header.png",
+    #         timeout=120.0,
+    #         interval=1.0,
+    #     )
 
     def is_analysis_complete(self):
         """
