@@ -10,7 +10,7 @@ class Configuration:
     options: Options
     id: str
 
-    def __init__(self, name: str = None, options: Options = None, id: str = None) -> None:
+    def __init__(self, name: str = None, options: Options = Options(), id: str = None) -> None:
         self.name = name
         self.options = options
         self.id = id
@@ -29,3 +29,7 @@ class Configuration:
         result["options"] = to_class(Options, self.options)
         result["id"] = str(self.id)
         return result
+
+    def add_options(self, options: []):
+        for option, value in options:
+            self.options.__setattr__(option, value)

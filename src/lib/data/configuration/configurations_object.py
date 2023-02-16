@@ -11,6 +11,7 @@ class ConfigurationsObject:
 
     def __init__(self, configurations=None) -> None:
         self.configurations = [] if configurations is None else configurations
+        self.configurations.append(Configuration())
 
     @staticmethod
     def from_dict(obj: Any) -> "ConfigurationsObject":

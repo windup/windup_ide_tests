@@ -55,11 +55,13 @@ def setup_vscode(vscode_config, config):
     vscode.close_ide()
 
 
-@pytest.fixture(scope="session")
-def setup_intellij(intellij_config, config):
+@pytest.fixture(scope="function")
+def setup_intellij(intellij_config, config, configuration_data):
     """
     Fixture to setup intellij application
     """
+
+    print(configuration_data)
 
     intellij = Intellij()
 
@@ -67,24 +69,15 @@ def setup_intellij(intellij_config, config):
     project_path = config["project_path"]
     plugin_cache_path = intellij_config["plugin_cache_path"]
     windup_cli_path = config["windup_cli_path"]
-    data_reference_json = config["data_reference_json"]
 
-    # region todo: update using mark parametrize
-    configuration_name = "test model generation"
-    input_tuple = [["eap7", "eap5"]]
-    # endregion
-
-    root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-
-    configuration_json = read_file(root_path + data_reference_json)
+    configuration_name = configuration_data["name"]
 
     intellij.setup_configuration(
         configuration_name,
-        configuration_json,
+        configuration_data,
         project_path,
         windup_cli_path,
         plugin_cache_path,
-        input_tuple,
     )
 
     ide_version = intellij.get_ide_version(ide_path)

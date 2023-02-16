@@ -1,0 +1,62 @@
+{
+  "configurations": [
+    {
+      "target": [
+        "eap7"
+      ],
+      "source": [
+        "eap5"
+      ],
+      "options": {
+        "sourceMode": "true",
+        "mavenize": "true",
+        "exportCSV": "true"
+      },
+      "story_points": "161"
+    },
+    {
+      "target": [
+        "openjdk17"
+      ],
+      "source": [
+        "openjdk11"
+      ],
+      "options": {
+        "sourceMode": "true",
+        "mavenize": "true",
+        "exportCSV": "true"
+      },
+      "story_points": "192"
+    },
+    {
+      "target": [
+        "eapxp"
+      ],
+      "source": [
+        "eapxp2"
+      ],
+      "options": {
+        "sourceMode": "true",
+        "enableTransactionAnalysis": "true",
+        "exportCSV": "true",
+        "online": "false"
+      },
+      "story_points": "19"
+    },
+    {
+      "target": [
+        "fuse"
+      ],
+      "source": [
+        "sonicesb"
+      ],
+      "options": {
+        "sourceMode": "true",
+        "enableTransactionAnalysis": "true",
+        "online": "false",
+        "exportCSV": "true"
+      },
+      "story_points": "119"
+    }
+  ]
+}

@@ -74,29 +74,39 @@ class Intellij(Application):
             self.click_element(locator_type="image", locator="mta_tab.png")
 
     def setup_configuration(
-        self,
-        configuration_name,
-        configuration_json: {},
-        project_path,
-        windup_cli_path,
-        plugin_cache_path,
-        input_tuple: {},
+            self,
+            configuration_name,
+            configuration_data,
+            project_path,
+            windup_cli_path,
+            plugin_cache_path,
     ):
 
-        configuration_object = ConfigurationsObject().from_dict(json.loads(configuration_json))
-        configuration_object.configurations[0].name = configuration_name
-        configuration_object.configurations[0].options.windup_cli = windup_cli_path
+        configuration_object = ConfigurationsObject()
+
+        configuration_object.name = configuration_name
+        configuration_object.options.windup_cli = windup_cli_path
+
+        inputs = [conf]
+
         input_paths = generate_project_input_paths(project_path, input_tuple)
-        configuration_object.configurations[0].options.target = [
+
+        configuration_object.options.target = [
             target for target, _ in input_tuple
         ]
-        configuration_object.configurations[0].options.input = input_paths
-        id = generate_uuid()
-        output = f"{plugin_cache_path}/{id}"
-        configuration_object.configurations[0].id = id
-        configuration_object.configurations[0].options.output = output
+
+        configuration_object.add_options(options)
+
+        configuration_object.options.input = input_paths
+        uuid = generate_uuid()
+        output = f"{plugin_cache_path}/{uuid}"
+
+        configuration_object.id = uuid
+        configuration_object.options.source_mode = "true"
+        configuration_object.options.output = output
 
         final_configuration_json = json.dumps(configuration_object.to_dict())
+
         write_data_to_file(f"{plugin_cache_path}/model.json", final_configuration_json)
 
     def run_simple_analysis(self, configuration_name):
