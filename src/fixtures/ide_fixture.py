@@ -7,6 +7,7 @@ import pytest
 from src.lib.IDE.Intellij import Intellij
 from src.lib.IDE.VisualStudioCode import VisualStudioCode
 from src.lib.web import EclipseChe
+from src.utils.general import read_file
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
 
