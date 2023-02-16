@@ -5,6 +5,8 @@ on:
     paths-ignore:
       - "src/utils/data_control.py"
   pull_request:
+    paths-ignore:
+      - "src/utils/data_control.py"
 
 
 jobs:
