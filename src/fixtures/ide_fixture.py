@@ -36,7 +36,7 @@ def config():
     """
     Fixture to configure IDE path
     """
-    with open(CONF_DIR + "analysis.config.json") as config:
+    with open(CONF_DIR + "analysis_config.json") as config:
         config_data = json.load(config)
     return config_data
 
