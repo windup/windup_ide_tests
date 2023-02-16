@@ -6,6 +6,7 @@ import pytest
 
 from src.lib.IDE.Intellij import Intellij
 from src.lib.IDE.VisualStudioCode import VisualStudioCode
+from src.lib.web import EclipseChe
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
 
@@ -52,6 +53,18 @@ def setup_vscode(vscode_config, config):
     vscode.delete_config_files()
     yield vscode, config
     vscode.close_ide()
+
+
+@pytest.fixture(scope="function")
+def setup_eclipse_che():
+    """
+    Fixture to setup eclipse che workspace
+    """
+    eclipse_che = EclipseChe("chrome")
+    eclipse_che.open_workspace()
+    yield eclipse_che
+    eclipse_che.delete_configuration(eclipse_che.configuration_name)
+    eclipse_che.close_browser()
 
 
 @pytest.fixture(scope="session")
