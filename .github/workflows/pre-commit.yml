@@ -1,9 +1,6 @@
 name: windup_ide_tests
 
-on:
-  pull_request:
-    paths-ignore:
-      - "**/data_control.py"
+on: [push, pull]
 
 
 jobs:
