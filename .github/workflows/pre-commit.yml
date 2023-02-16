@@ -1,6 +1,11 @@
 name: windup_ide_tests
 
-on: [push, pull_request]
+on:
+  push:
+    path-ignore:
+      - "/src/utils/data_control.py"
+  pull_request:
+
 
 jobs:
   pre-commit:
@@ -18,8 +23,8 @@ jobs:
 
       - name: Pre-Commit Checks
         run: |
-            python -m pip install pre-commit
-            pre-commit run -a
+          python -m pip install pre-commit
+          pre-commit run -a
       - name: Analysis (git diff)
         if: failure()
         run: git diff

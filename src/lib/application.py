@@ -162,12 +162,12 @@ class Application(Desktop):
         self.click(locator=formed_locator)
 
     def wait_find_element(
-            self,
-            locator_type,
-            locator=None,
-            coordinates=[],
-            timeout=15.0,
-            interval=0.5,
+        self,
+        locator_type,
+        locator=None,
+        coordinates=[],
+        timeout=15.0,
+        interval=0.5,
     ):
         """
         Wait untill timeout and find element based on locator
