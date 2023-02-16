@@ -1,19 +1,5 @@
 import os
 import shutil
-import zipfile
-
-import requests
-
-
-def download_file(url, save_path, file_name):
-    response = requests.get(url)
-    print(f"file path: {os.path.join(save_path, file_name)}")
-    open(os.path.join(save_path, file_name), "wb").write(response.content)
-
-
-def unzip_file(file_path, directory):
-    with zipfile.ZipFile(file_path, "r") as zip_ref:
-        zip_ref.extractall(directory)
 
 
 def clear_directory_by_name(directory, name_contains):
