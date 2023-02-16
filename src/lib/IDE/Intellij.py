@@ -1,4 +1,6 @@
 import logging
+import os
+import re
 import time
 
 from src.lib.application import Application
@@ -9,6 +11,10 @@ class Intellij(Application):
     """
     Class for managing IntelliJ application
     """
+
+    def get_ide_version(self, ide_directory):
+        pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
+        return [name for name in os.listdir(ide_directory) if pattern.search(name) is not None][0]
 
     def close_ide(self):
         """
