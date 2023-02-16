@@ -3,10 +3,7 @@ name: windup_ide_tests
 on:
   push:
     paths-ignore:
-      - "src/utils/data_control.py"
-  pull_request:
-    paths-ignore:
-      - "src/utils/data_control.py"
+      - "**/data_control.py"
 
 
 jobs:
