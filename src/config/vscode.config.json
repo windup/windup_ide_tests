@@ -1,5 +1,6 @@
 {
   "ide_path": "",
+  "plugin_cache_path": "",
   "plugins": [
     {
       "name": "mta",
