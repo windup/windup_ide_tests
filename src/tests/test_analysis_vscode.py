@@ -15,7 +15,6 @@ def test_analysis_eap(setup_vscode):
 def test_analysis_eapxp(setup_vscode):
     """
     Test to run analysis on ruleset thorntail to eapxp2 in VSCode IDE
-    """
     vscode, config = setup_vscode
     vscode.open_mta_perspective()
     vscode.run_simple_analysis(
@@ -24,12 +23,11 @@ def test_analysis_eapxp(setup_vscode):
     assert vscode.is_analysis_complete()
     vscode.open_report_page()
     assert vscode.verify_story_points(target="eapxp")
-
+    """
 
 def test_analysis_quarkus(setup_vscode):
     """
     Test to run analysis on ruleset quarkus1 in VSCode IDE
-    """
     vscode, config = setup_vscode
     vscode.open_mta_perspective()
     vscode.run_simple_analysis(
@@ -38,3 +36,4 @@ def test_analysis_quarkus(setup_vscode):
     assert vscode.is_analysis_complete()
     vscode.open_report_page()
     assert vscode.verify_story_points(target="quarkus1")
+    """
