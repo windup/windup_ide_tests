@@ -16,7 +16,7 @@ def intellij_config():
     """
     Fixture to configure IDE path
     """
-    with open(CONF_DIR + "intellij.config.json") as config:
+    with open(CONF_DIR + "intellij_config.json") as config:
         intellij_config_data = json.load(config)
     return intellij_config_data
 
@@ -26,7 +26,7 @@ def vscode_config():
     """
     Fixture to configure IDE path
     """
-    with open(CONF_DIR + "vscode.config.json") as config:
+    with open(CONF_DIR + "vscode_config.json") as config:
         vscode_config_data = json.load(config)
     return vscode_config_data
 
@@ -72,8 +72,6 @@ def setup_intellij(intellij_config, config, configuration_data):
     """
     Fixture to setup intellij application
     """
-
-    print(configuration_data)
 
     intellij = Intellij()
 

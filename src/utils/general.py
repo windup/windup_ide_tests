@@ -1,10 +1,10 @@
 import uuid
 
 
-def generate_project_input_paths(project_path, targets_sources):
+def generate_project_input_paths(project_path, sources, targets):
     paths = []
 
-    for target, source in targets_sources:
+    for target, source in zip(sources, targets):
         paths.append(f"{project_path}/{target}/{source}/tests/data")
         # todo: make sure path exists before adding
     return paths

@@ -5,7 +5,8 @@ import re
 import time
 
 from src.lib.application import Application
-from src.lib.data.configuration.configurations_object import ConfigurationsObject
+from src.lib.data.configuration.configuration import Configuration
+from src.lib.data.configuration.options import Options
 from src.utils.general import generate_project_input_paths
 from src.utils.general import generate_uuid
 from src.utils.general import write_data_to_file
@@ -82,23 +83,24 @@ class Intellij(Application):
             plugin_cache_path,
     ):
 
-        configuration_object = ConfigurationsObject()
+        # construct a new configuration object
+        configuration_object = Configuration()
 
+        # set the name
         configuration_object.name = configuration_name
+        # configuration_object.options = Options().from_dict(configuration_data["options"])
         configuration_object.options.windup_cli = windup_cli_path
 
-        inputs = [conf]
+        # set inputs
+        targets = configuration_data["target"]
+        sources = configuration_data["source"]
+        input_paths = generate_project_input_paths(project_path, sources, targets)
 
-        input_paths = generate_project_input_paths(project_path, input_tuple)
-
-        configuration_object.options.target = [
-            target for target, _ in input_tuple
-        ]
-
-        configuration_object.add_options(options)
-
+        configuration_object.options.target = targets
         configuration_object.options.input = input_paths
+
         uuid = generate_uuid()
+
         output = f"{plugin_cache_path}/{uuid}"
 
         configuration_object.id = uuid

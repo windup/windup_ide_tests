@@ -10,7 +10,10 @@ pytest_plugins = ["src.fixtures.ide_fixture"]
 
 
 def pytest_generate_tests(metafunc):
-    configuration_json_file = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + config_data['data_json']
+    configuration_json_file = (
+        os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        + config_data["configurations_data"]
+    )
 
     configurations_data: [] = json.loads(read_file(configuration_json_file))["configurations"]
 
@@ -19,8 +22,10 @@ def pytest_generate_tests(metafunc):
         source = "_".join(configuration["source"])
         configuration["name"] = f"{target}_from_{source}"
 
-    configurations_data = [pytest.param(configuration["name"], configuration, id=f"{configuration['name']}_analysis")
-                           for configuration in configurations_data]
+    configurations_data = [
+        pytest.param(configuration["name"], configuration, id=f"{configuration['name']}_analysis")
+        for configuration in configurations_data
+    ]
 
     if "configuration_name" and "configuration_data" in metafunc.fixturenames:
         metafunc.parametrize("configuration_name, configuration_data", configurations_data)
