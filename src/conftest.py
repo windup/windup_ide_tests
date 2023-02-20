@@ -12,7 +12,7 @@ pytest_plugins = ["src.fixtures.ide_fixture"]
 def pytest_generate_tests(metafunc):
     configuration_json_file = (
         os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-        + config_data["configurations_data"]
+        + config_data["data_reference_json"]
     )
 
     configurations_data: [] = json.loads(read_file(configuration_json_file))["configurations"]
