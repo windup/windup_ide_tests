@@ -6,7 +6,6 @@ import time
 
 from src.lib.application import Application
 from src.lib.data.configuration.configuration import Configuration
-from src.lib.data.configuration.options import Options
 from src.utils.general import generate_project_input_paths
 from src.utils.general import generate_uuid
 from src.utils.general import write_data_to_file
