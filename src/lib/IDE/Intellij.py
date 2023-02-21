@@ -75,12 +75,12 @@ class Intellij(Application):
             self.click_element(locator_type="image", locator="mta_tab.png")
 
     def setup_configuration(
-            self,
-            configuration_name,
-            configuration_data,
-            project_path,
-            windup_cli_path,
-            plugin_cache_path,
+        self,
+        configuration_name,
+        configuration_data,
+        project_path,
+        windup_cli_path,
+        plugin_cache_path,
     ):
 
         configurations_object = ConfigurationsObject()
