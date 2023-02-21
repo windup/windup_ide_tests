@@ -7,5 +7,5 @@ def test_run_analysis(setup_intellij, configuration_name, configuration_data):
     intellij.open_mta_perspective()
     time.sleep(3)
     intellij.run_simple_analysis(configuration_name)
-    assert intellij.is_analysis_complete(configuration_name)
-    assert intellij.verify_story_points(target="eap7")
+    assert intellij.is_analysis_complete()
+    assert intellij.verify_story_points(configuration_data["target"][0])

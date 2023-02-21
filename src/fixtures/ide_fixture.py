@@ -94,9 +94,9 @@ def setup_intellij(intellij_config, config, configuration_data):
     path = ide_path + f"/{ide_version}/bin/idea.sh"
     intellij.open_application(path)
     intellij.set_default_timeout(timeout=config["timeout_in_seconds"])
+    intellij.open_mta_perspective()
 
     yield intellij
 
-    intellij.switch_tab()
     intellij.close_ide()
     time.sleep(5)

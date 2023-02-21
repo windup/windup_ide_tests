@@ -6,6 +6,7 @@ import time
 
 from src.lib.application import Application
 from src.lib.data.configuration.configuration import Configuration
+from src.lib.data.configuration.configurations_object import ConfigurationsObject
 from src.utils.general import generate_project_input_paths
 from src.utils.general import generate_uuid
 from src.utils.general import write_data_to_file
@@ -82,31 +83,35 @@ class Intellij(Application):
             plugin_cache_path,
     ):
 
+        configurations_object = ConfigurationsObject()
+
         # construct a new configuration object
-        configuration_object = Configuration()
+        configuration = Configuration()
 
         # set the name
-        configuration_object.name = configuration_name
-        # configuration_object.options = Options().from_dict(configuration_data["options"])
-        configuration_object.options.windup_cli = windup_cli_path
+        configuration.name = configuration_name
+        # configuration.options = Options().from_dict(configuration_data["options"])
+        configuration.options.windup_cli = windup_cli_path
 
         # set inputs
         targets = configuration_data["target"]
         sources = configuration_data["source"]
         input_paths = generate_project_input_paths(project_path, sources, targets)
 
-        configuration_object.options.target = targets
-        configuration_object.options.input = input_paths
+        configuration.options.target = targets
+        configuration.options.input = input_paths
 
         uuid = generate_uuid()
 
         output = f"{plugin_cache_path}/{uuid}"
 
-        configuration_object.id = uuid
-        configuration_object.options.source_mode = "true"
-        configuration_object.options.output = output
+        configuration.id = uuid
+        configuration.options.source_mode = "true"
+        configuration.options.output = output
 
-        final_configuration_json = json.dumps(configuration_object.to_dict())
+        configurations_object.configurations.append(configuration)
+
+        final_configuration_json = json.dumps(configurations_object.to_dict())
 
         write_data_to_file(f"{plugin_cache_path}/model.json", final_configuration_json)
 
@@ -140,9 +145,9 @@ class Intellij(Application):
             self.click_element(locator_type="image", locator="mta_perspective_active.png")
         except Exception:
             self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
-        self.type_text(configuration_name)
-        self.press_keys("up")
-        self.click_element(locator_type="image", locator="open_details_toggle.png")
+        # self.type_text(configuration_name)
+        # self.press_keys("up")
+        # self.click_element(locator_type="image", locator="open_details_toggle.png")
         self.click_element(locator_type="image", locator="report_selector.png")
         # Verify the report page is opened
         self.wait_find_element(locator_type="image", locator="report_page_header.png")
