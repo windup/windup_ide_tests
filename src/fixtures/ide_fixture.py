@@ -26,7 +26,7 @@ def vscode_config():
     """
     Fixture to configure IDE path
     """
-    with open(CONF_DIR + "vscode.config.json") as config:
+    with open(CONF_DIR + "vscode_config.json") as config:
         vscode_config_data = json.load(config)
     return vscode_config_data
 
@@ -51,7 +51,7 @@ def setup_vscode(vscode_config, config):
     vscode.open_application(path)
     vscode.set_default_timeout(timeout=config["timeout_in_seconds"])
     vscode.delete_config_files()
-    yield vscode, config
+    yield vscode, vscode_config
     vscode.close_ide()
 
 

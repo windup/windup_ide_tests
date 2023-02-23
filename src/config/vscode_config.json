@@ -1,6 +1,12 @@
 {
   "ide_path": "",
   "plugin_cache_path": "",
+  "project_paths" :
+    {
+        "eap7_generic" : "",
+        "eapxp_ruleset" : "",
+        "quarkus_ruleset" : ""
+    },
   "plugins": [
     {
       "name": "mta",
