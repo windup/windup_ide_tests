@@ -5,7 +5,7 @@ import pytest
     "migration_path",
     ["weblogic_to_eap7", "thorntail_to_eapxp2", "springboot_to_quarkus", "eap to azure-appservice"],
 )
-def test_apalysis(setup_vscode, migration_path):
+def test_analysis(setup_vscode, migration_path):
     """Analysis tests for VScode using various migration paths"""
     vscode, config = setup_vscode
     vscode.open_mta_perspective()
