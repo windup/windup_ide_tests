@@ -1,11 +1,12 @@
 {
-  "ide_path": "",
+  "ide_path": "/usr/bin/code",
   "plugin_cache_path": "",
   "project_paths" :
     {
         "eap7_generic" : "",
         "eapxp_ruleset" : "",
-        "quarkus_ruleset" : ""
+        "quarkus_ruleset" : "",
+        "azure-ruleset" : ""
     },
   "plugins": [
     {
