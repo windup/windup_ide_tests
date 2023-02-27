@@ -11,8 +11,10 @@ from src.utils.data_control import is_type
 
 
 class Options:
-    exclude_tags: Optional[List[str]]
     source_mode: bool
+    output: str
+    target: List[str]
+    exclude_tags: Optional[List[str]]
     user_rules_directory: Optional[List[str]]
     disable_tattletale: Optional[bool]
     additional_classpath: Optional[List[str]]
@@ -21,8 +23,6 @@ class Options:
     enable_transaction_analysis: Optional[bool]
     packages: Optional[List[str]]
     enable_compatible_files_report: Optional[bool]
-    target: List[str]
-    output: str
     enable_class_not_found_analysis: Optional[bool]
     input: Optional[List[str]]
     user_ignore_path: Optional[List[str]]
@@ -31,37 +31,36 @@ class Options:
     exploded_app: Optional[bool]
     keep_work_dirs: Optional[bool]
     online: Optional[bool]
-    windup_cli: str
     skip_reports: Optional[bool]
     overwrite: Optional[bool]
     export_csv: Optional[bool]
 
     def __init__(
         self,
-        exclude_tags: Optional[List[str]] = None,
+        exclude_tags: List[str] = None,
         source_mode: bool = None,
-        user_rules_directory: Optional[List[str]] = None,
-        disable_tattletale: Optional[bool] = None,
-        additional_classpath: Optional[List[str]] = None,
-        include_tags: Optional[List[str]] = None,
-        source: Optional[List[str]] = None,
-        enable_transaction_analysis: Optional[bool] = None,
-        packages: Optional[List[str]] = None,
-        enable_compatible_files_report: Optional[bool] = None,
+        user_rules_directory: List[str] = None,
+        disable_tattletale: bool = None,
+        additional_classpath: List[str] = None,
+        include_tags: List[str] = None,
+        source: List[str] = None,
+        enable_transaction_analysis: bool = None,
+        packages: List[str] = None,
+        enable_compatible_files_report: bool = None,
         target: List[str] = None,
         output: str = None,
-        enable_class_not_found_analysis: Optional[bool] = None,
-        input: Optional[List[str]] = None,
-        user_ignore_path: Optional[List[str]] = None,
-        exclude_packages: Optional[List[str]] = None,
-        mavenize: Optional[bool] = None,
-        exploded_app: Optional[bool] = None,
-        keep_work_dirs: Optional[bool] = None,
-        online: Optional[bool] = None,
+        enable_class_not_found_analysis: bool = None,
+        input: List[str] = None,
+        user_ignore_path: List[str] = None,
+        exclude_packages: List[str] = None,
+        mavenize: bool = None,
+        exploded_app: bool = None,
+        keep_work_dirs: bool = None,
+        online: bool = None,
         windup_cli: str = None,
-        skip_reports: Optional[bool] = None,
-        overwrite: Optional[bool] = None,
-        export_csv: Optional[bool] = None,
+        skip_reports: bool = None,
+        overwrite: bool = None,
+        export_csv: bool = None,
     ) -> None:
         self.exclude_tags = exclude_tags
         self.source_mode = source_mode
