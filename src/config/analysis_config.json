@@ -19,7 +19,7 @@
       "story_points": ""
     },
     "eap_to_azure-appservice": {
-      "path": "migration/windup-rulesets/target/classes/azure/eap/test/data/eap-to-azure-appservice-datasource-driver",
+      "path": "windup-rulesets/target/classes/azure/eap/test/data/eap-to-azure-appservice-datasource-driver",
       "targets": "azure-appservice",
       "story_points": ""
     }
