@@ -74,7 +74,7 @@ class Intellij(Application):
             # Click on the MTA tab in left sidebar
             self.click_element(locator_type="image", locator="mta_tab.png")
 
-    def setup_configuration(
+    def setup_analysis_configuration(
         self,
         configuration_name,
         configuration_data,

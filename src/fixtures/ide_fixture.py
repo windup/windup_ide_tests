@@ -82,7 +82,7 @@ def setup_intellij(intellij_config, config, configuration_data):
 
     configuration_name = configuration_data["name"]
 
-    intellij.setup_configuration(
+    intellij.setup_analysis_configuration(
         configuration_name,
         configuration_data,
         project_path,
