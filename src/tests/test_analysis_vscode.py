@@ -1,17 +1,19 @@
+import json
+
 import pytest
 
 
-@pytest.mark.parametrize(
-    "migration_path",
-    ["weblogic_to_eap7", "thorntail_to_eapxp", "springboot_to_quarkus", "eap_to_azure-appservice"],
-)
-def test_analysis_vscode(setup_vscode, migration_path):
+@pytest.mark.parametrize("app_name", json.load(open("src/data/analysis.json")))
+def test_analysis_vscode(setup_vscode, app_name, analysis_data):
     """Analysis tests for VScode using various migration paths"""
-    vscode, config = setup_vscode
+    vscode = setup_vscode
+    application_data = analysis_data[app_name]
+    project = application_data["path"]
+    migration_target = application_data["targets"]
+
     vscode.open_mta_perspective()
-    project = config["project_path"][migration_path]["path"]
-    migration_target = config["project_path"][migration_path]["targets"]
     vscode.run_simple_analysis(project, migration_target)
     assert vscode.is_analysis_complete()
+
     vscode.open_report_page()
     assert vscode.verify_story_points(migration_target)

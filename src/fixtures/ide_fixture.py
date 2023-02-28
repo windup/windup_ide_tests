@@ -36,9 +36,16 @@ def config():
     """
     Fixture to configure IDE path
     """
-    with open(CONF_DIR + "analysis_config.json") as config:
+    with open(CONF_DIR + "ide_config.json") as config:
         config_data = json.load(config)
     return config_data
+
+
+@pytest.fixture(scope="session")
+def analysis_data():
+    with open("src/data/analysis.json", "r") as file:
+        json_list = json.load(file)
+    return json_list
 
 
 @pytest.fixture(scope="session")
