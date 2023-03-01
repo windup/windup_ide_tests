@@ -4,9 +4,9 @@ import time
 
 import pytest
 
-from src.lib.IDE.Intellij import Intellij
-from src.lib.IDE.VisualStudioCode import VisualStudioCode
-from src.lib.web import EclipseChe
+from src.models.IDE.Intellij import Intellij
+from src.models.IDE.VisualStudioCode import VisualStudioCode
+from src.models.web import EclipseChe
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
 DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"

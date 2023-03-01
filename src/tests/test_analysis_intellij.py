@@ -1,6 +1,6 @@
 import time
 
-from src.lib.config import config_data
+from src.models.config import config_data
 
 
 def test_analysis_eap(setup_intellij):
