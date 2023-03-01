@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 
-from src.lib.config import config_data
+from src.models.config import config_data
 
 
 class WebBrowser:

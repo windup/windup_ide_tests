@@ -6,8 +6,7 @@ from RPA.Desktop import Desktop
 
 class Application(Desktop):
     """
-    Library for customizing the basic Desktop class
-    functionalities adapted for generic usage
+    A model of an IDE
     """
 
     IMG_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/images"
