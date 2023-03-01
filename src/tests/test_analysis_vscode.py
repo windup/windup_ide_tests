@@ -1,51 +1,19 @@
-def test_analysis_eap(setup_vscode):
-    """
-    Test to run an analysis on migration from weblogic to EAP 7 in VSCode IDE
-    source : windup-rulesets/target/classes/eap7/weblogic/tests/data
-    target : eap7
-    """
-    vscode, config = setup_vscode
+import json
+
+import pytest
+
+
+@pytest.mark.parametrize("app_name", json.load(open("src/data/analysis.json")))
+def test_analysis_vscode(setup_vscode, app_name, analysis_data):
+    """Analysis tests for VScode using various migration paths"""
+    vscode = setup_vscode
+    application_data = analysis_data[app_name]
+    project = application_data["path"]
+    migration_target = application_data["targets"]
+
     vscode.open_mta_perspective()
-    vscode.run_simple_analysis(
-        project=config["project_paths"]["eap7_generic"],
-        migration_target="eap7",
-    )
+    vscode.run_simple_analysis(project, migration_target)
     assert vscode.is_analysis_complete()
+
     vscode.open_report_page()
-    assert vscode.verify_story_points(target="eap7")
-
-
-def test_analysis_eapxp(setup_vscode):
-    """
-    Test to run an analysis on migration from thorntail to eapxp2 in VSCode IDE
-    source : windup-rulesets/target/classes/eapxp/thorntail/tests/data
-    target : eapxp
-    """
-    vscode, config = setup_vscode
-    vscode.open_mta_perspective()
-    vscode.run_simple_analysis(
-        project=config["project_paths"]["eapxp_ruleset"],
-        migration_target="eapxp",
-    )
-    assert vscode.is_analysis_complete()
-    vscode.open_report_page()
-    assert vscode.verify_story_points(target="eapxp")
-
-
-def test_analysis_quarkus(setup_vscode):
-    """
-    Test to run an analysis on migration from quarkus in VSCode IDE. Note that quarkus1 was removed
-    as source and target through https://issues.redhat.com/browse/WINDUP-3328 .
-
-    source : windup-rulesets/target/classes/quarkus/springboot/tests/data
-    target : quarkus
-    """
-    vscode, config = setup_vscode
-    vscode.open_mta_perspective()
-    vscode.run_simple_analysis(
-        project=config["project_paths"]["quarkus_ruleset"],
-        migration_target="quarkus",
-    )
-    assert vscode.is_analysis_complete()
-    vscode.open_report_page()
-    assert vscode.verify_story_points(target="quarkus")
+    assert vscode.verify_story_points(migration_target)
