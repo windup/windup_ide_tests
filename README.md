@@ -69,6 +69,7 @@ Sample project can be downloaded
 2. Clone the forked repo `git clone https://github.com/<user>/windup-ide-tests.git`
 3. Run the aforementioned installation steps
 4. Create new branch `git checkout -b <new_branch_name>`
+5. Run pre-commit check `pre-commit run -a`
 5. Commit the changes `git commit -m 'Explanatory commit message'`
 6. Push your changes to branch `git push origin <new_branch_name>`
 7. Open new pull request
