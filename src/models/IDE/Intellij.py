@@ -3,8 +3,8 @@ import os
 import re
 import time
 
-from src.lib.application import Application
-from src.lib.config import config_data
+from src.models.application import Application
+from src.models.config import config_data
 
 
 class Intellij(Application):

@@ -1,9 +1,12 @@
 import json
+import os
 
 import pytest
 
+DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"
 
-@pytest.mark.parametrize("app_name", json.load(open("src/data/analysis.json")))
+
+@pytest.mark.parametrize("app_name", json.load(open(DATA_DIR + "analysis.json")))
 def test_analysis_vscode(setup_vscode, app_name, analysis_data):
     """Analysis tests for VScode using various migration paths"""
     vscode = setup_vscode
