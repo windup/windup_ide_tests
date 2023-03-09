@@ -69,27 +69,8 @@ class Intellij(Application):
             # Click on the MTA tab in left sidebar
             self.click_element(locator_type="image", locator="mta_tab.png")
 
-    def run_simple_analysis(self, project, migration_target, packages=[]):
-        """
-        Runs analysis by adding the project and/or packages passed as argument
+    def run_simple_analysis(self, project, migration_target):
 
-        Args:
-            project (str): Full name of project to be analysed
-            migration_target (str): Target technology for migration
-            packages (list): List of packages to be added to analysis
-
-        Returns:
-            None
-
-        Steps:
-            1) Click on MTA Configuration tab
-            2) Right click anywhere and create new configuration
-            3) Type project name in source
-            4) Provide mta cli path, if not present
-            5) Select the target technology
-            6) Right click on config name and run
-            7) Confirm analysis has started
-        """
         try:
             self.click_element(locator_type="image", locator="console_opened.png")
             self.press_keys("shift", "esc")
@@ -161,6 +142,9 @@ class Intellij(Application):
             timeout=120.0,
         )
         # Select the run configuration and open report page in browser
+
+    def open_report_page(self):
+
         try:
             self.click_element(locator_type="image", locator="mta_perspective_active.png")
         except Exception:
