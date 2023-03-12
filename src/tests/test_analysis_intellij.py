@@ -8,9 +8,9 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data
 
 
 @pytest.mark.parametrize("app_name", json.load(open(DATA_DIR + "analysis.json")))
-def test_analysis_eap(setup_intellij, app_name, analysis_data):
+def test_analysis_intellij(setup_intellij, app_name, analysis_data):
     """
-    Analysis tests for VScode using various migration paths
+    Analysis tests for intellij using various migration paths
     """
     intellij = setup_intellij
     time.sleep(5)
