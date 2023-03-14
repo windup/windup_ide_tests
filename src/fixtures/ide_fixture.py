@@ -17,7 +17,7 @@ def intellij_config():
     """
     Fixture to configure IDE path
     """
-    with open(CONF_DIR + "intellij.config.json") as config:
+    with open(CONF_DIR + "intellij_config.json") as config:
         intellij_config_data = json.load(config)
     return intellij_config_data
 

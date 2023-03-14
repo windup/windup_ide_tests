@@ -1,64 +1,32 @@
+import json
+import os
 import time
 
-from src.models.config import config_data
+import pytest
+
+DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"
 
 
-def test_analysis_eap(setup_intellij):
+@pytest.mark.parametrize("app_name", json.load(open(DATA_DIR + "analysis.json")))
+def test_analysis_intellij(setup_intellij, app_name, analysis_data):
     """
-    Test to run analysis for migration path Anything to EAP 7 in IntelliJ IDE
+    Analysis tests for intellij using various migration paths
     """
     intellij = setup_intellij
     time.sleep(5)
     intellij.open_mta_perspective()
+    application_data = analysis_data[app_name]
+    project = application_data["path"]
+    migration_targets = application_data["targets"]
+
     # Intellij freezes without this sleep
     time.sleep(3)
-    # todo: set the projects selection to be done dynamically instead of manually adding to config
+
     intellij.run_simple_analysis(
-        project=config_data["project_paths"]["eap7_generic"],
-        migration_target="eap7",
+        project=project,
+        migration_target=migration_targets,
     )
+
+    intellij.open_report_page()
     assert intellij.is_analysis_complete()
-    assert intellij.verify_story_points(target="eap7")
-
-
-def test_analysis_eapxp(setup_intellij):
-    """
-    Test to run analysis on ruleset thorntail to eapxp2 in IntelliJ IDE
-    """
-    intellij = setup_intellij
-    time.sleep(5)
-    intellij.open_mta_perspective()
-    # Intellij freezes without this sleep
-    time.sleep(3)
-    intellij.run_simple_analysis(
-        project=config_data["project_paths"]["eapxp_ruleset"],
-        migration_target="eapxp",
-    )
-    assert intellij.is_analysis_complete()
-    assert intellij.verify_story_points(target="eapxp")
-
-
-def test_analysis_quarkus(setup_intellij):
-    """
-    Test to run analysis on ruleset quarkus1 in IntelliJ IDE
-    """
-    intellij = setup_intellij
-    time.sleep(5)
-    intellij.open_mta_perspective()
-    # Intellij freezes without this sleep
-    time.sleep(3)
-    intellij.run_simple_analysis(
-        project=config_data["project_paths"]["quarkus_ruleset"],
-        migration_target="quarkus",
-    )
-    assert intellij.is_analysis_complete()
-    assert intellij.verify_story_points(target="quarkus")
-
-
-def test_install_plugin(setup_intellij):
-    """
-    Test if plugin is installed
-    """
-    intellij = setup_intellij
-    time.sleep(5)
-    intellij.open_mta_perspective()
+    assert intellij.verify_story_points(target=migration_targets[0])
