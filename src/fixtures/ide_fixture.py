@@ -126,8 +126,7 @@ def configurations_object(config, intellij_config, app_name, analysis_data):
 
     # endregion
 
-    # convert the object to json,
-    # and write to the model.json file which will be read by the intellij IDEA
+    # convert the object to json and write to the model.json file
     final_configuration_json = json.dumps(configurations.to_dict())
     write_data_to_file(model_json_path, final_configuration_json)
 
