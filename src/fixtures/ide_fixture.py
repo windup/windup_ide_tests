@@ -99,12 +99,15 @@ def setup_intellij(intellij_config, config):
 
 
 @pytest.fixture(scope="function")
-def configurations_object(config, intellij_config, app_name, analysis_data):
+def configurations_object(config, intellij_config, vscode_config, app_name, analysis_data, ide):
     # region construct configuration object and fill it from the data json
+
+    application_config = intellij_config if ide == "intellij" else vscode_config
+
     configurations = ConfigurationsObject()
 
     application_data = analysis_data[app_name]
-    model_json_path = f"{intellij_config['plugin_cache_path']}/model.json"
+    model_json_path = f"{application_config['plugin_cache_path']}/model.json"
 
     uuid = generate_uuid()
 
@@ -116,7 +119,7 @@ def configurations_object(config, intellij_config, app_name, analysis_data):
             input=[application_data["path"]],
             cli=config["windup_cli_path"],
             source_mode=True,
-            output=f"{intellij_config['plugin_cache_path']}/{uuid}",
+            output=f"{application_config['plugin_cache_path']}/{uuid}",
         )
     )
 
