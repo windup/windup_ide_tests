@@ -99,12 +99,12 @@ def setup_intellij(intellij_config, config):
 
 
 @pytest.fixture(scope="function")
-def configurations_object(config, intellij_config, vscode_config, app_name, analysis_data, ide):
+def configurations(config, intellij_config, vscode_config, app_name, analysis_data, ide):
     # region construct configuration object and fill it from the data json
 
     application_config = intellij_config if ide == "intellij" else vscode_config
 
-    configurationsList = ConfigurationsObject()
+    configurations_object = ConfigurationsObject()
 
     application_data = analysis_data[app_name]
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"
@@ -125,14 +125,14 @@ def configurations_object(config, intellij_config, vscode_config, app_name, anal
 
     configuration = Configuration(name=app_name, id=uuid, options=options)
 
-    configurationsList.configurations.append(configuration)
+    configurations_object.configurations.append(configuration)
 
     # endregion
 
     # convert the object to json and write to the model.json file
-    final_configuration_json = json.dumps(configurationsList.to_dict())
+    final_configuration_json = json.dumps(configurations_object.to_dict())
     write_data_to_file(model_json_path, final_configuration_json)
 
-    yield configurationsList
+    yield configurations_object
     # Empty the model.json file
     write_data_to_file(model_json_path, "")
