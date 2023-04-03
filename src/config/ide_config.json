@@ -1,5 +1,4 @@
 {
   "timeout_in_seconds": 15.0,
-  "windup_cli_path": "",
-  "data_reference_json": "/src/lib/data/configurations_data_reference.json"
+  "windup_cli_path": ""
 }
