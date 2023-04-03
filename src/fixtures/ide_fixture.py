@@ -134,15 +134,5 @@ def configurations_object(config, intellij_config, vscode_config, app_name, anal
     write_data_to_file(model_json_path, final_configuration_json)
 
     yield configurations
-
-    # Construct default configuration object
-    configurations = ConfigurationsObject()
-
-    options = Options(target=["eap7"], source_mode=True)
-
-    configuration = Configuration(name="configuration0", id=generate_uuid(), options=options)
-
-    configurations.configurations.append(configuration)
-
-    # convert the object to json, then write it into model.json
-    write_data_to_file(model_json_path, json.dumps(configurations.to_dict()))
+    # Empty the model.json file
+    write_data_to_file(model_json_path, "")
