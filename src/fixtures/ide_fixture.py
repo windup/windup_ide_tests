@@ -104,7 +104,7 @@ def configurations_object(config, intellij_config, vscode_config, app_name, anal
 
     application_config = intellij_config if ide == "intellij" else vscode_config
 
-    configurations = ConfigurationsObject()
+    configurationsList = ConfigurationsObject()
 
     application_data = analysis_data[app_name]
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"
@@ -125,14 +125,14 @@ def configurations_object(config, intellij_config, vscode_config, app_name, anal
 
     configuration = Configuration(name=app_name, id=uuid, options=options)
 
-    configurations.configurations.append(configuration)
+    configurationsList.configurations.append(configuration)
 
     # endregion
 
     # convert the object to json and write to the model.json file
-    final_configuration_json = json.dumps(configurations.to_dict())
+    final_configuration_json = json.dumps(configurationsList.to_dict())
     write_data_to_file(model_json_path, final_configuration_json)
 
-    yield configurations
+    yield configurationsList
     # Empty the model.json file
     write_data_to_file(model_json_path, "")
