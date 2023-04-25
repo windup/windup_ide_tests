@@ -11,6 +11,15 @@ class Intellij(Application):
     Class for managing IntelliJ application
     """
 
+    def __init__(self):
+
+        super().__init__()
+        self.config_run_region = self.two_coordinate_locator(
+            locator_type="point",
+            x_coordinate=110,
+            y_coordinate=870,
+        )
+
     def get_ide_version(self, ide_directory):
         pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
         return [name for name in os.listdir(ide_directory) if pattern.search(name) is not None][0]
@@ -63,25 +72,23 @@ class Intellij(Application):
         """
         if self.is_open_mta_perspective():
             logging.info("MTA perspective is already opened !")
-            return
         else:
             # Click on the MTA tab in left sidebar
             self.click_element(locator_type="image", locator="mta_tab.png")
 
+        self.click(self.config_run_region)
+
     def run_simple_analysis(self, app_name):
 
-        config_run_region = self.two_coordinate_locator(
-            locator_type="point",
-            x_coordinate=110,
-            y_coordinate=870,
-        )
-        self.click(config_run_region)
+        self.refresh_configuration()
+
         # Search for configuration name that has to be run
         self.type_text(app_name)
         self.press_keys("enter")
         # Find config name highlighted and select correct config if multiple matches are found
         self.wait_find_element(locator_type="image", locator="config_name_highlighted.png")
         self.click(action="right_click")
+        self.press_keys("up")
         self.press_keys("up")
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
@@ -103,3 +110,12 @@ class Intellij(Application):
         self.click_element(locator_type="image", locator="report_selector.png")
         # Verify the report page is opened
         self.wait_find_element(locator_type="image", locator="report_page_header.png")
+
+    def refresh_configuration(self):
+        """
+        re-read the configuration from the json file
+        """
+        self.click(self.config_run_region)
+        self.click(action="right_click")
+        self.press_keys("up")
+        self.press_keys("enter")

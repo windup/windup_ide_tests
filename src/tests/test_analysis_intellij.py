@@ -17,9 +17,6 @@ def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_da
     application_data = analysis_data[app_name]
     migration_targets = application_data["targets"]
 
-    time.sleep(5)
-    intellij.open_mta_perspective()
-
     # Intellij freezes without this sleep
     time.sleep(3)
     intellij.run_simple_analysis(app_name)
