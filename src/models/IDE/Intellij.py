@@ -97,15 +97,10 @@ class Intellij(Application):
 
     def open_report_page(self, app_name):
 
-        # try:
-        #     self.click_element(locator_type="image", locator="mta_perspective_active.png")
-        # except Exception:
-        #     self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
         self.click(self.config_run_region)
         self.type_text(app_name)
         self.press_keys("enter")
         self.press_keys("enter")
-        # self.click_element(locator_type="image", locator="open_details_toggle.png")
         self.click_element(locator_type="image", locator="report_selector.png")
         # Verify the report page is opened
         self.wait_find_element(locator_type="image", locator="report_page_header.png")
