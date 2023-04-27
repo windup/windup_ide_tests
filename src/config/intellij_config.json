@@ -1,6 +1,6 @@
 {
-  "ide_path": "/root/.local/share/JetBrains/Toolbox/apps/IDEA-C/ch-2",
-  "plugin_cache_path": "/root/.windup/tooling/intellij",
+  "ide_path": "",
+  "plugin_cache_path": "",
   "plugins": [
     {
       "name": "org.jboss.tools.intellij.mta",
