@@ -11,6 +11,14 @@ class Intellij(Application):
     Class for managing IntelliJ application
     """
 
+    def __init__(self):
+        super().__init__()
+        self.config_run_region = self.two_coordinate_locator(
+            locator_type="point",
+            x_coordinate=110,
+            y_coordinate=870,
+        )
+
     def get_ide_version(self, ide_directory):
         pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
         return [name for name in os.listdir(ide_directory) if pattern.search(name) is not None][0]
@@ -70,18 +78,14 @@ class Intellij(Application):
 
     def run_simple_analysis(self, app_name):
 
-        config_run_region = self.two_coordinate_locator(
-            locator_type="point",
-            x_coordinate=110,
-            y_coordinate=870,
-        )
-        self.click(config_run_region)
+        self.click(self.config_run_region)
         # Search for configuration name that has to be run
         self.type_text(app_name)
         self.press_keys("enter")
         # Find config name highlighted and select correct config if multiple matches are found
         self.wait_find_element(locator_type="image", locator="config_name_highlighted.png")
         self.click(action="right_click")
+        self.press_keys("up")
         self.press_keys("up")
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
@@ -93,13 +97,15 @@ class Intellij(Application):
 
     def open_report_page(self, app_name):
 
-        try:
-            self.click_element(locator_type="image", locator="mta_perspective_active.png")
-        except Exception:
-            self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
+        # try:
+        #     self.click_element(locator_type="image", locator="mta_perspective_active.png")
+        # except Exception:
+        #     self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
+        self.click(self.config_run_region)
         self.type_text(app_name)
-        self.press_keys("up")
-        self.click_element(locator_type="image", locator="open_details_toggle.png")
+        self.press_keys("enter")
+        self.press_keys("enter")
+        # self.click_element(locator_type="image", locator="open_details_toggle.png")
         self.click_element(locator_type="image", locator="report_selector.png")
         # Verify the report page is opened
         self.wait_find_element(locator_type="image", locator="report_page_header.png")

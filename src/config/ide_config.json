@@ -1,4 +1,5 @@
 {
   "timeout_in_seconds": 15.0,
-  "windup_cli_path": ""
+  "windup_cli_path": "/root/Downloads/windup-cli-6.1.0.Final-no-index/windup-cli-6.1.0.Final/bin/windup-cli",
+  "project_path": "/root/Documents/projects/windup-rulesets/rules/rules-reviewed"
 }

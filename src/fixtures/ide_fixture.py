@@ -108,7 +108,7 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
 
     application_data = analysis_data[app_name]
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"
-
+    project_path = config["project_path"]
     uuid = generate_uuid()
 
     options = (
@@ -116,7 +116,7 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
         if "options" in application_data
         else Options(
             target=application_data["targets"],
-            input=[application_data["path"]],
+            input=[os.path.join(project_path, application_data["path"])],
             cli=config["windup_cli_path"],
             source_mode=True,
             output=f"{application_config['plugin_cache_path']}/{uuid}",
