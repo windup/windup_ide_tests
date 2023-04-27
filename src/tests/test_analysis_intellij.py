@@ -26,4 +26,4 @@ def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_da
     intellij.open_report_page(app_name)
 
     assert intellij.is_analysis_complete()
-    # assert intellij.verify_story_points(target=migration_targets[0])
+    assert intellij.verify_story_points(target=migration_targets[0])
