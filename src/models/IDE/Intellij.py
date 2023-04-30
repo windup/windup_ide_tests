@@ -92,6 +92,7 @@ class Intellij(Application):
         self.press_keys("up")
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
+        time.sleep(2)
         self.wait_find_element(
             locator_type="image",
             locator="analysis_complete_terminal.png",
@@ -100,13 +101,9 @@ class Intellij(Application):
 
     def open_report_page(self, app_name):
 
-        try:
-            self.click_element(locator_type="image", locator="mta_perspective_active.png")
-        except Exception:
-            self.click_element(locator_type="image", locator="mta_perspective_active_alt.png")
         self.type_text(app_name)
-        self.press_keys("up")
-        self.click_element(locator_type="image", locator="open_details_toggle.png")
+        self.press_keys("enter")
+        self.press_keys("enter")
         self.click_element(locator_type="image", locator="report_selector.png")
         # Verify the report page is opened
         self.wait_find_element(locator_type="image", locator="report_page_header.png")
