@@ -96,6 +96,7 @@ def setup_intellij(intellij_config, config):
 
     yield intellij
 
+    intellij.set_focus()
     intellij.close_ide()
     time.sleep(5)
 

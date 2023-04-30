@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+import subprocess
 import time
 
 from src.models.application import Application
@@ -28,7 +29,7 @@ class Intellij(Application):
         """
         Closes the IDE
         """
-        self.click_element(locator_type="image", locator="file_menu.png")
+        self.press_keys("alt", "f")
         self.press_keys("up")
         self.press_keys("enter")
         time.sleep(1)
@@ -116,3 +117,7 @@ class Intellij(Application):
         self.click(action="right_click")
         self.press_keys("up")
         self.press_keys("enter")
+
+    def set_focus(self):
+        # instead of blindly clicking on alt+tab, this brings the intellij into focus
+        subprocess.run("wmctrl -R $(wmctrl -lx | grep  jetbrains-idea | cut -d' ' -f7)", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
