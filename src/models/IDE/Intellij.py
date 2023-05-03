@@ -5,6 +5,7 @@ import subprocess
 import time
 
 from src.models.application import Application
+from src.utils.general import wait_for_sentence, extract_string_location
 
 
 class Intellij(Application):
@@ -82,23 +83,17 @@ class Intellij(Application):
     def run_simple_analysis(self, app_name):
 
         self.refresh_configuration()
-
         # Search for configuration name that has to be run
         self.type_text(app_name)
         self.press_keys("enter")
-        # Find config name highlighted and select correct config if multiple matches are found
-        self.wait_find_element(locator_type="image", locator="config_name_highlighted.png")
         self.click(action="right_click")
         self.press_keys("up")
         self.press_keys("up")
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
-        time.sleep(2)
-        self.wait_find_element(
-            locator_type="image",
-            locator="analysis_complete_terminal.png",
-            timeout=120.0,
-        )
+        time.sleep(40)
+        wait_for_sentence("WINDUP execution took", timeout=120, interval=5)
+
 
     def open_report_page(self, app_name):
 
@@ -106,9 +101,10 @@ class Intellij(Application):
         self.type_text(app_name)
         self.press_keys("enter")
         self.press_keys("enter")
-        self.click_element(locator_type="image", locator="report_selector.png")
-        # Verify the report page is opened
-        self.wait_find_element(locator_type="image", locator="report_page_header.png")
+        time.sleep(1)
+        x,y,w,h = extract_string_location("Report")
+        self.click_area(x,y,w,h)
+        wait_for_sentence("Application List", timeout=13, interval=4)
 
     def refresh_configuration(self):
         """

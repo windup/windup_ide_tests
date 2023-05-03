@@ -12,6 +12,9 @@ class Application(Desktop):
 
     IMG_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/images"
 
+    def click_area(self, x, y, w, h):
+        self.click(self.two_coordinate_locator("point", x + int(w/2), y + int(h/2)))
+
     def image_locator(self, locator):
         """
         Forms image locator string
