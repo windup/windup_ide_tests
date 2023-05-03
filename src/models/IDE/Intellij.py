@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+import subprocess
 import time
 
 from src.models.application import Application
@@ -27,7 +28,8 @@ class Intellij(Application):
         """
         Closes the IDE
         """
-        self.click_element(locator_type="image", locator="file_menu.png")
+        self.click(self.config_run_region)
+        self.press_keys("alt", "f")
         self.press_keys("up")
         self.press_keys("enter")
         time.sleep(1)
@@ -71,14 +73,16 @@ class Intellij(Application):
         """
         if self.is_open_mta_perspective():
             logging.info("MTA perspective is already opened !")
-            return
         else:
             # Click on the MTA tab in left sidebar
             self.click_element(locator_type="image", locator="mta_tab.png")
 
+        self.click(self.config_run_region)
+
     def run_simple_analysis(self, app_name):
 
-        self.click(self.config_run_region)
+        self.refresh_configuration()
+
         # Search for configuration name that has to be run
         self.type_text(app_name)
         self.press_keys("enter")
@@ -89,6 +93,7 @@ class Intellij(Application):
         self.press_keys("up")
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
+        time.sleep(2)
         self.wait_find_element(
             locator_type="image",
             locator="analysis_complete_terminal.png",
@@ -104,3 +109,21 @@ class Intellij(Application):
         self.click_element(locator_type="image", locator="report_selector.png")
         # Verify the report page is opened
         self.wait_find_element(locator_type="image", locator="report_page_header.png")
+
+    def refresh_configuration(self):
+        """
+        re-read the configuration from the json file
+        """
+        self.click(self.config_run_region)
+        self.click(action="right_click")
+        self.press_keys("up")
+        self.press_keys("enter")
+
+    def set_focus(self):
+        # instead of blindly clicking on alt+tab, this brings the intellij into focus
+        subprocess.run(
+            "wmctrl -R $(wmctrl -lx | grep  jetbrains-idea | cut -d' ' -f7)",
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )

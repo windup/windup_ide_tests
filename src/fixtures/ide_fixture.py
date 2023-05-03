@@ -91,9 +91,12 @@ def setup_intellij(intellij_config, config):
     path = ide_path + f"/{ide_version}/bin/idea.sh"
     intellij.open_application(path)
     intellij.set_default_timeout(timeout=config["timeout_in_seconds"])
+    time.sleep(5)
+    intellij.open_mta_perspective()
 
     yield intellij
 
+    intellij.set_focus()
     intellij.close_ide()
     time.sleep(5)
 
@@ -134,5 +137,11 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     write_data_to_file(model_json_path, final_configuration_json)
 
     yield configurations_object
+
+    if ide == "intellij":
+        Intellij().set_focus()
+    else:
+        VisualStudioCode().set_focus()
+
     # Empty the model.json file
     write_data_to_file(model_json_path, "")
