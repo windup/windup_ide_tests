@@ -284,27 +284,11 @@ class Application(Desktop):
         except Exception:
             return False
 
-    def verify_story_points(self, target):
+    def verify_story_points(self, html_file_location, expected_story_points):
         """
         Verifies the story points in report after analysis
 
         Returns:
             (bool): True if story points were accurate
         """
-        if target == "eap7":
-            story_point_locator = "eap7_story_points.png"
-        elif target == "quarkus":
-            story_point_locator = "quarkus_story_points.png"
-        elif target == "eapxp":
-            story_point_locator = "eapxp_story_points.png"
-        else:
-            logging.debug("Unknown target provided !")
-            raise Exception()
-        try:
-            self.wait_find_element(locator_type="image", locator=story_point_locator)
-            return True
-        except Exception as exc:
-            logging.debug(str(exc))
-            return False
-        finally:
-            self.switch_tab()
+        raise Exception("Method not implemented")

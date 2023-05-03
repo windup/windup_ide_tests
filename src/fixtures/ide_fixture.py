@@ -139,6 +139,10 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     yield configurations_object
 
     if ide == "intellij":
+        Intellij().verify_story_points(
+            html_file_location=f"{intellij_config['plugin_cache_path']}/{uuid}/index.html",
+            expected_story_points=application_data["story_points"]
+        )
         Intellij().set_focus()
     else:
         VisualStudioCode().set_focus()
