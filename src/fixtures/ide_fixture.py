@@ -137,5 +137,11 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     write_data_to_file(model_json_path, final_configuration_json)
 
     yield configurations_object
+
+    if ide == 'intellij':
+        Intellij().set_focus()
+    else:
+        VisualStudioCode().set_focus()
+
     # Empty the model.json file
     write_data_to_file(model_json_path, "")

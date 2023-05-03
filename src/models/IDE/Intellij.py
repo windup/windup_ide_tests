@@ -29,6 +29,7 @@ class Intellij(Application):
         """
         Closes the IDE
         """
+        self.click(self.config_run_region)
         self.press_keys("alt", "f")
         self.press_keys("up")
         self.press_keys("enter")

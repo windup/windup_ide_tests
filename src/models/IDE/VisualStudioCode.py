@@ -1,5 +1,6 @@
 import logging
 import re
+import subprocess
 import time
 
 from src.models.application import Application
@@ -142,3 +143,7 @@ class VisualStudioCode(Application):
     def open_report_page(self):
         self.click_element(locator_type="image", locator="open_report_button.png")
         self.wait_find_element(locator_type="image", locator="report_page_header.png")
+
+    def set_focus(self):
+        # instead of blindly clicking on alt+tab, this brings the intellij into focus
+        subprocess.run("wmctrl -R code", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
