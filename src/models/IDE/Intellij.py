@@ -13,7 +13,6 @@ class Intellij(Application):
     """
 
     def __init__(self):
-
         super().__init__()
         self.config_run_region = self.two_coordinate_locator(
             locator_type="point",
@@ -103,6 +102,7 @@ class Intellij(Application):
 
     def open_report_page(self, app_name):
 
+        self.click(self.config_run_region)
         self.type_text(app_name)
         self.press_keys("enter")
         self.press_keys("enter")
