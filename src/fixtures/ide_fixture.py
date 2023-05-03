@@ -138,7 +138,7 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
 
     yield configurations_object
 
-    if ide == 'intellij':
+    if ide == "intellij":
         Intellij().set_focus()
     else:
         VisualStudioCode().set_focus()

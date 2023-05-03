@@ -121,4 +121,9 @@ class Intellij(Application):
 
     def set_focus(self):
         # instead of blindly clicking on alt+tab, this brings the intellij into focus
-        subprocess.run("wmctrl -R $(wmctrl -lx | grep  jetbrains-idea | cut -d' ' -f7)", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run(
+            "wmctrl -R $(wmctrl -lx | grep  jetbrains-idea | cut -d' ' -f7)",
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
