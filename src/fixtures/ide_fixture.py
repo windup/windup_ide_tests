@@ -116,17 +116,24 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
 
     inputs = [os.path.join(project_path, path) for path in application_data["paths"]]
 
-    options = (
-        application_data["options"]
-        if "options" in application_data
-        else Options(
+    if "options" in application_data:
+        options = application_data["options"]
+    elif "export_csv" in application_data:
+        options = Options(
             target=application_data["targets"],
             input=inputs,
             cli=config["windup_cli_path"],
             source_mode=True,
             output=f"{application_config['plugin_cache_path']}/{uuid}",
+            export_csv=application_data["export_csv"],
         )
-    )
+    else:
+        options = Options(
+            target=application_data["targets"],
+            input=[os.path.join(project_path, application_data["path"])],
+            cli=config["windup_cli_path"],
+            source_mode=True,
+        )
 
     configuration = Configuration(name=app_name, id=uuid, options=options)
 
