@@ -1,21 +1,21 @@
 {
   "weblogic_to_eap7": {
-    "path": "eap7/weblogic/tests/data",
+    "paths": ["eap7/weblogic/tests/data"],
     "targets": ["eap7"],
     "story_points": ""
   },
   "thorntail_to_eapxp": {
-    "path": "eapxp/thorntail/tests/data",
+    "paths": ["eapxp/thorntail/tests/data"],
     "targets": ["eapxp"],
     "story_points": ""
   },
   "springboot_to_quarkus": {
-    "path": "quarkus/springboot/tests/data",
+    "paths": ["quarkus/springboot/tests/data"],
     "targets": ["quarkus"],
     "story_points": ""
   },
   "eap_to_azure-appservice": {
-    "path": "azure/eap/test/data/eap-to-azure-appservice-datasource-driver",
+    "paths": ["azure/eap/test/data/eap-to-azure-appservice-datasource-driver"],
     "targets": ["azure-appservice"],
     "story_points": ""
   }
