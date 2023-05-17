@@ -1,5 +1,5 @@
 {
   "timeout_in_seconds": 15.0,
-  "windup_cli_path": "",
-  "project_path": ""
+  "windup_cli_path": "/home/midays/Downloads/mta-6.1.0.GA-cli-offline/mta-cli-6.1.0.GA-redhat-00005/bin/windup-cli",
+  "project_path": "/home/midays/Documents/projects/windup-rulesets/rules/rules-reviewed"
 }
