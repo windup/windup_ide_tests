@@ -65,5 +65,11 @@
       "openjdk17"
     ],
     "story_points": ""
+  },
+  "weblogic_to_eap7_export_csv": {
+    "path": "eap7/weblogic/tests/data",
+    "targets": ["eap7"],
+    "story_points": "",
+    "export_csv": true
   }
 }
