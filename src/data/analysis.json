@@ -1,22 +1,69 @@
 {
   "weblogic_to_eap7": {
-    "path": "eap7/weblogic/tests/data",
-    "targets": ["eap7"],
-    "story_points": 110
+    "paths": [
+      "eap7/weblogic/tests/data"
+    ],
+    "targets": [
+      "eap7"
+    ],
+    "story_points": ""
   },
   "thorntail_to_eapxp": {
-    "path": "eapxp/thorntail/tests/data",
-    "targets": ["eapxp"],
-    "story_points": 110
+    "paths": [
+      "eapxp/thorntail/tests/data"
+    ],
+    "targets": [
+      "eapxp"
+    ],
+    "story_points": ""
   },
   "springboot_to_quarkus": {
-    "path": "quarkus/springboot/tests/data",
-    "targets": ["quarkus"],
-    "story_points": 110
+    "paths": [
+      "quarkus/springboot/tests/data"
+    ],
+    "targets": [
+      "quarkus"
+    ],
+    "story_points": ""
   },
   "eap_to_azure-appservice": {
-    "path": "azure/eap/test/data/eap-to-azure-appservice-datasource-driver",
-    "targets": ["azure-appservice"],
-    "story_points": 110
+    "paths": [
+      "azure/eap/test/data/eap-to-azure-appservice-datasource-driver"
+    ],
+    "targets": [
+      "azure-appservice"
+    ],
+    "story_points": ""
+  },
+  "multiple-projects-multiple-targets": {
+    "paths": [
+      "eap8/eap7/tests/data",
+      "openjdk17/openjdk11/tests/data"
+    ],
+    "targets": [
+      "eap8",
+      "openjdk17"
+    ],
+    "story_points": ""
+  },
+  "single-project-multiple-targets": {
+    "paths": [
+      "openjdk17/openjdk11/tests/data"
+    ],
+    "targets": [
+      "eap8",
+      "openjdk17"
+    ],
+    "story_points": ""
+  },
+  "multiple-projects-single-target": {
+    "paths": [
+      "eap8/eap7/tests/data",
+      "openjdk17/openjdk11/tests/data"
+    ],
+    "targets": [
+      "openjdk17"
+    ],
+    "story_points": ""
   }
 }

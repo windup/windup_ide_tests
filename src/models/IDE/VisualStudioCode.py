@@ -88,6 +88,8 @@ class VisualStudioCode(Application):
 
         # Wait for 'New Configuration' to become visible
         time.sleep(5)
+        self.refresh_configuration()
+
         # Create new analysis configuration by clicking 'New Configuration' button
         self.wait_find_element(locator_type="image", locator="create_new_config.png")
         self.click_element(locator_type="image", locator="create_new_config.png")
@@ -147,3 +149,8 @@ class VisualStudioCode(Application):
     def set_focus(self):
         # instead of blindly clicking on alt+tab, this brings the intellij into focus
         subprocess.run("wmctrl -R code", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    def refresh_configuration(self):
+        # Click 'Refresh configurations' button
+        self.wait_find_element(locator_type="image", locator="refresh_configurations.png")
+        self.click_element(locator_type="image", locator="refresh_configurations.png")

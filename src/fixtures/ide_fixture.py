@@ -114,12 +114,14 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     project_path = config["project_path"]
     uuid = generate_uuid()
 
+    inputs = [os.path.join(project_path, path) for path in application_data["paths"]]
+
     options = (
         application_data["options"]
         if "options" in application_data
         else Options(
             target=application_data["targets"],
-            input=[os.path.join(project_path, application_data["path"])],
+            input=inputs,
             cli=config["windup_cli_path"],
             source_mode=True,
             output=f"{application_config['plugin_cache_path']}/{uuid}",

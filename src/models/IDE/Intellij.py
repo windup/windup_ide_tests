@@ -18,7 +18,7 @@ class Intellij(Application):
         self.config_run_region = self.two_coordinate_locator(
             locator_type="point",
             x_coordinate=110,
-            y_coordinate=870,
+            y_coordinate=470,
         )
 
     def get_ide_version(self, ide_directory):
