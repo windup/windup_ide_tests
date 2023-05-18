@@ -58,6 +58,7 @@
   },
   "multiple-projects-single-target": {
     "paths": [
+      "eap8/eap7/tests/data",
       "openjdk17/openjdk11/tests/data"
     ],
     "targets": [
