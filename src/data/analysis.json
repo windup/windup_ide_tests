@@ -55,5 +55,14 @@
       "openjdk17"
     ],
     "story_points": ""
+  },
+  "multiple-projects-single-target": {
+    "paths": [
+      "openjdk17/openjdk11/tests/data"
+    ],
+    "targets": [
+      "openjdk17"
+    ],
+    "story_points": ""
   }
 }
