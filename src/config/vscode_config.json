@@ -1,14 +1,4 @@
 {
   "ide_path": "/usr/bin/code",
-  "plugin_cache_path": "",
-  "plugins": [
-    {
-      "name": "mta",
-      "plugin_url": "https://marketplace.visualstudio.com/items?itemName=redhat.mta-vscode-extension"
-    },
-    {
-      "name": "mtr",
-      "plugin_url": "https://marketplace.visualstudio.com/items?itemName=redhat.mtr-vscode-extension"
-    }
-  ]
+  "plugin_cache_path": ""
 }
