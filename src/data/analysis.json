@@ -6,7 +6,7 @@
     "targets": [
       "eap7"
     ],
-    "story_points": ""
+    "story_points": 0
   },
   "thorntail_to_eapxp": {
     "paths": [
@@ -15,7 +15,7 @@
     "targets": [
       "eapxp"
     ],
-    "story_points": ""
+    "story_points": 0
   },
   "springboot_to_quarkus": {
     "paths": [
@@ -24,7 +24,7 @@
     "targets": [
       "quarkus"
     ],
-    "story_points": ""
+    "story_points": 0
   },
   "eap_to_azure-appservice": {
     "paths": [
@@ -33,7 +33,7 @@
     "targets": [
       "azure-appservice"
     ],
-    "story_points": ""
+    "story_points": 0
   },
   "multiple-projects-multiple-targets": {
     "paths": [
@@ -44,7 +44,7 @@
       "eap8",
       "openjdk17"
     ],
-    "story_points": ""
+    "story_points": 0
   },
   "single-project-multiple-targets": {
     "paths": [
@@ -54,7 +54,7 @@
       "eap8",
       "openjdk17"
     ],
-    "story_points": ""
+    "story_points": 0
   },
   "multiple-projects-single-target": {
     "paths": [
@@ -64,6 +64,6 @@
     "targets": [
       "openjdk17"
     ],
-    "story_points": ""
+    "story_points": 0
   }
 }

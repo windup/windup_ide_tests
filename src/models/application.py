@@ -3,6 +3,8 @@ import os
 
 from RPA.Desktop import Desktop
 
+from src.utils.general import read_element_value_from_html
+
 
 class Application(Desktop):
     """
@@ -162,12 +164,12 @@ class Application(Desktop):
         self.click(locator=formed_locator)
 
     def wait_find_element(
-        self,
-        locator_type,
-        locator=None,
-        coordinates=[],
-        timeout=15.0,
-        interval=0.5,
+            self,
+            locator_type,
+            locator=None,
+            coordinates=[],
+            timeout=15.0,
+            interval=0.5,
     ):
         """
         Wait untill timeout and find element based on locator
@@ -285,10 +287,5 @@ class Application(Desktop):
             return False
 
     def verify_story_points(self, html_file_location, expected_story_points):
-        """
-        Verifies the story points in report after analysis
-
-        Returns:
-            (bool): True if story points were accurate
-        """
-        raise Exception("Method not implemented")
+        found_story_points = read_element_value_from_html(html_file_location, "//span[@class=\"points\"]")
+        assert found_story_points == expected_story_points

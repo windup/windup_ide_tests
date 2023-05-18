@@ -128,7 +128,3 @@ class Intellij(Application):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-
-    def verify_story_points(self, html_file_location, expected_story_points):
-        found_story_points = read_element_value_from_html(html_file_location, "//span[@class=\"points\"]")
-        assert found_story_points == expected_story_points

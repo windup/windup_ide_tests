@@ -103,16 +103,19 @@ def setup_intellij(intellij_config, config):
 
 @pytest.fixture(scope="function")
 def configurations(config, intellij_config, vscode_config, app_name, analysis_data, ide):
+
     # region construct configuration object and fill it from the data json
 
+    uuid = generate_uuid()
+
     application_config = intellij_config if ide == "intellij" else vscode_config
+    html_file_location = f"{application_config['plugin_cache_path']}/{uuid}/index.html"
 
     configurations_object = ConfigurationsObject()
 
     application_data = analysis_data[app_name]
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"
     project_path = config["project_path"]
-    uuid = generate_uuid()
 
     inputs = [os.path.join(project_path, path) for path in application_data["paths"]]
 
@@ -138,13 +141,9 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     final_configuration_json = json.dumps(configurations_object.to_dict())
     write_data_to_file(model_json_path, final_configuration_json)
 
-    yield configurations_object
+    yield configurations_object, html_file_location
 
     if ide == "intellij":
-        Intellij().verify_story_points(
-            html_file_location=f"{intellij_config['plugin_cache_path']}/{uuid}/index.html",
-            expected_story_points=application_data["story_points"]
-        )
         Intellij().set_focus()
     else:
         VisualStudioCode().set_focus()
