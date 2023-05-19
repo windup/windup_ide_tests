@@ -1,5 +1,5 @@
 import pytest
-from utils.general import assert_valid_csv_file
+from src.utils.general import assert_valid_csv_file
 
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7_export_csv"])
