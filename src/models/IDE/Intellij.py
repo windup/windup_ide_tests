@@ -5,7 +5,6 @@ import subprocess
 import time
 
 from src.models.application import Application
-from src.utils.general import read_element_value_from_html
 
 
 class Intellij(Application):

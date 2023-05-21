@@ -10,7 +10,8 @@ from src.models.configuration.options import Options
 from src.models.IDE.Intellij import Intellij
 from src.models.IDE.VisualStudioCode import VisualStudioCode
 from src.models.web import EclipseChe
-from src.utils.general import generate_uuid, delete_directory
+from src.utils.general import delete_directory
+from src.utils.general import generate_uuid
 from src.utils.general import write_data_to_file
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
