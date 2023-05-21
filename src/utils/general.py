@@ -1,4 +1,5 @@
 import os
+import subprocess
 import uuid
 from lxml import html
 
@@ -26,9 +27,17 @@ def read_element_value_from_html(html_file_path, xpath):
 
     tree = html.fromstring(content)
 
-    element = tree.xpath(xpath)[0]
+    elements = tree.xpath(xpath)
 
-    if element is None:
+    if elements is None:
         raise Exception(f"No element found with xpath: [{xpath}]")
 
-    return element
+    return elements
+
+def delete_directory(file_name):
+    subprocess.run(
+        f"rm -rf {file_name}",
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )

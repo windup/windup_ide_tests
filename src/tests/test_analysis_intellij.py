@@ -9,7 +9,7 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data
 
 @pytest.mark.parametrize("app_name", json.load(open(DATA_DIR + "analysis.json")))
 @pytest.mark.parametrize("ide", ["intellij"])
-def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_data, ide, html_file_location):
+def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
     """
     Analysis tests for intellij using various migration paths
     """
@@ -21,7 +21,8 @@ def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_da
     intellij.run_simple_analysis(app_name)
     intellij.open_report_page(app_name)
 
-    assert intellij.verify_story_points(
+    _, html_file_location = configurations
+    intellij.verify_story_points(
         html_file_location=html_file_location,
         expected_story_points=expected_story_points
     )

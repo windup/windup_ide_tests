@@ -10,7 +10,7 @@ from src.models.configuration.options import Options
 from src.models.IDE.Intellij import Intellij
 from src.models.IDE.VisualStudioCode import VisualStudioCode
 from src.models.web import EclipseChe
-from src.utils.general import generate_uuid
+from src.utils.general import generate_uuid, delete_directory
 from src.utils.general import write_data_to_file
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
@@ -147,6 +147,9 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
         Intellij().set_focus()
     else:
         VisualStudioCode().set_focus()
+
+    # delete the directory containing all the analysis details
+    delete_directory(os.path.join(application_config["plugin_cache_path"], uuid))
 
     # Empty the model.json file
     write_data_to_file(model_json_path, "")
