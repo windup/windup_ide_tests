@@ -20,7 +20,7 @@ def read_file(filename):
     return contents
 
 
-def read_element_value_from_html(html_file_path, xpath):
+def find_elements_in_html_file(html_file_path, xpath):
 
     if not os.path.exists(html_file_path):
         raise Exception(f"File [{html_file_path}] does not exist!")

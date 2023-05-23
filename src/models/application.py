@@ -3,7 +3,7 @@ import os
 
 from RPA.Desktop import Desktop
 
-from src.utils.general import read_element_value_from_html
+from src.utils.general import find_elements_in_html_file
 
 
 class Application(Desktop):
@@ -287,7 +287,7 @@ class Application(Desktop):
             return False
 
     def verify_story_points(self, html_file_location, expected_story_points):
-        story_points_elements = read_element_value_from_html(
+        story_points_elements = find_elements_in_html_file(
             html_file_location,
             '//span[@class="points"]',
         )
