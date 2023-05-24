@@ -1,10 +1,11 @@
 import time
 
 import pytest
+
 from src.utils.general import assert_valid_csv_file
 
 
-@pytest.mark.parametrize("app_name", ["weblogic_to_eap7_export_csv"])
+@pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
 @pytest.mark.parametrize("ide", ["intellij"])
 def test_csv_report_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
     """Analysis tests for IntelliJ using various advanced options"""
