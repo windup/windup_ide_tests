@@ -6,7 +6,10 @@
     "targets": [
       "eap7"
     ],
-    "story_points": ""
+    "story_points": "",
+    "options": [
+      "export_csv"
+    ]
   },
   "thorntail_to_eapxp": {
     "paths": [
