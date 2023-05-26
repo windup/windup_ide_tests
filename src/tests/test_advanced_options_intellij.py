@@ -27,7 +27,7 @@ def test_csv_report_intellij(configurations, setup_intellij, app_name, analysis_
 
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7_skip_reports"])
-@pytest.mark.parametrize("ide", ["vscode"])
+@pytest.mark.parametrize("ide", ["intellij"])
 def test_skip_reports_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
     """Analysis test for IntelliJ using --skipReports option"""
     intellij = setup_intellij
