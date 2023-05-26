@@ -8,7 +8,7 @@ from src.utils.general import assert_valid_csv_file
 @pytest.mark.parametrize("app_name", ["thorntail_to_eapxp"])
 @pytest.mark.parametrize("ide", ["vscode"])
 def test_csv_report_vscode(configurations, setup_vscode, app_name, analysis_data, ide):
-    """Analysis tests for VScode using various advanced options"""
+    """Analysis test for VScode using --exportCSV option"""
     vscode = setup_vscode
     conf_object = configurations
     output_path = conf_object.configurations[0].options.output
@@ -29,7 +29,7 @@ def test_csv_report_vscode(configurations, setup_vscode, app_name, analysis_data
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7_skip_reports"])
 @pytest.mark.parametrize("ide", ["vscode"])
 def test_skip_reports_vscode(configurations, setup_vscode, app_name, analysis_data, ide):
-    """Analysis tests for VScode using --skipReports option"""
+    """Analysis test for VScode using --skipReports option"""
     vscode = setup_vscode
     conf_object = configurations
     output_path = conf_object.configurations[0].options.output
