@@ -87,7 +87,6 @@ class Intellij(Application):
         self.type_text(app_name)
         self.press_keys("enter")
         # Find config name highlighted and select correct config if multiple matches are found
-        self.wait_find_element(locator_type="image", locator="config_name_highlighted.png")
         self.click(action="right_click")
         self.press_keys("up")
         self.press_keys("up")
