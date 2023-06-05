@@ -66,51 +66,24 @@ class VisualStudioCode(Application):
             time.sleep(10)
             self.click_element(locator_type="image", locator="mta_config_inactive.png")
 
-    def run_simple_analysis(self, project, migration_target, packages=[]):
+    def run_simple_analysis(self):
         """
-        Runs analysis by adding the project and/or packages passed as argument
+        Runs analysis after creating an analysis configuration
 
         Args:
-            project (str): Full name of project to be analysed
-            packages (list): List of packages to be added to analysis
+            None
 
         Returns:
             None
 
         Steps:
-            1) Click on MTA Configuration icon
-            2) Click new config(+) icon
-            3) Type project name in source
-            4) Click on config name and run analysis
-            5) Confirm analysis has started
+            1) Wait for configuration to be created through fixture
+            2) Click on config name and run analysis
+            3) Confirm analysis has started
         """
-        # TO DO - Create and delete analysis config files through a fixture
-
-        # Wait for 'New Configuration' to become visible
+        # Wait for new configuration' to become visible
         time.sleep(5)
         self.refresh_configuration()
-
-        # Create new analysis configuration by clicking 'New Configuration' button
-        self.wait_find_element(locator_type="image", locator="create_new_config.png")
-        self.click_element(locator_type="image", locator="create_new_config.png")
-        # Wait for configuration page to load
-        time.sleep(3)
-
-        # Add project info to configuration
-        add_project_locator = self.image_locator("add_button.png")
-        add_project_buttons = self.find_elements(add_project_locator)
-        # Click the first match out of the two same buttons found
-        self.click(add_project_buttons[0])
-        self.type_text(text=project, enter=True)
-
-        # Add migration target info to configuration
-        # Default target is eap7. Uncheck 'eap7' if target is something else.
-        if migration_target != "eap7":
-            time.sleep(10)
-            self.click_element(locator_type="image", locator="eap7_target_checked.png")
-            self.press_keys("page_down")
-            self.click_element(locator_type="image", locator="add_button.png")
-            self.type_text(text=migration_target, enter=True)
 
         # Run analysis after clicking on config name
         try:
