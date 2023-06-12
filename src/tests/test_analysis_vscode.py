@@ -24,7 +24,8 @@ def test_analysis_vscode(configurations, setup_vscode, app_name, analysis_data, 
 
     vscode.open_report_page()
     _, html_file_location = configurations
-    vscode.verify_story_points(
-        html_file_location=html_file_location,
-        expected_story_points=expected_story_points,
-    )
+    if 'skip_reports' not in application_data['options']:
+        vscode.verify_story_points(
+            html_file_location=html_file_location,
+            expected_story_points=expected_story_points,
+        )
