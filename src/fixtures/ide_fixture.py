@@ -121,8 +121,7 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     inputs = [os.path.join(project_path, path) for path in application_data["paths"]]
 
     # Build data for analysis configuration
-    options = application_data["options"] if "options" in application_data else Options()
-    options.target = application_data["targets"]
+    options = Options.from_dict(application_data["options"])
     options.input = inputs
     options.cli = config["windup_cli_path"]
     options.source_mode = True
