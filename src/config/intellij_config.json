@@ -1,14 +1,4 @@
 {
   "ide_path": "",
-  "plugin_cache_path": "",
-  "plugins": [
-    {
-      "name": "org.jboss.tools.intellij.mta",
-      "plugin_url": "https://plugins.jetbrains.com/plugin/download?rel=true&updateId=262878"
-    },
-    {
-      "name": "org.jboss.tools.intellij.mtr",
-      "plugin_url": "https://plugins.jetbrains.com/plugin/download?rel=true&updateId=267006"
-    }
-  ]
+  "plugin_cache_path": ""
 }
