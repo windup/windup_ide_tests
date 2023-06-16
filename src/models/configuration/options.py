@@ -11,9 +11,9 @@ from src.utils.data_control import is_type
 
 
 class Options:
-    source_mode: bool
-    output: str
-    target: List[str]
+    source_mode: Optional[bool]
+    output: Optional[str]
+    targets: Optional[List[str]]
     exclude_tags: Optional[List[str]]
     user_rules_directory: Optional[List[str]]
     disable_tattletale: Optional[bool]
@@ -47,7 +47,7 @@ class Options:
         enable_transaction_analysis: bool = None,
         packages: List[str] = None,
         enable_compatible_files_report: bool = None,
-        target: List[str] = None,
+        targets: List[str] = None,
         output: str = None,
         enable_class_not_found_analysis: bool = None,
         input: List[str] = None,
@@ -72,7 +72,7 @@ class Options:
         self.enable_transaction_analysis = enable_transaction_analysis
         self.packages = packages
         self.enable_compatible_files_report = enable_compatible_files_report
-        self.target = target
+        self.targets = targets
         self.output = output
         self.enable_class_not_found_analysis = enable_class_not_found_analysis
         self.input = input
@@ -94,7 +94,10 @@ class Options:
             [lambda x: from_list(from_str, x), from_none],
             obj.get("excludeTags"),
         )
-        source_mode = from_stringified_bool(from_str(obj.get("sourceMode")))
+        source_mode = from_union(
+            [from_none, lambda x: from_stringified_bool(from_str(x))],
+            obj.get("sourceMode"),
+        )
         user_rules_directory = from_union(
             [lambda x: from_list(from_str, x), from_none],
             obj.get("userRulesDirectory"),
@@ -121,8 +124,11 @@ class Options:
             [from_none, lambda x: from_stringified_bool(from_str(x))],
             obj.get("enableCompatibleFilesReport"),
         )
-        target = from_list(from_str, obj.get("target"))
-        output = from_str(obj.get("output"))
+        targets = from_list(from_str, obj.get("targets"))
+        output = from_union(
+            [from_none, lambda x: from_stringified_bool(from_str(x))],
+            obj.get("output"),
+        )
         enable_class_not_found_analysis = from_union(
             [from_none, lambda x: from_stringified_bool(from_str(x))],
             obj.get("enableClassNotFoundAnalysis"),
@@ -152,10 +158,13 @@ class Options:
             [from_none, lambda x: from_stringified_bool(from_str(x))],
             obj.get("online"),
         )
-        cli = from_str(obj.get("cli"))
+        cli = from_union(
+            [from_none, lambda x: from_stringified_bool(from_str(x))],
+            obj.get("cli"),
+        )
         skip_reports = from_union(
             [from_none, lambda x: from_stringified_bool(from_str(x))],
-            obj.get("skipReports"),
+            obj.get("skip_reports"),
         )
         overwrite = from_union(
             [from_none, lambda x: from_stringified_bool(from_str(x))],
@@ -163,7 +172,7 @@ class Options:
         )
         export_csv = from_union(
             [from_none, lambda x: from_stringified_bool(from_str(x))],
-            obj.get("exportCSV"),
+            obj.get("export_csv"),
         )
         return Options(
             exclude_tags,
@@ -176,7 +185,7 @@ class Options:
             enable_transaction_analysis,
             packages,
             enable_compatible_files_report,
-            target,
+            targets,
             output,
             enable_class_not_found_analysis,
             input,
@@ -249,7 +258,7 @@ class Options:
                 ],
                 self.enable_compatible_files_report,
             )
-        result["target"] = from_list(from_str, self.target)
+        result["targets"] = from_list(from_str, self.targets)
         if self.output is not None:
             result["output"] = from_str(self.output)
         if self.enable_class_not_found_analysis is not None:
