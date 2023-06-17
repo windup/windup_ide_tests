@@ -1,6 +1,9 @@
 import csv
 import os
+import subprocess
 import uuid
+
+from lxml import html
 
 
 def generate_uuid():
@@ -30,3 +33,30 @@ def assert_valid_csv_file(file_path, **kwargs):
         csv_reader = csv.DictReader(csv_file, delimiter=delimiter)
         columns_number = len(next(csv_reader))
         assert all(len(row) == columns_number for row in csv_reader) is True
+
+
+def find_elements_in_html_file(html_file_path, xpath):
+
+    if not os.path.exists(html_file_path):
+        raise Exception(f"File [{html_file_path}] does not exist!")
+
+    with open(html_file_path, "r", encoding="utf-8") as html_file:
+        content = html_file.read()
+
+    tree = html.fromstring(content)
+
+    elements = tree.xpath(xpath)
+
+    if elements is None:
+        raise Exception(f"No element found with xpath: [{xpath}]")
+
+    return elements
+
+
+def delete_directory(file_name):
+    subprocess.run(
+        f"rm -rf {file_name}",
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
