@@ -15,11 +15,8 @@ def test_analysis_vscode(configurations, setup_vscode, app_name, analysis_data, 
 
     expected_story_points = application_data["story_points"]
 
-    project = application_data["path"]
-    migration_target = application_data["targets"]
-
     vscode.open_mta_perspective()
-    vscode.run_simple_analysis(project, migration_target)
+    vscode.run_simple_analysis()
     assert vscode.is_analysis_complete()
 
     vscode.open_report_page()

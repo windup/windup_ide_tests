@@ -12,12 +12,9 @@ def test_csv_report_vscode(configurations, setup_vscode, app_name, analysis_data
     vscode = setup_vscode
     conf_object = configurations
     output_path = conf_object.configurations[0].options.output
-    configuration_data = analysis_data[app_name]
-    project = configuration_data["paths"]
-    migration_target = configuration_data["targets"]
 
     vscode.open_mta_perspective()
-    vscode.run_simple_analysis(project, migration_target)
+    vscode.run_simple_analysis()
     assert vscode.is_analysis_complete()
 
     # Assert *.csv files are generated after analysis
@@ -33,12 +30,9 @@ def test_skip_reports_vscode(configurations, setup_vscode, app_name, analysis_da
     vscode = setup_vscode
     conf_object = configurations
     output_path = conf_object.configurations[0].options.output
-    configuration_data = analysis_data[app_name]
-    project = configuration_data["paths"]
-    migration_target = configuration_data["targets"]
 
     vscode.open_mta_perspective()
-    vscode.run_simple_analysis(project, migration_target)
+    vscode.run_simple_analysis()
     assert vscode.is_analysis_complete()
 
     # Assert index.html file is not generated after analysis with skipReports option
