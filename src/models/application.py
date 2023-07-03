@@ -14,6 +14,10 @@ class Application(Desktop):
 
     IMG_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/images"
 
+    def cancel_analysis(self):
+        # implement method
+        raise Exception("Method not implemented")
+
     def image_locator(self, locator):
         """
         Forms image locator string
