@@ -3,8 +3,6 @@ import time
 
 import pytest
 
-from src.models.IDE.Intellij import Intellij
-
 DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"
 
 
