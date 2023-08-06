@@ -16,6 +16,9 @@ def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_da
     intellij = setup_intellij
     application_data = analysis_data[app_name]
     expected_story_points = application_data["story_points"]
+    configurations_object, html_file_location = configurations
+    intellij.configurations = configurations_object
+
     # Intellij freezes without this sleep
     time.sleep(3)
     intellij.run_simple_analysis(app_name)
