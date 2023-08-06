@@ -4,15 +4,9 @@ import time
 
 import pytest
 
-from src.models.configuration.configuration import Configuration
-from src.models.configuration.configurations_object import ConfigurationsObject
-from src.models.configuration.options import Options
 from src.models.IDE.Intellij import Intellij
 from src.models.IDE.VisualStudioCode import VisualStudioCode
 from src.models.web import EclipseChe
-from src.utils.general import delete_directory
-from src.utils.general import generate_uuid
-from src.utils.general import write_data_to_file
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
 DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"
@@ -100,5 +94,3 @@ def setup_intellij(intellij_config, config):
     intellij.set_focus()
     intellij.close_ide()
     time.sleep(5)
-
-
