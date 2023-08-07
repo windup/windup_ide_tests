@@ -6,7 +6,6 @@ import time
 
 from src.models.application import Application
 from src.models.configuration.configuration import Configuration
-from src.models.configuration.configurations_object import ConfigurationsObject
 
 
 class Intellij(Application):
@@ -21,7 +20,7 @@ class Intellij(Application):
             x_coordinate=110,
             y_coordinate=470,
         )
-        self.configurations = ConfigurationsObject()
+        self.configurations = []
 
     def get_ide_version(self, ide_directory):
         pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
@@ -56,7 +55,7 @@ class Intellij(Application):
         self.press_keys("down")
         self.press_keys("enter")
         time.sleep(1)
-        ConfigurationsObject.configurations.append(Configuration())
+        self.configurations.append(Configuration())
 
     def image_locator(self, locator):
         return f"image:{self.IMG_DIR}/intellij/{locator}"

@@ -10,6 +10,9 @@ class VisualStudioCode(Application):
     """
     Class for managing VSCode application
     """
+    def __init__(self):
+        self.configurations = []
+        super().__init__()
 
     def image_locator(self, locator):
         return f"image:{self.IMG_DIR}/vscode/{locator}"

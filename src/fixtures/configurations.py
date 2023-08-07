@@ -17,12 +17,12 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data
 
 
 @pytest.fixture(scope="function")
-def configurations(config, intellij_config, vscode_config, app_name, analysis_data, ide):
+def configurations(config, intellij_config, vscode_config, app_name, analysis_data, ide, setup_intellij, setup_vscode):
 
     # region construct configuration object and fill it from the data json
 
     uuid = generate_uuid()
-
+    application = setup_intellij if ide == "intellij1" else setup_vscode
     application_config = intellij_config if ide == "intellij" else vscode_config
     html_file_location = f"{application_config['plugin_cache_path']}/{uuid}/index.html"
 
@@ -44,6 +44,7 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     configuration = Configuration(name=app_name, id=uuid, options=options)
 
     configurations_object.configurations.append(configuration)
+    application.configurations = configurations_object.configurations
 
     # endregion
 
