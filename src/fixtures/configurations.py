@@ -17,7 +17,16 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data
 
 
 @pytest.fixture(scope="function")
-def configurations(config, intellij_config, vscode_config, app_name, analysis_data, ide, setup_intellij, setup_vscode):
+def configurations(
+    config,
+    intellij_config,
+    vscode_config,
+    app_name,
+    analysis_data,
+    ide,
+    setup_intellij,
+    setup_vscode,
+):
 
     # region construct configuration object and fill it from the data json
 

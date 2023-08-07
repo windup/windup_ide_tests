@@ -10,6 +10,7 @@ class VisualStudioCode(Application):
     """
     Class for managing VSCode application
     """
+
     def __init__(self):
         self.configurations = []
         super().__init__()
