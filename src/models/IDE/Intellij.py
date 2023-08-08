@@ -39,8 +39,6 @@ class Intellij(Application):
         self.press_keys("enter")
 
     def delete_all_configurations(self):
-        if not self.configurations:
-            return
 
         self.click(self.config_run_region)
         self.press_keys("ctrl", "a")

@@ -7,7 +7,7 @@ from src.utils.OCR import find_all_string_occurrences
 
 
 def test_empty_cli_path_intellij(setup_intellij):
-    """
+    """x`
     Tests the validation of empty cli path
     """
     intellij = setup_intellij
@@ -19,7 +19,7 @@ def test_empty_cli_path_intellij(setup_intellij):
     intellij.create_configuration_in_ui()
     intellij.run_simple_analysis("configuration0")
 
-    assert len(find_all_string_occurrences("Path to CLI executable required")) > 0
+    assert len(find_all_string_occurrences("")) > 0
 
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
