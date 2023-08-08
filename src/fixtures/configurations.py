@@ -3,9 +3,7 @@ import os
 
 import pytest
 
-from src.models.configuration.configuration import Configuration
 from src.models.configuration.configurations_object import ConfigurationsObject
-from src.models.configuration.options import Options
 from src.models.IDE.Intellij import Intellij
 from src.models.IDE.VisualStudioCode import VisualStudioCode
 from src.utils.general import delete_directory
@@ -27,32 +25,17 @@ def configurations(
     setup_intellij,
     setup_vscode,
 ):
-
     # region construct configuration object and fill it from the data json
 
     uuid = generate_uuid()
     application = setup_intellij if ide == "intellij1" else setup_vscode
     application_config = intellij_config if ide == "intellij" else vscode_config
     html_file_location = f"{application_config['plugin_cache_path']}/{uuid}/index.html"
+    model_json_path = f"{application_config['plugin_cache_path']}/model.json"
 
     configurations_object = ConfigurationsObject()
+    configurations_object.create(analysis_data, app_name, application_config, config, uuid)
 
-    application_data = analysis_data[app_name]
-    model_json_path = f"{application_config['plugin_cache_path']}/model.json"
-    project_path = config["project_path"]
-
-    inputs = [os.path.join(project_path, path) for path in application_data["paths"]]
-
-    # Build data for analysis configuration
-    options = Options.from_dict(application_data["options"])
-    options.input = inputs
-    options.cli = config["windup_cli_path"]
-    options.source_mode = True
-    options.output = f"{application_config['plugin_cache_path']}/{uuid}"
-
-    configuration = Configuration(name=app_name, id=uuid, options=options)
-
-    configurations_object.configurations.append(configuration)
     application.configurations = configurations_object.configurations
 
     # endregion
