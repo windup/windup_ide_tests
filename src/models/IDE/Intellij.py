@@ -5,7 +5,6 @@ import subprocess
 import time
 
 from src.models.application import Application
-from src.models.configuration.configuration import Configuration
 from src.models.configuration.configurations_object import ConfigurationsObject
 
 
@@ -66,7 +65,13 @@ class Intellij(Application):
         uuid,
     ):
         configurations_object = ConfigurationsObject()
-        configuration = configurations_object.create(analysis_data, app_name, application_config, config, uuid)
+        configuration = configurations_object.create(
+            analysis_data,
+            app_name,
+            application_config,
+            config,
+            uuid,
+        )
         self.configurations.append(configuration)
         self.refresh_configuration()
 

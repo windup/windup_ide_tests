@@ -1,4 +1,3 @@
-import json
 import os
 
 import pytest
@@ -16,14 +15,14 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data
 
 @pytest.fixture(scope="function")
 def configurations(
-        config,
-        intellij_config,
-        vscode_config,
-        app_name,
-        analysis_data,
-        ide,
-        setup_intellij,
-        setup_vscode,
+    config,
+    intellij_config,
+    vscode_config,
+    app_name,
+    analysis_data,
+    ide,
+    setup_intellij,
+    setup_vscode,
 ):
     # region construct configuration object and fill it from the data json
 
@@ -35,7 +34,13 @@ def configurations(
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"
 
     configurations_object = ConfigurationsObject()
-    configuration = configurations_object.create(analysis_data, app_name, application_config, config, uuid)
+    configuration = configurations_object.create(
+        analysis_data,
+        app_name,
+        application_config,
+        config,
+        uuid,
+    )
     application.configurations.append(configuration)
 
     # endregion
