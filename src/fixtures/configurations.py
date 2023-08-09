@@ -1,4 +1,3 @@
-import json
 import os
 
 import pytest
@@ -28,21 +27,23 @@ def configurations(
     # region construct configuration object and fill it from the data json
 
     uuid = generate_uuid()
+
     application = setup_intellij if ide == "intellij1" else setup_vscode
     application_config = intellij_config if ide == "intellij" else vscode_config
     html_file_location = f"{application_config['plugin_cache_path']}/{uuid}/index.html"
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"
 
     configurations_object = ConfigurationsObject()
-    configurations_object.create(analysis_data, app_name, application_config, config, uuid)
-
-    application.configurations = configurations_object.configurations
+    configuration = configurations_object.create(
+        analysis_data,
+        app_name,
+        application_config,
+        config,
+        uuid,
+    )
+    application.configurations.append(configuration)
 
     # endregion
-
-    # convert the object to json and write to the model.json file
-    final_configuration_json = json.dumps(configurations_object.to_dict())
-    write_data_to_file(model_json_path, final_configuration_json)
 
     yield configurations_object, html_file_location
 

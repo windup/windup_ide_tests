@@ -5,7 +5,6 @@ import subprocess
 import time
 
 from src.models.application import Application
-from src.models.configuration.configuration import Configuration
 from src.models.configuration.configurations_object import ConfigurationsObject
 
 
@@ -39,6 +38,8 @@ class Intellij(Application):
         self.press_keys("enter")
 
     def delete_all_configurations(self):
+        if not self.configurations:
+            return
 
         self.click(self.config_run_region)
         self.press_keys("ctrl", "a")
@@ -64,8 +65,14 @@ class Intellij(Application):
         uuid,
     ):
         configurations_object = ConfigurationsObject()
-        configurations_object.create(analysis_data, app_name, application_config, config, uuid)
-        self.configurations.append(Configuration())
+        configuration = configurations_object.create(
+            analysis_data,
+            app_name,
+            application_config,
+            config,
+            uuid,
+        )
+        self.configurations.append(configuration)
         self.refresh_configuration()
 
     def image_locator(self, locator):
