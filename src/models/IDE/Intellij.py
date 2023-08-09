@@ -5,6 +5,7 @@ import subprocess
 import time
 
 from src.models.application import Application
+from src.models.configuration.configurations_object import ConfigurationsObject
 
 
 class Intellij(Application):
@@ -19,6 +20,7 @@ class Intellij(Application):
             x_coordinate=110,
             y_coordinate=470,
         )
+        self.configurations = []
 
     def get_ide_version(self, ide_directory):
         pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
@@ -34,6 +36,44 @@ class Intellij(Application):
         self.press_keys("enter")
         time.sleep(1)
         self.press_keys("enter")
+
+    def delete_all_configurations(self):
+        if not self.configurations:
+            return
+
+        self.click(self.config_run_region)
+        self.press_keys("ctrl", "a")
+        self.click(action="right_click")
+        self.press_keys("up")
+        self.press_keys("enter")
+        time.sleep(1)
+        self.configurations = []
+
+    def create_configuration_in_ui(self):
+        self.click(self.config_run_region)
+        self.click(action="right_click")
+        self.press_keys("down")
+        self.press_keys("enter")
+        time.sleep(1)
+
+    def create_configuration_in_file(
+        self,
+        analysis_data,
+        app_name,
+        application_config,
+        config,
+        uuid,
+    ):
+        configurations_object = ConfigurationsObject()
+        configuration = configurations_object.create(
+            analysis_data,
+            app_name,
+            application_config,
+            config,
+            uuid,
+        )
+        self.configurations.append(configuration)
+        self.refresh_configuration()
 
     def image_locator(self, locator):
         return f"image:{self.IMG_DIR}/intellij/{locator}"
