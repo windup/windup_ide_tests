@@ -5,7 +5,7 @@ import subprocess
 import time
 
 from src.models.application import Application
-from src.models.configuration.configuration import Configuration
+from src.models.configuration.configurations_object import ConfigurationsObject
 
 
 class Intellij(Application):
@@ -49,13 +49,31 @@ class Intellij(Application):
         time.sleep(1)
         self.configurations = []
 
-    def create_configuration(self):
+    def create_configuration_in_ui(self):
         self.click(self.config_run_region)
         self.click(action="right_click")
         self.press_keys("down")
         self.press_keys("enter")
         time.sleep(1)
-        self.configurations.append(Configuration())
+
+    def create_configuration_in_file(
+        self,
+        analysis_data,
+        app_name,
+        application_config,
+        config,
+        uuid,
+    ):
+        configurations_object = ConfigurationsObject()
+        configuration = configurations_object.create(
+            analysis_data,
+            app_name,
+            application_config,
+            config,
+            uuid,
+        )
+        self.configurations.append(configuration)
+        self.refresh_configuration()
 
     def image_locator(self, locator):
         return f"image:{self.IMG_DIR}/intellij/{locator}"
