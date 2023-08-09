@@ -3,11 +3,11 @@ import time
 import pytest
 
 from src.utils.general import generate_uuid
-from src.utils.OCR import find_all_string_occurrences
+from src.utils.ocr import find_all_sentence_occurrences
 
 
 def test_empty_cli_path_intellij(setup_intellij):
-    """x`
+    """
     Tests the validation of empty cli path
     """
     intellij = setup_intellij
@@ -19,7 +19,7 @@ def test_empty_cli_path_intellij(setup_intellij):
     intellij.create_configuration_in_ui()
     intellij.run_simple_analysis("configuration0")
 
-    assert len(find_all_string_occurrences("")) > 0
+    assert len(find_all_sentence_occurrences("")) > 0
 
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
@@ -48,4 +48,4 @@ def test_invalid_cli_path_intellij(
         uuid=generate_uuid(),
     )
 
-    assert len(find_all_string_occurrences("Path to CLI executable does not exist")) > 0
+    assert len(find_all_sentence_occurrences("Path to CLI executable does not exist")) > 0
