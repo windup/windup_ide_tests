@@ -1,8 +1,8 @@
 import csv
 import os
+import re
 import subprocess
 import uuid
-import re
 
 from lxml import html
 
@@ -61,6 +61,7 @@ def delete_directory(file_name):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
+
 
 def get_screen_size():
     output = subprocess.check_output("xdpyinfo | grep dimensions", shell=True).decode()
