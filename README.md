@@ -26,19 +26,8 @@ To get started with project in development mode or basic usage, follow the below
 - The project to be analysed is imported in IDE
 - Selenium webdriver installed locally (chromedriver or geckodriver)
 
-Sample project can be downloaded
-
-- [weblogic-jms-case](https://drive.google.com/file/d/1l4VaWeYbsz7OMFZPT_OBY1ERntxNOUPp/view?usp=sharing_eil&ts=605ab414)
-
-**Eclipse CHE setup**
-
-- The workspace should be created before running test using devfile yaml
-
-    `~/windup_ide_tests/src/conf/eclipse_che_conf.yaml`
-
-- Use JIRA credentials for login, the same must be provided in config.json
-
-    `~/windup_ide_tests/src/conf/config.json`
+Clone the following project for testing
+- [Windup rulesets](https://github.com/midays/windup-rulesets)
 
 **Installation**
 
@@ -58,10 +47,13 @@ Sample project can be downloaded
 4. Install from setup
 
     `pip install .`
+5. Install Open-cv library
 
-5. Edit the **config.json** file and provide full path to the executable of respective IDE
+    `pip install opencv-python`
+6. Edit the **ide_config.json** file and provide full paths to the windup CLI, and to the windup-rulesets project
 
     `cd ~/windup_ide_tests/src/conf`
+
 
 **Contributing to the project**
 
@@ -70,9 +62,9 @@ Sample project can be downloaded
 3. Run the aforementioned installation steps
 4. Create new branch `git checkout -b <new_branch_name>`
 5. Run pre-commit check `pre-commit run -a`
-5. Commit the changes `git commit -m 'Explanatory commit message'`
-6. Push your changes to branch `git push origin <new_branch_name>`
-7. Open new pull request
+6. Commit the changes `git commit -m 'Explanatory commit message'`
+7. Push your changes to branch `git push origin <new_branch_name>`
+8. Open new pull request
 
 ## License
 Distributed under Eclipse Public License. See [LICENSE](https://github.com/nitishSr/windup-ide-tests/blob/main/LICENSE) for more information.
