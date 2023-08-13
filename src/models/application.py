@@ -3,6 +3,8 @@ import os
 
 from RPA.Desktop import Desktop
 
+from src.utils.general import find_elements_in_html_file
+
 
 class Application(Desktop):
     """
@@ -11,6 +13,10 @@ class Application(Desktop):
     """
 
     IMG_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/images"
+
+    def cancel_analysis(self):
+        # implement method
+        raise Exception("Method not implemented")
 
     def image_locator(self, locator):
         """
@@ -284,27 +290,15 @@ class Application(Desktop):
         except Exception:
             return False
 
-    def verify_story_points(self, target):
-        """
-        Verifies the story points in report after analysis
+    def verify_story_points(self, html_file_location, expected_story_points):
+        story_points_elements = find_elements_in_html_file(
+            html_file_location,
+            '//span[@class="points"]',
+        )
+        found_story_points = [int(element.text) for element in story_points_elements]
 
-        Returns:
-            (bool): True if story points were accurate
-        """
-        if target == "eap7":
-            story_point_locator = "eap7_story_points.png"
-        elif target == "quarkus":
-            story_point_locator = "quarkus_story_points.png"
-        elif target == "eapxp":
-            story_point_locator = "eapxp_story_points.png"
-        else:
-            logging.debug("Unknown target provided !")
-            raise Exception()
-        try:
-            self.wait_find_element(locator_type="image", locator=story_point_locator)
-            return True
-        except Exception as exc:
-            logging.debug(str(exc))
-            return False
-        finally:
-            self.switch_tab()
+        assert set(found_story_points) == set(expected_story_points), (
+            f"Error: found story points are not as expected. "
+            f"\nExpected: [{expected_story_points}],"
+            f"\nInstead found : [{found_story_points}]"
+        )

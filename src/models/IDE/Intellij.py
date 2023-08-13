@@ -5,6 +5,7 @@ import subprocess
 import time
 
 from src.models.application import Application
+from src.models.configuration.configurations_object import ConfigurationsObject
 
 
 class Intellij(Application):
@@ -19,6 +20,7 @@ class Intellij(Application):
             x_coordinate=110,
             y_coordinate=470,
         )
+        self.configurations = []
 
     def get_ide_version(self, ide_directory):
         pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
@@ -30,10 +32,48 @@ class Intellij(Application):
         """
         self.click(self.config_run_region)
         self.press_keys("alt", "f")
-        self.press_keys("up")
+        self.press_keys("x")
         self.press_keys("enter")
         time.sleep(1)
         self.press_keys("enter")
+
+    def delete_all_configurations(self):
+        if not self.configurations:
+            return
+
+        self.click(self.config_run_region)
+        self.press_keys("ctrl", "a")
+        self.click(action="right_click")
+        self.press_keys("up")
+        self.press_keys("enter")
+        time.sleep(1)
+        self.configurations = []
+
+    def create_configuration_in_ui(self):
+        self.click(self.config_run_region)
+        self.click(action="right_click")
+        self.press_keys("down")
+        self.press_keys("enter")
+        time.sleep(1)
+
+    def create_configuration_in_file(
+        self,
+        analysis_data,
+        app_name,
+        application_config,
+        config,
+        uuid,
+    ):
+        configurations_object = ConfigurationsObject()
+        configuration = configurations_object.create(
+            analysis_data,
+            app_name,
+            application_config,
+            config,
+            uuid,
+        )
+        self.configurations.append(configuration)
+        self.refresh_configuration()
 
     def image_locator(self, locator):
         return f"image:{self.IMG_DIR}/intellij/{locator}"
@@ -79,7 +119,7 @@ class Intellij(Application):
 
         self.click(self.config_run_region)
 
-    def run_simple_analysis(self, app_name):
+    def run_simple_analysis(self, app_name, wait_for_analysis_finish=False):
 
         self.refresh_configuration()
 
@@ -92,12 +132,13 @@ class Intellij(Application):
         self.press_keys("up")
         self.press_keys("enter")
         # Wait for analysis to be completed in IDE terminal
-        time.sleep(2)
-        self.wait_find_element(
-            locator_type="image",
-            locator="analysis_complete_terminal.png",
-            timeout=120.0,
-        )
+        if wait_for_analysis_finish:
+            time.sleep(2)
+            self.wait_find_element(
+                locator_type="image",
+                locator="analysis_complete_terminal.png",
+                timeout=120.0,
+            )
 
     def open_report_page(self, app_name):
 
@@ -126,3 +167,11 @@ class Intellij(Application):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
+
+    def cancel_analysis(self):
+        """
+        Cancels an in-progress analysis
+        """
+        time.sleep(3)
+        self.click_element(locator_type="image", locator="cancel_analysis.png")
+        self.click()

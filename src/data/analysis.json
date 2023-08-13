@@ -3,67 +3,136 @@
     "paths": [
       "eap7/weblogic/tests/data"
     ],
-    "targets": [
-      "eap7"
-    ],
-    "story_points": ""
+    "options": {
+      "export_csv": "true",
+      "targets": [
+        "eap7"
+      ]
+    },
+    "story_points": [
+      117
+    ]
   },
   "thorntail_to_eapxp": {
     "paths": [
       "eapxp/thorntail/tests/data"
     ],
-    "targets": [
-      "eapxp"
-    ],
-    "story_points": ""
+    "options": {
+      "targets": [
+        "eapxp"
+      ]
+    },
+    "story_points": [
+      54
+    ]
   },
   "springboot_to_quarkus": {
     "paths": [
       "quarkus/springboot/tests/data"
     ],
-    "targets": [
-      "quarkus"
-    ],
-    "story_points": ""
+    "options": {
+      "targets": [
+        "quarkus"
+      ]
+    },
+    "story_points": [
+      954
+    ]
   },
   "eap_to_azure-appservice": {
     "paths": [
       "azure/eap/test/data/eap-to-azure-appservice-datasource-driver"
     ],
-    "targets": [
-      "azure-appservice"
-    ],
-    "story_points": ""
+    "options": {
+      "targets": [
+        "azure-appservice"
+      ]
+    },
+    "story_points": [
+      87
+    ]
   },
   "multiple-projects-multiple-targets": {
     "paths": [
       "eap8/eap7/tests/data",
       "openjdk17/openjdk11/tests/data"
     ],
-    "targets": [
-      "eap8",
-      "openjdk17"
-    ],
-    "story_points": ""
+    "options": {
+      "targets": [
+        "eap8",
+        "openjdk17"
+      ]
+    },
+    "story_points": [
+      750,
+      179
+    ]
   },
   "single-project-multiple-targets": {
     "paths": [
       "openjdk17/openjdk11/tests/data"
     ],
-    "targets": [
-      "eap8",
-      "openjdk17"
-    ],
-    "story_points": ""
+    "options": {
+      "targets": [
+        "eap8",
+        "openjdk17"
+      ]
+    },
+    "story_points": [
+      179
+    ]
   },
   "multiple-projects-single-target": {
     "paths": [
       "eap8/eap7/tests/data",
       "openjdk17/openjdk11/tests/data"
     ],
-    "targets": [
-      "openjdk17"
+    "options": {
+      "targets": [
+        "openjdk17"
+      ]
+    },
+    "story_points": [
+      177,
+      2
+    ]
+  },
+  "eap7_to_eap8": {
+    "paths": [
+      "eap8/eap7/tests/data"
     ],
-    "story_points": ""
+    "options": {
+      "targets": [
+        "eap8"
+      ]
+    },
+    "story_points": [
+      748
+    ]
+  },
+  "openjdk11_to_openjdk17": {
+    "paths": [
+      "openjdk17/openjdk11/tests/data"
+    ],
+    "options": {
+      "targets": [
+        "openjdk17"
+      ]
+    },
+    "story_points": [
+      177
+    ]
+  },
+  "weblogic_to_eap7_skip_reports": {
+    "paths": [
+      "eap7/weblogic/tests/data"
+    ],
+    "story_points": [],
+    "options": {
+      "skip_reports": "true",
+      "targets": [
+        "eap7"
+      ]
+    }
   }
 }
