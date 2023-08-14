@@ -54,6 +54,7 @@ Clone the following project for testing
 
     `cd ~/windup_ide_tests/src/conf`
 
+7. For the relevant IDE, there exists a config file under **src/config/<ide>_config.json**. Make sure to update the fields as required
 
 **Contributing to the project**
 
