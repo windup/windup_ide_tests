@@ -3,13 +3,12 @@
 ## About the project
 This project is for creating automated tests for verifying the functionality of MTA IDE plugin. This is an extension of [windup_integration_test](https://github.com/windup/windup_integration_test) extensively created for coverage of IDEs. Currently below IDEs have been covered:
 
-| IDE           | Version |
-| ------------- | ------------- |
-| Redhat Code Ready Studio  | 12.18.0.GA  |
-| Eclipse IDE for J2EE developers  | 2020-09  |
-| VS Code  | 1.54.1 |
-| Eclipse CHE  | theia |
-| IntelliJ IDEA  | 2021.1.3 |
+| IDE           | Version  |
+| ------------- |----------|
+| Eclipse IDE for J2EE developers  | 2023-03  |
+| VS Code  | 1.54.1   |
+| Eclipse CHE  | theia    |
+| IntelliJ IDEA  | 2022.3.1 |
 
 **Supported OS**
 
@@ -21,13 +20,11 @@ To get started with project in development mode or basic usage, follow the below
 **Pre-requisites**
 
 - Python 3+ installed
+- JDK 11 installed, if there are multiple JDK version installed on the system, make sure JDK 11 is set as the default default
 - Respective IDE (to be tested) installed on local machine
 - MTA IDE plugin installed in that IDE
 - The project to be analysed is imported in IDE
-- Selenium webdriver installed locally (chromedriver or geckodriver)
-
-Clone the following project for testing
-- [Windup rulesets](https://github.com/midays/windup-rulesets)
+   - this project can be used [Windup rulesets](https://github.com/midays/windup-rulesets)
 
 **Installation**
 
@@ -54,7 +51,9 @@ Clone the following project for testing
 
     `cd ~/windup_ide_tests/src/conf`
 
-7. For the relevant IDE, there exists a config file under **src/config/<ide>_config.json**. Make sure to update the fields as required
+7. For each IDE, there exists a relevant config file under **src/config/<ide>_config.json**. Make sure to update the fields as required
+   1. **ide_path**: The path to the IDE executable
+   2. **plugin_cache_path**: The path to the cache folder should be under `~/.windup/tooling/<ide>/`
 
 **Contributing to the project**
 
