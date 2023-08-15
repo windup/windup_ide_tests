@@ -1,5 +1,6 @@
 import csv
 import os
+import re
 import subprocess
 import uuid
 
@@ -60,3 +61,12 @@ def delete_directory(file_name):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
+
+
+def get_screen_size():
+    output = subprocess.check_output("xdpyinfo | grep dimensions", shell=True).decode()
+    m = re.search(r"dimensions:\s+(\d+x\d+)", output)
+    if m:
+        return m.group(1)
+    else:
+        raise RuntimeError("Could not get screen size")
