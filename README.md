@@ -3,13 +3,12 @@
 ## About the project
 This project is for creating automated tests for verifying the functionality of MTA IDE plugin. This is an extension of [windup_integration_test](https://github.com/windup/windup_integration_test) extensively created for coverage of IDEs. Currently below IDEs have been covered:
 
-| IDE           | Version |
-| ------------- | ------------- |
-| Redhat Code Ready Studio  | 12.18.0.GA  |
-| Eclipse IDE for J2EE developers  | 2020-09  |
-| VS Code  | 1.54.1 |
-| Eclipse CHE  | theia |
-| IntelliJ IDEA  | 2021.1.3 |
+| IDE           | Version  |
+| ------------- |----------|
+| Eclipse IDE for J2EE developers  | 2023-03  |
+| VS Code  | 1.54.1   |
+| Eclipse CHE  | theia    |
+| IntelliJ IDEA  | 2022.3.1 |
 
 **Supported OS**
 
@@ -21,24 +20,11 @@ To get started with project in development mode or basic usage, follow the below
 **Pre-requisites**
 
 - Python 3+ installed
+- JDK 11 installed, if there are multiple JDK version installed on the system, make sure JDK 11 is set as the default
 - Respective IDE (to be tested) installed on local machine
 - MTA IDE plugin installed in that IDE
 - The project to be analysed is imported in IDE
-- Selenium webdriver installed locally (chromedriver or geckodriver)
-
-Sample project can be downloaded
-
-- [weblogic-jms-case](https://drive.google.com/file/d/1l4VaWeYbsz7OMFZPT_OBY1ERntxNOUPp/view?usp=sharing_eil&ts=605ab414)
-
-**Eclipse CHE setup**
-
-- The workspace should be created before running test using devfile yaml
-
-    `~/windup_ide_tests/src/conf/eclipse_che_conf.yaml`
-
-- Use JIRA credentials for login, the same must be provided in config.json
-
-    `~/windup_ide_tests/src/conf/config.json`
+   - this project can be used [Windup rulesets](https://github.com/midays/windup-rulesets)
 
 **Installation**
 
@@ -58,10 +44,13 @@ Sample project can be downloaded
 4. Install from setup
 
     `pip install .`
-
-5. Edit the **config.json** file and provide full path to the executable of respective IDE
+5. Edit the **ide_config.json** file and provide full paths to the windup CLI, and to the windup-rulesets project
 
     `cd ~/windup_ide_tests/src/conf`
+
+6. For each IDE, there exists a relevant config file under **src/config/<ide>_config.json**. Make sure to update the fields as required
+   1. **ide_path**: The path to the IDE executable
+   2. **plugin_cache_path**: The path to the cache folder should be under `~/.windup/tooling/<ide>/`
 
 **Contributing to the project**
 
@@ -70,9 +59,9 @@ Sample project can be downloaded
 3. Run the aforementioned installation steps
 4. Create new branch `git checkout -b <new_branch_name>`
 5. Run pre-commit check `pre-commit run -a`
-5. Commit the changes `git commit -m 'Explanatory commit message'`
-6. Push your changes to branch `git push origin <new_branch_name>`
-7. Open new pull request
+6. Commit the changes `git commit -m 'Explanatory commit message'`
+7. Push your changes to branch `git push origin <new_branch_name>`
+8. Open new pull request
 
 ## License
 Distributed under Eclipse Public License. See [LICENSE](https://github.com/nitishSr/windup-ide-tests/blob/main/LICENSE) for more information.
