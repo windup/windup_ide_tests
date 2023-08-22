@@ -35,6 +35,7 @@ class Options:
     overwrite: Optional[bool]
     export_csv: Optional[bool]
     legacy_reports: Optional[bool]
+
     def __init__(
         self,
         exclude_tags: List[str] = None,
@@ -61,7 +62,7 @@ class Options:
         skip_reports: bool = None,
         overwrite: bool = None,
         export_csv: bool = None,
-        legacy_reports: bool = None
+        legacy_reports: bool = None,
     ) -> None:
         self.exclude_tags = exclude_tags
         self.source_mode = source_mode
@@ -181,7 +182,6 @@ class Options:
             obj.get("legacyReports"),
         )
 
-
         return Options(
             exclude_tags,
             source_mode,
@@ -207,7 +207,7 @@ class Options:
             skip_reports,
             overwrite,
             export_csv,
-            legacy_reports
+            legacy_reports,
         )
 
     def to_dict(self) -> dict:
