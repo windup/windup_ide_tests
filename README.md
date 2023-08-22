@@ -44,14 +44,11 @@ To get started with project in development mode or basic usage, follow the below
 4. Install from setup
 
     `pip install .`
-5. Install Open-cv library
-
-    `pip install opencv-python`
-6. Edit the **ide_config.json** file and provide full paths to the windup CLI, and to the windup-rulesets project
+5. Edit the **ide_config.json** file and provide full paths to the windup CLI, and to the windup-rulesets project
 
     `cd ~/windup_ide_tests/src/conf`
 
-7. For each IDE, there exists a relevant config file under **src/config/<ide>_config.json**. Make sure to update the fields as required
+6. For each IDE, there exists a relevant config file under **src/config/<ide>_config.json**. Make sure to update the fields as required
    1. **ide_path**: The path to the IDE executable
    2. **plugin_cache_path**: The path to the cache folder should be under `~/.windup/tooling/<ide>/`
 

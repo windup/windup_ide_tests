@@ -7,3 +7,5 @@ lxml~=4.9.2
 selenium~=4.9.1
 setuptools~=65.5.1
 numpy~=1.24.3
+opencv-python~=4.8.0
+rpaframework~=26.0.0
