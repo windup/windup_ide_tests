@@ -173,10 +173,10 @@ class Intellij(Application):
         self.click_element(locator_type="image", locator="cancel_analysis.png")
         self.click()
 
-    def open_mta_plugins_info(self):
+    def open_mta_plugin_info(self):
         self.press_keys("ctrl", "alt", "s")
         self.press_keys("ctrl", "f")
         self.type_text("plugins")
         self.press_keys("enter")
-        self.press_keys("Migration Toolkit for Runtimes")
+        self.type_text("Migration Toolkit for Runtimes")
         self.press_keys("enter")
