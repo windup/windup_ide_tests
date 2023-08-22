@@ -168,12 +168,12 @@ class Application(Desktop):
         self.click(locator=formed_locator)
 
     def wait_find_element(
-        self,
-        locator_type,
-        locator=None,
-        coordinates=[],
-        timeout=15.0,
-        interval=0.5,
+            self,
+            locator_type,
+            locator=None,
+            coordinates=[],
+            timeout=15.0,
+            interval=0.5,
     ):
         """
         Wait untill timeout and find element based on locator
@@ -290,10 +290,13 @@ class Application(Desktop):
         except Exception:
             return False
 
-    def verify_story_points(self, html_file_location, expected_story_points):
+    def verify_story_points(self, html_file_location, expected_story_points, legacy=True):
+
+        locator = '//span[@class="points"]' if legacy else '//td[@data-label="Story points"]'
+
         story_points_elements = find_elements_in_html_file(
             html_file_location,
-            '//span[@class="points"]',
+            locator,
         )
         found_story_points = [int(element.text) for element in story_points_elements]
 

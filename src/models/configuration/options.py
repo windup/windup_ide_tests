@@ -34,7 +34,7 @@ class Options:
     skip_reports: Optional[bool]
     overwrite: Optional[bool]
     export_csv: Optional[bool]
-
+    legacy_reports: Optional[bool]
     def __init__(
         self,
         exclude_tags: List[str] = None,
@@ -61,6 +61,7 @@ class Options:
         skip_reports: bool = None,
         overwrite: bool = None,
         export_csv: bool = None,
+        legacy_reports: bool = None
     ) -> None:
         self.exclude_tags = exclude_tags
         self.source_mode = source_mode
@@ -86,6 +87,7 @@ class Options:
         self.skip_reports = skip_reports
         self.overwrite = overwrite
         self.export_csv = export_csv
+        self.legacy_reports = legacy_reports
 
     @staticmethod
     def from_dict(obj: Any) -> "Options":
@@ -174,6 +176,12 @@ class Options:
             [from_none, lambda x: from_stringified_bool(from_str(x))],
             obj.get("export_csv"),
         )
+        legacy_reports = from_union(
+            [from_none, lambda x: from_stringified_bool(from_str(x))],
+            obj.get("legacyReports"),
+        )
+
+
         return Options(
             exclude_tags,
             source_mode,
@@ -199,6 +207,7 @@ class Options:
             skip_reports,
             overwrite,
             export_csv,
+            legacy_reports
         )
 
     def to_dict(self) -> dict:
@@ -338,5 +347,13 @@ class Options:
                     lambda x: from_str((lambda x: str((lambda x: is_type(bool, x))(x)).lower())(x)),
                 ],
                 self.export_csv,
+            )
+        if self.legacy_reports is not None:
+            result["legacyReports"] = from_union(
+                [
+                    lambda x: from_none((lambda x: is_type(type(None), x))(x)),
+                    lambda x: from_str((lambda x: str((lambda x: is_type(bool, x))(x)).lower())(x)),
+                ],
+                self.legacy_reports,
             )
         return result

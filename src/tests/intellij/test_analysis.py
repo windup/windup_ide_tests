@@ -27,4 +27,5 @@ def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_da
         intellij.verify_story_points(
             html_file_location=html_file_location,
             expected_story_points=expected_story_points,
+            legacy="legacyReports" in application_data['options']
         )
