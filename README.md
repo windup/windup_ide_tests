@@ -20,7 +20,7 @@ To get started with project in development mode or basic usage, follow the below
 **Pre-requisites**
 
 - Python 3+ installed
-- JDK 11 installed, if there are multiple JDK version installed on the system, make sure JDK 11 is set as the default default
+- JDK 11 installed, if there are multiple JDK version installed on the system, make sure JDK 11 is set as the default
 - Respective IDE (to be tested) installed on local machine
 - MTA IDE plugin installed in that IDE
 - The project to be analysed is imported in IDE
