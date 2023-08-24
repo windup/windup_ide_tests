@@ -134,5 +134,19 @@
         "eap7"
       ]
     }
+  },
+  "weblogic_to_eap7_legacy_reports": {
+    "paths": [
+      "eap7/weblogic/tests/data"
+    ],
+    "options": {
+      "legacyReports": "true",
+      "targets": [
+        "eap7"
+      ]
+    },
+    "story_points": [
+      117
+    ]
   }
 }

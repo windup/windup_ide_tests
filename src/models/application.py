@@ -290,7 +290,7 @@ class Application(Desktop):
         except Exception:
             return False
 
-    def verify_story_points(self, html_file_location, expected_story_points, legacy=True):
+    def verify_story_points(self, html_file_location, expected_story_points, legacy=False):
 
         locator = '//span[@class="points"]' if legacy else '//td[@data-label="Story points"]'
 
