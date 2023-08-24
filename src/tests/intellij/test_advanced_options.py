@@ -43,3 +43,25 @@ def test_skip_reports_intellij(configurations, setup_intellij, app_name, analysi
     # Assert index.html file is not generated after analysis with skipReports option
     file_path = os.path.join(output_path, "index.html")
     assert os.path.exists(file_path) is False
+
+
+@pytest.mark.parametrize("app_name", ["weblogic_to_eap7_legacy_reports"])
+@pytest.mark.parametrize("ide", ["intellij"])
+def test_legacy_reports_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
+    """Analysis test for IntelliJ using --legacyReports option"""
+    intellij = setup_intellij
+
+    application_data = analysis_data[app_name]
+    expected_story_points = application_data["story_points"]
+    _, html_file_location = configurations
+
+    # Intellij freezes without this sleep
+    time.sleep(3)
+
+    intellij.run_simple_analysis(app_name)
+
+    intellij.verify_story_points(
+        html_file_location=html_file_location,
+        expected_story_points=expected_story_points,
+        legacy=True,
+    )
