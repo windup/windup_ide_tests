@@ -48,7 +48,7 @@ def test_skip_reports_intellij(configurations, setup_intellij, app_name, analysi
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7_legacy_reports"])
 @pytest.mark.parametrize("ide", ["intellij"])
 def test_legacy_reports_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
-    """Analysis test for IntelliJ using --skipReports option"""
+    """Analysis test for IntelliJ using --legacyReports option"""
     intellij = setup_intellij
 
     application_data = analysis_data[app_name]
