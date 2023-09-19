@@ -7,7 +7,7 @@ from src.utils.general import assert_valid_csv_file
 
 @pytest.mark.parametrize("app_name", ["thorntail_to_eapxp"])
 @pytest.mark.parametrize("ide", ["vscode"])
-def test_csv_report_vscode(configurations, setup_vscode, app_name, analysis_data, ide):
+def test_csv_report(configurations, setup_vscode, app_name, analysis_data, ide):
     """Analysis test for VScode using --exportCSV option"""
     vscode = setup_vscode
     conf_object = configurations
@@ -25,7 +25,7 @@ def test_csv_report_vscode(configurations, setup_vscode, app_name, analysis_data
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7_skip_reports"])
 @pytest.mark.parametrize("ide", ["vscode"])
-def test_skip_reports_vscode(configurations, setup_vscode, app_name, analysis_data, ide):
+def test_skip_reports(configurations, setup_vscode, app_name, analysis_data, ide):
     """Analysis test for VScode using --skipReports option"""
     vscode = setup_vscode
     conf_object = configurations
@@ -38,3 +38,22 @@ def test_skip_reports_vscode(configurations, setup_vscode, app_name, analysis_da
     # Assert index.html file is not generated after analysis with skipReports option
     file_path = os.path.join(output_path, "index.html")
     assert os.path.exists(file_path) is False
+
+
+@pytest.mark.parametrize("app_name", ["weblogic_to_eap7_legacy_reports"])
+@pytest.mark.parametrize("ide", ["vscode"])
+def test_legacy_reports(configurations, setup_vscode, app_name, analysis_data, ide):
+    """Analysis test for vscode using --legacyReports option"""
+    vscode = setup_vscode
+
+    application_data = analysis_data[app_name]
+    expected_story_points = application_data["story_points"]
+    _, html_file_location = configurations
+
+    vscode.run_simple_analysis(app_name)
+
+    vscode.verify_story_points(
+        html_file_location=html_file_location,
+        expected_story_points=expected_story_points,
+        legacy=True,
+    )
