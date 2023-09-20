@@ -43,6 +43,3 @@ def test_plugin_info(setup_intellij):
     assert len(find_all_sentence_occurrences(
         "Read more about MTA here")) > 0, ("the sentence \"Read more about MTA here\" was not found in the plugin info "
                                            "panel")
-
-    # assert the links work as expected
-
