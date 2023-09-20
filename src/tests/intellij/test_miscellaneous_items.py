@@ -6,7 +6,7 @@ from src.utils.ocr import find_all_sentence_occurrences
 DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"
 
 
-def test_analysis_intellij(setup_intellij):
+def test_plugin_info(setup_intellij):
     """
     Test if the plugin panel shows the expected information
     """
