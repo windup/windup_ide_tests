@@ -131,3 +131,11 @@ class VisualStudioCode(Application):
         # Click 'Refresh configurations' button
         self.wait_find_element(locator_type="image", locator="refresh_configurations.png")
         self.click_element(locator_type="image", locator="refresh_configurations.png")
+
+    def open_plugin_info(self, plugin):
+        self.press_keys("ctrl", "shift", "x")
+        self.type_text(f"migration toolkit for {plugin}")
+        time.sleep(5)
+        self.press_keys("tab")
+        self.press_keys("down")
+        self.press_keys("enter")
