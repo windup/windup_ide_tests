@@ -3,7 +3,7 @@ import time
 
 import pytest
 
-DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"
+DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
