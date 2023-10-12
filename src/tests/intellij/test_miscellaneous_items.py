@@ -5,7 +5,7 @@ import pytest
 
 from src.utils.ocr import find_all_sentence_occurrences
 
-DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"
+DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))) + "/data/"
 
 # Polarion TC:
 # https://polarion.engineering.redhat.com/polarion/#/project/MigrationToolkitAppl/workitem?id=MTR-271

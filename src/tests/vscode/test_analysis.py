@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data/"
+DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))) + "/data/"
 
 
 @pytest.mark.parametrize("app_name", json.load(open(DATA_DIR + "analysis.json")))
