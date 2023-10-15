@@ -28,7 +28,7 @@ def configurations(
 
     uuid = generate_uuid()
 
-    application = setup_intellij if ide == "intellij1" else setup_vscode
+    application = setup_intellij if ide == "intellij" else setup_vscode
     application_config = intellij_config if ide == "intellij" else vscode_config
     html_file_location = f"{application_config['plugin_cache_path']}/{uuid}/index.html"
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"

@@ -11,8 +11,12 @@ RECORD_DIR = (
 )
 
 
-@pytest.fixture(autouse=True, scope="session")
+@pytest.fixture(autouse=True)
 def record_test_run(ide, frame_rate=24):
+
+    if not pytest.record_video:
+        return
+
     screen_size = get_screen_size()
 
     run_time = datetime.now().strftime("%d-%m-%Y_%H:%M")
