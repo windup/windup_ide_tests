@@ -10,7 +10,7 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__fi
 # Polarion TC:
 # https://polarion.engineering.redhat.com/polarion/#/project/MigrationToolkitAppl/workitem?id=MTR-271
 
-
+@pytest.mark.intellij
 def test_plugin_info(setup_intellij):
 
     plugin_short_name = "MTA" if pytest.mtr else "MTR"

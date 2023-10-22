@@ -8,6 +8,7 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__fi
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
 @pytest.mark.parametrize("ide", ["intellij"])
+@pytest.mark.intellij
 def test_cancel_analysis_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
     """
     Tests the behaviour of canceling an analysis

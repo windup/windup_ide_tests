@@ -8,6 +8,7 @@ from src.utils.general import assert_valid_csv_file
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
 @pytest.mark.parametrize("ide", ["intellij"])
+@pytest.mark.intellij
 def test_csv_report_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
     """Analysis test for IntelliJ using --exportCSV option"""
     intellij = setup_intellij
@@ -28,6 +29,7 @@ def test_csv_report_intellij(configurations, setup_intellij, app_name, analysis_
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7_skip_reports"])
 @pytest.mark.parametrize("ide", ["intellij"])
+@pytest.mark.intellij
 def test_skip_reports_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
     """Analysis test for IntelliJ using --skipReports option"""
     intellij = setup_intellij
@@ -47,6 +49,7 @@ def test_skip_reports_intellij(configurations, setup_intellij, app_name, analysi
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7_legacy_reports"])
 @pytest.mark.parametrize("ide", ["intellij"])
+@pytest.mark.intellij
 def test_legacy_reports_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
     """Analysis test for IntelliJ using --legacyReports option"""
     intellij = setup_intellij
