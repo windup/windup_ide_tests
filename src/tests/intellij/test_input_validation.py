@@ -6,7 +6,6 @@ from src.utils.general import generate_uuid
 from src.utils.ocr import find_all_sentence_occurrences
 
 
-@pytest.mark.intellij
 def test_empty_input_validation(setup_intellij):
     """
     Analysis tests for intellij using various migration paths
@@ -25,7 +24,6 @@ def test_empty_input_validation(setup_intellij):
 
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
 @pytest.mark.parametrize("ide", ["intellij"])
-@pytest.mark.intellij
 def test_invalid_input_validation(
     setup_intellij,
     app_name,
