@@ -5,6 +5,7 @@ import pytest
 from src.utils.general import generate_uuid
 from src.utils.ocr import find_all_sentence_occurrences
 
+
 @pytest.mark.intellij
 def test_empty_input_validation(setup_intellij):
     """
@@ -20,6 +21,7 @@ def test_empty_input_validation(setup_intellij):
     time.sleep(3)
 
     assert len(find_all_sentence_occurrences("Path to input required")) > 0
+
 
 @pytest.mark.intellij
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
