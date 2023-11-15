@@ -12,24 +12,26 @@ RECORD_DIR = (
 
 
 @pytest.fixture(autouse=True)
-def record_test_run(ide, frame_rate=24):
+def record_test_run(frame_rate=24):
+    p = None
 
-    if not pytest.record_video:
-        return
+    if pytest.record_video:
+        ide = "intellij" if pytest.intellij else "vscode"
 
-    screen_size = get_screen_size()
+        screen_size = get_screen_size()
 
-    run_time = datetime.now().strftime("%d-%m-%Y_%H:%M")
-    output_file = f"{RECORD_DIR}/{ide}_{run_time}.mp4"
-    cmd = (
-        f"ffmpeg -video_size {screen_size} -framerate {frame_rate} -f x11grab -i :0.0 {output_file}"
-    )
-    print("Executing command: " + cmd)
-    p = subprocess.Popen(cmd, shell=True)
+        run_time = datetime.now().strftime("%d-%m-%Y_%H:%M")
+        output_file = f"{RECORD_DIR}/{ide}_{run_time}.mp4"
+        cmd = (
+            f"ffmpeg -video_size {screen_size} -framerate "
+            f"{frame_rate} -f x11grab -i :0.0 {output_file}"
+        )
+        print("Executing command: " + cmd)
+        p = subprocess.Popen(cmd, shell=True)
 
-    yield
-
-    # Stop the recording
-    p.terminate()
-    # Ensure the process has terminated before exiting
-    p.wait()
+    yield p
+    if p:
+        # Stop the recording
+        p.terminate()
+        # Ensure the process has terminated before exiting
+        p.wait()
