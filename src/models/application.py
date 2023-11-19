@@ -301,7 +301,5 @@ class Application(Desktop):
         found_story_points = [int(element.text) for element in story_points_elements]
 
         assert set(found_story_points) == set(expected_story_points), (
-            f"Error: found story points are not as expected. "
-            f"\nExpected: [{expected_story_points}],"
-            f"\nInstead found : [{found_story_points}]"
+            f"Error: found story points are not as expected. " f"\nExpected: [{expected_story_points}]," f"\nInstead found : [{found_story_points}]"
         )
