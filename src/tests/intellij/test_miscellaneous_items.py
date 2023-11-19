@@ -13,7 +13,6 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__fi
 
 @pytest.mark.intellij
 def test_plugin_info(setup_intellij):
-
     plugin_short_name = "MTA" if pytest.mtr else "MTR"
     plugin = "Applications" if pytest.mtr else "Runtimes"
     """

@@ -291,7 +291,6 @@ class Application(Desktop):
             return False
 
     def verify_story_points(self, html_file_location, expected_story_points, legacy=False):
-
         locator = '//span[@class="points"]' if legacy else '//td[@data-label="Story points"]'
 
         story_points_elements = find_elements_in_html_file(
@@ -300,6 +299,4 @@ class Application(Desktop):
         )
         found_story_points = [int(element.text) for element in story_points_elements]
 
-        assert set(found_story_points) == set(expected_story_points), (
-            f"Error: found story points are not as expected.\nExpected: [{expected_story_points}],\nInstead found : [{found_story_points}]"
-        )
+        assert set(found_story_points) == set(expected_story_points), f"Error: found story points are not as expected.\nExpected: [{expected_story_points}],\nInstead found : [{found_story_points}]"
