@@ -6,6 +6,7 @@ from src.utils.general import generate_uuid
 from src.utils.ocr import find_all_sentence_occurrences
 
 
+@pytest.mark.intellij
 def test_empty_cli_path_intellij(setup_intellij):
     """
     Tests the validation of empty cli path
@@ -22,6 +23,7 @@ def test_empty_cli_path_intellij(setup_intellij):
     assert len(find_all_sentence_occurrences("")) > 0
 
 
+@pytest.mark.intellij
 @pytest.mark.parametrize("app_name", ["weblogic_to_eap7"])
 def test_invalid_cli_path_intellij(
     setup_intellij,

@@ -117,7 +117,6 @@ class Intellij(Application):
         self.click(self.config_run_region)
 
     def run_simple_analysis(self, app_name, wait_for_analysis_finish=False):
-
         self.refresh_configuration()
 
         # Search for configuration name that has to be run
@@ -138,7 +137,6 @@ class Intellij(Application):
             )
 
     def open_report_page(self, app_name):
-
         self.click(self.config_run_region)
         self.type_text(app_name)
         self.press_keys("enter")

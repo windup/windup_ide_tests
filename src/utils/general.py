@@ -37,7 +37,6 @@ def assert_valid_csv_file(file_path, **kwargs):
 
 
 def find_elements_in_html_file(html_file_path, xpath):
-
     if not os.path.exists(html_file_path):
         raise Exception(f"File [{html_file_path}] does not exist!")
 
