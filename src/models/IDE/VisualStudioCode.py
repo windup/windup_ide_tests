@@ -40,7 +40,7 @@ class VisualStudioCode(Application):
         Opens MTA perspective in VSCode IDE
         """
         self.press_keys("ctrl", "shift", "p")
-        self.type_text("MTA : focus on explorer view")
+        self.type_text("MTA: focus on explorer view")
         time.sleep(1)
         self.press_keys("enter")
 
