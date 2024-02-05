@@ -1,4 +1,3 @@
-import logging
 import re
 import subprocess
 import time
@@ -36,39 +35,14 @@ class VisualStudioCode(Application):
                     time.sleep(3)
                     self.click_element(locator_type="image", locator="delete_analysis_config.png")
 
-    def is_open_mta_perspective(self):
-        """
-        Checks if MTA perspective is already opened in VS Code
-
-        Returns:
-            (bool): True or False
-        """
-        try:
-            self.wait_find_element(locator_type="image", locator="create_new_config.png")
-            return True
-        except Exception as exc:
-            logging.debug(
-                "An error occured while finding \
-                MTA perspective tab ! {}".format(
-                    str(exc),
-                ),
-            )
-            if "No matches found" in str(exc):
-                return False
-            else:
-                raise Exception(exc)
-
     def open_mta_perspective(self):
         """
         Opens MTA perspective in VSCode IDE
         """
-        if self.is_open_mta_perspective():
-            logging.info("MTA perspective is already opened !")
-            return
-        else:
-            # Click on the MTA icon in left sidebar
-            time.sleep(10)
-            self.click_element(locator_type="image", locator="mta_config_inactive.png")
+        self.press_keys("ctrl", "shift", "p")
+        self.type_text("MTA: focus on explorer view")
+        time.sleep(1)
+        self.press_keys("enter")
 
     def run_simple_analysis(self):
         """
