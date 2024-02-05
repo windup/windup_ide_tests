@@ -128,9 +128,11 @@ class VisualStudioCode(Application):
         subprocess.run("wmctrl -R code", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     def refresh_configuration(self):
-        # Click 'Refresh configurations' button
-        self.wait_find_element(locator_type="image", locator="refresh_configurations.png")
-        self.click_element(locator_type="image", locator="refresh_configurations.png")
+        # Refresh configuration via command prompt
+        self.open_mta_perspective()
+        self.press_keys("ctrl", "shift", "p")
+        self.type_text("MTA: Refresh Configurations")
+        self.press_keys("enter")
 
     def open_plugin_info(self, plugin):
         self.press_keys("ctrl", "shift", "x")
