@@ -18,6 +18,12 @@ class Application(Desktop):
         # implement method
         raise Exception("Method not implemented")
 
+    def copy_terminal_output(self):
+        raise Exception("Method not implemented")
+
+    def focus_terminal_output_panel(self):
+        raise Exception("Method not implemented")
+
     def image_locator(self, locator):
         """
         Forms image locator string

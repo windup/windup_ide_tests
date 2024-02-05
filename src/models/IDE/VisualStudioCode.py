@@ -102,6 +102,17 @@ class VisualStudioCode(Application):
         # Verify analysis has started
         self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
 
+    def focus_terminal_output_panel(self):
+        self.press_keys("ctrl", "shift", "p")
+        self.type_text("Output: Focus on Output View")
+        self.press_keys("enter")
+
+    def copy_terminal_output(self):
+        self.focus_terminal_output_panel()
+        self.press_keys("ctrl", "a")
+        self.press_keys("ctrl", "c")
+        self.press_keys("esc")
+
     def is_analysis_complete(self):
         """
         Checks if run analysis has been completed
