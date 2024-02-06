@@ -75,6 +75,7 @@ class VisualStudioCode(Application):
 
         # Verify analysis has started
         self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
+
     def clear_all_notifications(self):
         self.press_keys("ctrl", "shift", "p")
         self.type_text("Notifications: Clear All Notifications")
@@ -84,6 +85,7 @@ class VisualStudioCode(Application):
         self.press_keys("ctrl", "shift", "p")
         self.type_text("notifications: Show Notifications")
         self.press_keys("enter")
+
     def focus_terminal_output_panel(self):
         self.press_keys("ctrl", "shift", "p")
         self.type_text("Output: Focus on Output View")
