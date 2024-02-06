@@ -125,4 +125,3 @@ class VisualStudioCode(Application):
         self.focus_problems_panel()
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
-        
