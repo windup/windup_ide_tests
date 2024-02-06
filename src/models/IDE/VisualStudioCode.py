@@ -115,3 +115,13 @@ class VisualStudioCode(Application):
         self.press_keys("tab")
         self.press_keys("down")
         self.press_keys("enter")
+
+    def focus_problems_panel(self):
+        self.press_keys("ctrl", "shift", "p")
+        self.type_text("Problems: Focus on Problems View")
+        self.press_keys("enter")
+
+    def copy_problems_list(self):
+        self.focus_problems_panel()
+        self.press_keys("ctrl", "a")
+        self.press_keys("ctrl", "c")
