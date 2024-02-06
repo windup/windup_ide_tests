@@ -76,6 +76,16 @@ class VisualStudioCode(Application):
         # Verify analysis has started
         self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
 
+    def clear_all_notifications(self):
+        self.press_keys("ctrl", "shift", "p")
+        self.type_text("Notifications: Clear All Notifications")
+        self.press_keys("enter")
+
+    def focus_notification_in_progress(self):
+        self.press_keys("ctrl", "shift", "p")
+        self.type_text("notifications: Show Notifications")
+        self.press_keys("enter")
+
     def is_analysis_complete(self):
         """
         Checks if run analysis has been completed
