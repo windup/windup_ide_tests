@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -32,6 +33,12 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
         config,
         uuid,
     )
+
+    # convert the object to json and write to the model.json file
+    final_configuration_json = json.dumps(configurations_object.to_dict())
+    write_data_to_file(model_json_path, final_configuration_json)
+
+    # append the configuration to the object
     application.configurations.append(configuration)
 
     # endregion
