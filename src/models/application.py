@@ -4,6 +4,8 @@ import os
 from RPA.Desktop import Desktop
 
 from src.utils.general import find_elements_in_html_file
+from src.utils.general import focus_chrome
+from src.utils.general import get_clipboard_text
 
 
 class Application(Desktop):
@@ -306,3 +308,10 @@ class Application(Desktop):
         found_story_points = [int(element.text) for element in story_points_elements]
 
         assert set(found_story_points) == set(expected_story_points), f"Error: found story points are not as expected.\nExpected: [{expected_story_points}],\nInstead found : [{found_story_points}]"
+
+    def get_chrome_focused_tab_url(self):
+        focus_chrome()
+        self.press_keys("ctrl" + "l")
+        self.press_keys("ctrl" + "a")
+        self.press_keys("ctrl" + "c")
+        return get_clipboard_text()
