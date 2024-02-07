@@ -5,6 +5,8 @@ import time
 from src.models.application import Application
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.utils.general import get_clipboard_text
+from src.utils.general import is_date_today
+from src.utils.general import parse_log_string
 
 
 class VisualStudioCode(Application):
@@ -48,37 +50,22 @@ class VisualStudioCode(Application):
         """
         self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_EXPLORER_VIEW)
 
-    def run_simple_analysis(self):
+    def run_simple_analysis(self, configuration_name: str):
         """
         Runs analysis after creating an analysis configuration
-
-        Args:
-            None
-
-        Returns:
-            None
-
-        Steps:
-            1) Wait for configuration to be created through fixture
-            2) Click on config name and run analysis
-            3) Confirm analysis has started
         """
         # Wait for new configuration' to become visible
-        time.sleep(5)
         self.refresh_configuration()
-
-        # Run analysis after clicking on config name
-        try:
-            self.click_element(locator_type="image", locator="config_name_region.png")
-        except Exception as exc:
-            if re.match(r"Found [0-9] matches+", str(exc)):
-                config_region = self.image_locator("config_name_region.png")
-                config_region_circles = self.find_elements(config_region)
-                self.click(config_region_circles[-1])
-        self.click_element(locator_type="image", locator="run_analysis.png")
+        self.cmd_palette_exec_command(VSCodeCommandEnum.RUN_ANALYSIS)
+        self.type_text(configuration_name)
+        self.press_keys("enter")
 
         # Verify analysis has started
-        self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
+        terminal_lines = self.copy_terminal_output()
+        log_map = parse_log_string(terminal_lines[1])
+
+        assert is_date_today(log_map["date"])
+        assert log_map["msg"] == "running source code analysis"
 
     def clear_all_notifications(self):
         self.run_command_in_cmd_palette(VSCodeCommandEnum.CLEAR_ALL_NOTIFICATIONS)
