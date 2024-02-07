@@ -2,8 +2,9 @@ import re
 import subprocess
 import time
 
-from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.models.application import Application
+from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
+from src.utils.general import get_clipboard_text
 
 
 class VisualStudioCode(Application):
@@ -93,6 +94,7 @@ class VisualStudioCode(Application):
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
         self.press_keys("esc")
+        return get_clipboard_text(True)
 
     def is_analysis_complete(self):
         """
@@ -139,3 +141,4 @@ class VisualStudioCode(Application):
         self.focus_problems_panel()
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
+        return get_clipboard_text()

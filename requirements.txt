@@ -9,3 +9,6 @@ setuptools~=65.5.1
 numpy~=1.24.3
 opencv-python~=4.8.0
 rpaframework~=26.0.0
+
+pyperclip~=1.8.2
+rpa~=1.50.0
