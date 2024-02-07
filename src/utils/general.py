@@ -80,3 +80,11 @@ def get_clipboard_text(split=False):
     except pyperclip.PyperclipException as e:
         print(f"Error accessing clipboard: {e}")
         return []
+
+
+def parse_log_string(log_string):
+    pattern = re.compile(r'(\w+)=("[^"]*"|\S+)')
+    match_list = pattern.findall(log_string)
+    log_map = {key: value.strip('"') for key, value in match_list}
+
+    return log_map
