@@ -5,6 +5,8 @@ import shlex
 import subprocess
 import uuid
 from collections import defaultdict
+from datetime import datetime
+from datetime import timezone
 
 import pyperclip
 from lxml import html
@@ -114,3 +116,11 @@ def parse_kantra_cli_command(command):
             cmd_map[key] = value[0]
 
     return dict(cmd_map)
+
+
+def is_date_today(date: str):
+    date_object = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S%z")
+    extracted_date = date_object.astimezone(timezone.utc).replace(tzinfo=None)
+    today = datetime.now(timezone.utc).date()
+
+    return extracted_date.date() == today
