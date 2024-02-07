@@ -2,6 +2,7 @@ import re
 import subprocess
 import time
 
+from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.models.application import Application
 
 
@@ -14,9 +15,9 @@ class VisualStudioCode(Application):
         self.configurations = []
         super().__init__()
 
-    def cmd_palette_exec_command(self, command):
+    def cmd_palette_exec_command(self, command: VSCodeCommandEnum):
         self.press_keys("ctrl", "shift", "p")
-        self.type_text(command)
+        self.type_text(command.value)
         self.press_keys("enter")
 
     def image_locator(self, locator):
@@ -44,7 +45,7 @@ class VisualStudioCode(Application):
         """
         Opens MTA perspective in VSCode IDE
         """
-        self.run_command_in_cmd_palette("MTA: focus on explorer view")
+        self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_EXPLORER_VIEW)
 
     def run_simple_analysis(self):
         """
@@ -79,13 +80,13 @@ class VisualStudioCode(Application):
         self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
 
     def clear_all_notifications(self):
-        self.run_command_in_cmd_palette("Notifications: Clear All Notifications")
+        self.run_command_in_cmd_palette(VSCodeCommandEnum.CLEAR_ALL_NOTIFICATIONS)
 
     def focus_notification_in_progress(self):
-        self.run_command_in_cmd_palette("notifications: Show Notifications")
+        self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_NOTIFICATIONS)
 
     def focus_terminal_output_panel(self):
-        self.run_command_in_cmd_palette("Output: Focus on Output View")
+        self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_OUTPUT_VIEW)
 
     def copy_terminal_output(self):
         self.focus_terminal_output_panel()
@@ -121,7 +122,7 @@ class VisualStudioCode(Application):
     def refresh_configuration(self):
         # Refresh configuration via command prompt
         self.open_mta_perspective()
-        self.run_command_in_cmd_palette("MTA: Refresh Configurations")
+        self.run_command_in_cmd_palette(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
 
     def open_plugin_info(self, plugin):
         self.press_keys("ctrl", "shift", "x")
@@ -132,7 +133,7 @@ class VisualStudioCode(Application):
         self.press_keys("enter")
 
     def focus_problems_panel(self):
-        self.run_command_in_cmd_palette("Problems: Focus on Problems View")
+        self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_PROBLEMS_VIEW)
 
     def copy_problems_list(self):
         self.focus_problems_panel()
