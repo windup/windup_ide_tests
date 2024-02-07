@@ -1,10 +1,6 @@
 {
   "weblogic_to_eap7": {
-    "paths": [
-      "eap7/weblogic/tests/data"
-    ],
     "options": {
-      "export_csv": "true",
       "targets": [
         "eap7"
       ]
@@ -14,9 +10,6 @@
     ]
   },
   "thorntail_to_eapxp": {
-    "paths": [
-      "eapxp/thorntail/tests/data"
-    ],
     "options": {
       "targets": [
         "eapxp"
@@ -27,9 +20,6 @@
     ]
   },
   "springboot_to_quarkus": {
-    "paths": [
-      "quarkus/springboot/tests/data"
-    ],
     "options": {
       "targets": [
         "quarkus"
@@ -52,26 +42,7 @@
       87
     ]
   },
-  "multiple-projects-multiple-targets": {
-    "paths": [
-      "eap8/eap7/tests/data",
-      "openjdk17/openjdk11/tests/data"
-    ],
-    "options": {
-      "targets": [
-        "eap8",
-        "openjdk17"
-      ]
-    },
-    "story_points": [
-      750,
-      179
-    ]
-  },
-  "single-project-multiple-targets": {
-    "paths": [
-      "openjdk17/openjdk11/tests/data"
-    ],
+  "multiple-targets": {
     "options": {
       "targets": [
         "eap8",
@@ -80,27 +51,9 @@
     },
     "story_points": [
       179
-    ]
-  },
-  "multiple-projects-single-target": {
-    "paths": [
-      "eap8/eap7/tests/data",
-      "openjdk17/openjdk11/tests/data"
-    ],
-    "options": {
-      "targets": [
-        "openjdk17"
-      ]
-    },
-    "story_points": [
-      177,
-      2
     ]
   },
   "eap7_to_eap8": {
-    "paths": [
-      "eap8/eap7/tests/data"
-    ],
     "options": {
       "targets": [
         "eap8"
@@ -111,9 +64,6 @@
     ]
   },
   "openjdk11_to_openjdk17": {
-    "paths": [
-      "openjdk17/openjdk11/tests/data"
-    ],
     "options": {
       "targets": [
         "openjdk17"
@@ -121,32 +71,6 @@
     },
     "story_points": [
       177
-    ]
-  },
-  "weblogic_to_eap7_skip_reports": {
-    "paths": [
-      "eap7/weblogic/tests/data"
-    ],
-    "story_points": [],
-    "options": {
-      "skip_reports": "true",
-      "targets": [
-        "eap7"
-      ]
-    }
-  },
-  "weblogic_to_eap7_legacy_reports": {
-    "paths": [
-      "eap7/weblogic/tests/data"
-    ],
-    "options": {
-      "legacyReports": "true",
-      "targets": [
-        "eap7"
-      ]
-    },
-    "story_points": [
-      117
     ]
   }
 }
