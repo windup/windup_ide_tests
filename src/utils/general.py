@@ -1,8 +1,10 @@
 import csv
 import os
 import re
+import shlex
 import subprocess
 import uuid
+from collections import defaultdict
 
 import pyperclip
 from lxml import html
@@ -88,3 +90,27 @@ def parse_log_string(log_string):
     log_map = {key: value.strip('"') for key, value in match_list}
 
     return log_map
+
+
+def parse_kantra_cli_command(command):
+    """
+    Parse the kantra cli string and returns a dictionary with keys as command flags
+    """
+    command_items = shlex.split(command)
+    command_items = command_items[1:]
+    cmd_map = defaultdict(list)
+    last_was_flag = False
+
+    for item in command_items:
+        if item.startswith("--"):
+            current_flag = item[2:]
+            last_was_flag = True
+        else:
+            if last_was_flag:
+                cmd_map[current_flag].append(item)
+                last_was_flag = False
+    for key, value in cmd_map.items():
+        if len(value) == 1:
+            cmd_map[key] = value[0]
+
+    return dict(cmd_map)
