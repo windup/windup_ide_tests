@@ -67,6 +67,24 @@ class VisualStudioCode(Application):
         assert is_date_today(log_map["date"])
         assert log_map["msg"] == "running source code analysis"
 
+    def is_analysis_complete(self):
+        """
+        Checks if run analysis has been completed
+
+        Returns:
+            (bool): True if analysis was completed
+        """
+
+        try:
+            self.wait_find_element(
+                locator_type="image",
+                locator="analysis_complete.png",
+                timeout=120.0,
+            )
+            return True
+        except Exception:
+            return False
+
     def clear_all_notifications(self):
         self.run_command_in_cmd_palette(VSCodeCommandEnum.CLEAR_ALL_NOTIFICATIONS)
 
@@ -83,26 +101,14 @@ class VisualStudioCode(Application):
         self.press_keys("esc")
         return get_clipboard_text(True)
 
-    def is_analysis_complete(self):
-        """
-        Checks if run analysis has been completed
-
-        Returns:
-            (bool): True if analysis was completed
-        """
-        try:
-            self.wait_find_element(
-                locator_type="image",
-                locator="analysis_complete.png",
-                timeout=120.0,
-            )
-            return True
-        except Exception:
-            return False
-
     def open_report_page(self):
-        self.click_element(locator_type="image", locator="open_report_button.png")
-        self.wait_find_element(locator_type="image", locator="report_page_header.png")
+        """
+        Open the report page and retrieve what is the url for the opened tab in chrome
+        """
+        self.focus_notification_in_progress()
+        self.press_keys("tab")
+        self.press_keys("enter")
+        return self.get_chrome_focused_tab_url()
 
     def set_focus(self):
         # instead of blindly clicking on alt+tab, this brings the intellij into focus
