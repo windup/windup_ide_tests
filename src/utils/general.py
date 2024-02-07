@@ -128,7 +128,7 @@ def is_date_today(date: str):
 
 def focus_chrome():
     subprocess.run(
-        "wmctrl -a \"Chrome\"",
+        'wmctrl -a "Chrome"',
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
