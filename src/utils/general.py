@@ -1,11 +1,12 @@
 import csv
-from datetime import datetime, timezone
 import os
 import re
 import shlex
 import subprocess
 import uuid
 from collections import defaultdict
+from datetime import datetime
+from datetime import timezone
 
 import pyperclip
 from lxml import html
