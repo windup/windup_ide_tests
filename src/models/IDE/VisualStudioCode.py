@@ -14,6 +14,11 @@ class VisualStudioCode(Application):
         self.configurations = []
         super().__init__()
 
+    def cmd_palette_exec_command(self, command):
+        self.press_keys("ctrl", "shift", "p")
+        self.type_text(command)
+        self.press_keys("enter")
+
     def image_locator(self, locator):
         return f"image:{self.IMG_DIR}/vscode/{locator}"
 
@@ -39,10 +44,7 @@ class VisualStudioCode(Application):
         """
         Opens MTA perspective in VSCode IDE
         """
-        self.press_keys("ctrl", "shift", "p")
-        self.type_text("MTA: focus on explorer view")
-        time.sleep(1)
-        self.press_keys("enter")
+        self.run_command_in_cmd_palette("MTA: focus on explorer view")
 
     def run_simple_analysis(self):
         """
@@ -77,19 +79,13 @@ class VisualStudioCode(Application):
         self.wait_find_element(locator_type="image", locator="analysis_progress.png", timeout=240.0)
 
     def clear_all_notifications(self):
-        self.press_keys("ctrl", "shift", "p")
-        self.type_text("Notifications: Clear All Notifications")
-        self.press_keys("enter")
+        self.run_command_in_cmd_palette("Notifications: Clear All Notifications")
 
     def focus_notification_in_progress(self):
-        self.press_keys("ctrl", "shift", "p")
-        self.type_text("notifications: Show Notifications")
-        self.press_keys("enter")
+        self.run_command_in_cmd_palette("notifications: Show Notifications")
 
     def focus_terminal_output_panel(self):
-        self.press_keys("ctrl", "shift", "p")
-        self.type_text("Output: Focus on Output View")
-        self.press_keys("enter")
+        self.run_command_in_cmd_palette("Output: Focus on Output View")
 
     def copy_terminal_output(self):
         self.focus_terminal_output_panel()
@@ -125,9 +121,7 @@ class VisualStudioCode(Application):
     def refresh_configuration(self):
         # Refresh configuration via command prompt
         self.open_mta_perspective()
-        self.press_keys("ctrl", "shift", "p")
-        self.type_text("MTA: Refresh Configurations")
-        self.press_keys("enter")
+        self.run_command_in_cmd_palette("MTA: Refresh Configurations")
 
     def open_plugin_info(self, plugin):
         self.press_keys("ctrl", "shift", "x")
@@ -138,9 +132,7 @@ class VisualStudioCode(Application):
         self.press_keys("enter")
 
     def focus_problems_panel(self):
-        self.press_keys("ctrl", "shift", "p")
-        self.type_text("Problems: Focus on Problems View")
-        self.press_keys("enter")
+        self.run_command_in_cmd_palette("Problems: Focus on Problems View")
 
     def copy_problems_list(self):
         self.focus_problems_panel()
