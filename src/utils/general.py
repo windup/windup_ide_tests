@@ -124,3 +124,12 @@ def is_date_today(date: str):
     today = datetime.now(timezone.utc).date()
 
     return extracted_date.date() == today
+
+
+def focus_chrome():
+    subprocess.run(
+        "wmctrl -a \"Chrome\"",
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )

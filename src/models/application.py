@@ -3,7 +3,7 @@ import os
 
 from RPA.Desktop import Desktop
 
-from src.utils.general import find_elements_in_html_file
+from src.utils.general import find_elements_in_html_file, focus_chrome, get_clipboard_text
 
 
 class Application(Desktop):
@@ -174,12 +174,12 @@ class Application(Desktop):
         self.click(locator=formed_locator)
 
     def wait_find_element(
-        self,
-        locator_type,
-        locator=None,
-        coordinates=[],
-        timeout=15.0,
-        interval=0.5,
+            self,
+            locator_type,
+            locator=None,
+            coordinates=[],
+            timeout=15.0,
+            interval=0.5,
     ):
         """
         Wait untill timeout and find element based on locator
@@ -305,4 +305,12 @@ class Application(Desktop):
         )
         found_story_points = [int(element.text) for element in story_points_elements]
 
-        assert set(found_story_points) == set(expected_story_points), f"Error: found story points are not as expected.\nExpected: [{expected_story_points}],\nInstead found : [{found_story_points}]"
+        assert set(found_story_points) == set(
+            expected_story_points), f"Error: found story points are not as expected.\nExpected: [{expected_story_points}],\nInstead found : [{found_story_points}]"
+
+    def get_chrome_focused_tab_url(self):
+        focus_chrome()
+        self.press_keys("ctrl" + "l")
+        self.press_keys("ctrl" + "a")
+        self.press_keys("ctrl" + "c")
+        return get_clipboard_text()
