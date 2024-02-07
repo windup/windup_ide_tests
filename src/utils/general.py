@@ -94,40 +94,21 @@ def parse_log_string(log_string):
 
 def parse_kantra_cli_command(command):
     """
-    Parses a command string and returns a dictionary with keys as command flags
-    and values as the flag's arguments. Flags that appear multiple times are aggregated into a list.
-
-    Args:
-    - command (str): The command string to parse.
-
-    Returns:
-    - dict: A dictionary with command flags as keys and their arguments as values.
+    Parse the kantra cli string and returns a dictionary with keys as command flags
     """
-    # Split the command into parts using shlex to properly handle spaces
-    parts = shlex.split(command)
-
-    # Skip the first part (command itself)
-    parts = parts[1:]
-
+    command_items = shlex.split(command)
+    command_items = command_items[1:]
     cmd_map = defaultdict(list)
-
-    # Track whether the last part was a flag to handle flags without values
     last_was_flag = False
 
-    for part in parts:
-        if part.startswith('--'):
-            # Current part is a flag; strip '--' and prepare to collect its value(s)
-            current_flag = part[2:]
+    for item in command_items:
+        if item.startswith("--"):
+            current_flag = item[2:]
             last_was_flag = True
         else:
             if last_was_flag:
-                # Current part is a value for the last flag
-                cmd_map[current_flag].append(part)
+                cmd_map[current_flag].append(item)
                 last_was_flag = False
-            # If the part is not a flag and last_was_flag is False,
-            # it's a continuation of values, so already handled above
-
-    # Convert lists to single values where appropriate
     for key, value in cmd_map.items():
         if len(value) == 1:
             cmd_map[key] = value[0]
