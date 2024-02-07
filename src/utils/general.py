@@ -4,6 +4,7 @@ import re
 import subprocess
 import uuid
 
+import pyperclip
 from lxml import html
 
 
@@ -69,3 +70,13 @@ def get_screen_size():
         return m.group(1)
     else:
         raise RuntimeError("Could not get screen size")
+
+
+def get_clipboard_text(split=False):
+    """Returns the text currently copied in the clipboard."""
+    try:
+        text = pyperclip.paste().split("\n") if split else pyperclip.paste()
+        return text
+    except pyperclip.PyperclipException as e:
+        print(f"Error accessing clipboard: {e}")
+        return []
