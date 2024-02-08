@@ -9,7 +9,7 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__fi
 @pytest.mark.parametrize("app_name", json.load(open(DATA_DIR + "analysis.json")))
 @pytest.mark.parametrize("ide", ["vscode"])
 @pytest.mark.vscode
-def test_analysis_vscode(configurations, setup_vscode, app_name, analysis_data, ide):
+def test_analysis_vscode(setup_vscode, configurations, app_name, analysis_data, ide):
     """Analysis tests for VScode using various migration paths"""
     vscode = setup_vscode
     application_data = analysis_data[app_name]
@@ -18,7 +18,7 @@ def test_analysis_vscode(configurations, setup_vscode, app_name, analysis_data, 
     expected_story_points = application_data["story_points"]
 
     vscode.open_mta_perspective()
-    vscode.run_simple_analysis()
+    vscode.run_simple_analysis(app_name)
     assert vscode.is_analysis_complete()
     vscode.open_report_page()
 
