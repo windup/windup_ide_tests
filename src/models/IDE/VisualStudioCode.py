@@ -67,23 +67,25 @@ class VisualStudioCode(Application):
         assert is_date_today(log_map["date"])
         assert log_map["msg"] == "running source code analysis"
 
-    def is_analysis_complete(self):
+    def is_analysis_complete(self, timeout=180):
         """
         Checks if run analysis has been completed
 
         Returns:
-            (bool): True if analysis was completed
+            (bool): True if analysis was completed, False if analysis failed, or timeout with 3 minutes default reached
         """
 
-        try:
-            self.wait_find_element(
-                locator_type="image",
-                locator="analysis_complete.png",
-                timeout=120.0,
-            )
-            return True
-        except Exception:
-            return False
+        start_time = time.time()
+
+        while True:
+            output_log_lines = self.copy_terminal_output()
+            if output_log_lines[-1:][0] == "Analysis completed successfully":
+                return True
+            elif output_log_lines[-1:][0] == "Analysis failed":
+                return False
+            elif time.time() - start_time > timeout:
+                return False
+            time.sleep(15)
 
     def clear_all_notifications(self):
         self.run_command_in_cmd_palette(VSCodeCommandEnum.CLEAR_ALL_NOTIFICATIONS)
