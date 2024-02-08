@@ -8,6 +8,7 @@ from src.models.IDE.Intellij import Intellij
 from src.models.IDE.VisualStudioCode import VisualStudioCode
 from src.utils.general import delete_directory
 from src.utils.general import generate_uuid
+from src.utils.general import generate_vscode_id
 from src.utils.general import write_data_to_file
 
 CONF_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/config/"
@@ -18,10 +19,10 @@ DATA_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "/data
 def configurations(config, intellij_config, vscode_config, app_name, analysis_data, ide):
     # region construct configuration object and fill it from the data json
 
-    uuid = generate_uuid()
-
+    uuid = generate_uuid() if ide == "intellij" else generate_vscode_id()
     application = Intellij() if ide == "intellij" else VisualStudioCode()
     application_config = intellij_config if ide == "intellij" else vscode_config
+
     html_file_location = f"{application_config['plugin_cache_path']}/{uuid}/index.html"
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"
 
