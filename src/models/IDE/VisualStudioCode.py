@@ -67,7 +67,7 @@ class VisualStudioCode(Application):
         terminal_lines = self.copy_terminal_output()
         log_map = parse_log_string(terminal_lines[1])
 
-        assert is_date_today(log_map["date"])
+        assert is_date_today(log_map["time"])
         assert log_map["msg"] == "running source code analysis"
 
     def is_analysis_complete(self, timeout=180):
@@ -83,11 +83,11 @@ class VisualStudioCode(Application):
         while True:
             output_log_lines = self.copy_terminal_output()
             if output_log_lines[-1:][0] == "Analysis completed successfully":
-                return True
+                return True, ""
             elif output_log_lines[-1:][0] == "Analysis failed":
-                return False
+                return False, "Analysis Failed"
             elif time.time() - start_time > timeout:
-                return False
+                return False, "Timeout analysis not complete"
             time.sleep(15)
 
     def clear_all_notifications(self):

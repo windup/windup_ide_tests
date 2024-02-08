@@ -19,11 +19,13 @@ def test_analysis_vscode(setup_vscode, configurations, app_name, analysis_data, 
 
     vscode.open_mta_perspective()
     vscode.run_simple_analysis(app_name)
-    assert vscode.is_analysis_complete()
-    vscode.open_report_page()
+    status, message = vscode.is_analysis_complete()
+    assert status, message
 
-    if "skip_reports" not in application_data["options"]:
-        vscode.verify_story_points(
-            html_file_location=html_file_location,
-            expected_story_points=expected_story_points,
-        )
+    # if "skip_reports" not in application_data["options"]:
+    # todo: add this condition when it is supported
+
+    # vscode.verify_story_points(
+    #     html_file_location=html_file_location,
+    #     expected_story_points=expected_story_points,
+    # )

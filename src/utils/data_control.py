@@ -8,6 +8,11 @@ from typing import TypeVar
 T = TypeVar("T")
 
 
+def from_bool(x: typing.Any) -> bool:
+    assert isinstance(x, bool)
+    return x
+
+
 def from_str(x: typing.Any) -> str:
     assert isinstance(x, str)
     return x

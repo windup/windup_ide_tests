@@ -311,7 +311,7 @@ class Application(Desktop):
 
     def get_chrome_focused_tab_url(self):
         focus_chrome()
-        self.press_keys("ctrl" + "l")
-        self.press_keys("ctrl" + "a")
-        self.press_keys("ctrl" + "c")
+        self.press_keys("ctrl", "l")
+        self.press_keys("ctrl", "a")
+        self.press_keys("ctrl", "c")
         return get_clipboard_text()
