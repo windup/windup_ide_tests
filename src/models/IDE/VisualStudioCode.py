@@ -134,3 +134,14 @@ class VisualStudioCode(Application):
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
         return get_clipboard_text()
+
+    def cancel_analysis(self):
+        """
+        Cancel running analysis
+        """
+        self.clear_all_notifications()
+        self.focus_notification_in_progress()
+        self.press_keys("tab")
+        self.press_keys("enter")
+        # todo: implement console.log("analysis canceled") in the plugin
+        #  so the cancellation can be asserted more properly
