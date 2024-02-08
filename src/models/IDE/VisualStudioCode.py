@@ -23,8 +23,11 @@ class VisualStudioCode(Application):
         Execute commands in the command palette in vscode
         """
         self.press_keys("ctrl", "shift", "p")
+        time.sleep(1)
         self.type_text(command.value)
+        time.sleep(1)
         self.press_keys("enter")
+        time.sleep(1)
 
     def image_locator(self, locator):
         return f"image:{self.IMG_DIR}/vscode/{locator}"
@@ -48,7 +51,7 @@ class VisualStudioCode(Application):
         """
         Opens MTA perspective in VSCode IDE
         """
-        self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_EXPLORER_VIEW)
+        self.cmd_palette_exec_command(VSCodeCommandEnum.FOCUS_ON_EXPLORER_VIEW)
 
     def run_simple_analysis(self, configuration_name: str):
         """
@@ -91,19 +94,19 @@ class VisualStudioCode(Application):
         """
         clean all notifications list from the notification popup
         """
-        self.run_command_in_cmd_palette(VSCodeCommandEnum.CLEAR_ALL_NOTIFICATIONS)
+        self.cmd_palette_exec_command(VSCodeCommandEnum.CLEAR_ALL_NOTIFICATIONS)
 
     def focus_notification_in_progress(self):
         """
         Focus on the notifications popup
         """
-        self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_NOTIFICATIONS)
+        self.cmd_palette_exec_command(VSCodeCommandEnum.FOCUS_NOTIFICATIONS)
 
     def focus_terminal_output_panel(self):
         """
         Focus on the output panel
         """
-        self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_OUTPUT_VIEW)
+        self.cmd_palette_exec_command(VSCodeCommandEnum.FOCUS_ON_OUTPUT_VIEW)
 
     def copy_terminal_output(self):
         """
@@ -136,7 +139,7 @@ class VisualStudioCode(Application):
         Refresh the configuration tree
         """
         self.open_mta_perspective()
-        self.run_command_in_cmd_palette(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
+        self.cmd_palette_exec_command(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
 
     def open_plugin_info(self, plugin):
         """
@@ -153,7 +156,7 @@ class VisualStudioCode(Application):
         """
         Focus on the problems panel
         """
-        self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_PROBLEMS_VIEW)
+        self.cmd_palette_exec_command(VSCodeCommandEnum.FOCUS_ON_PROBLEMS_VIEW)
 
     def copy_problems_list(self):
         """
