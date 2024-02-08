@@ -174,3 +174,15 @@ class VisualStudioCode(Application):
         self.press_keys("enter")
         # todo: implement console.log("analysis canceled") in the plugin
         #  so the cancellation can be asserted more properly
+
+    def close_all_tabs(self):
+        """
+        Close all open tabs
+        """
+        self.press_keys("ctrl", "k", "w")
+
+    def close_active_tab(self):
+        """
+        Close only the active tab
+        """
+        self.press_keys("ctrl", "w")
