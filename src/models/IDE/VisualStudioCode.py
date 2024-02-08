@@ -19,6 +19,9 @@ class VisualStudioCode(Application):
         super().__init__()
 
     def cmd_palette_exec_command(self, command: VSCodeCommandEnum):
+        """
+        Execute commands in the command palette in vscode
+        """
         self.press_keys("ctrl", "shift", "p")
         self.type_text(command.value)
         self.press_keys("enter")
@@ -66,7 +69,7 @@ class VisualStudioCode(Application):
 
     def is_analysis_complete(self, timeout=180):
         """
-        Checks if run analysis has been completed
+        Checks if run analysis has been completed successfully ot not by checking the terminal output
 
         Returns:
             (bool): True if analysis was completed, False if analysis failed, or timeout with 3 minutes default reached
@@ -85,15 +88,28 @@ class VisualStudioCode(Application):
             time.sleep(15)
 
     def clear_all_notifications(self):
+        """
+        clean all notifications list from the notification popup
+        """
         self.run_command_in_cmd_palette(VSCodeCommandEnum.CLEAR_ALL_NOTIFICATIONS)
 
     def focus_notification_in_progress(self):
+        """
+        Focus on the notifications popup
+        """
         self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_NOTIFICATIONS)
 
     def focus_terminal_output_panel(self):
+        """
+        Focus on the output panel
+        """
         self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_OUTPUT_VIEW)
 
     def copy_terminal_output(self):
+        """
+        Copy the content of the output panel to the clipboard
+        split into lines, and return the list
+        """
         self.focus_terminal_output_panel()
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
@@ -110,15 +126,22 @@ class VisualStudioCode(Application):
         return self.get_chrome_focused_tab_url()
 
     def set_focus(self):
-        # instead of blindly clicking on alt+tab, this brings the intellij into focus
+        """
+        Bring vscode into focus
+        """
         subprocess.run("wmctrl -R code", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     def refresh_configuration(self):
-        # Refresh configuration via command prompt
+        """
+        Refresh the configuration tree
+        """
         self.open_mta_perspective()
         self.run_command_in_cmd_palette(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
 
     def open_plugin_info(self, plugin):
+        """
+        Open the MTA plugin info
+        """
         self.press_keys("ctrl", "shift", "x")
         self.type_text(f"migration toolkit for {plugin}")
         time.sleep(5)
@@ -127,9 +150,15 @@ class VisualStudioCode(Application):
         self.press_keys("enter")
 
     def focus_problems_panel(self):
+        """
+        Focus on the problems panel
+        """
         self.run_command_in_cmd_palette(VSCodeCommandEnum.FOCUS_ON_PROBLEMS_VIEW)
 
     def copy_problems_list(self):
+        """
+        Copy the list of problems for the open file
+        """
         self.focus_problems_panel()
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
