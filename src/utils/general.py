@@ -1,7 +1,9 @@
 import csv
 import os
+import random
 import re
 import shlex
+import string
 import subprocess
 import uuid
 from collections import defaultdict
@@ -10,6 +12,14 @@ from datetime import timezone
 
 import pyperclip
 from lxml import html
+
+
+def generate_vscode_id(part_length=9):
+    chars = string.ascii_lowercase + string.digits
+    part1 = "".join(random.choices(chars, k=part_length))
+    part2 = "".join(random.choices(chars, k=part_length))
+    custom_id = f"{part1}-{part2}"
+    return custom_id
 
 
 def generate_uuid():
