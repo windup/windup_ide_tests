@@ -7,5 +7,6 @@ class VSCodeCommandEnum(Enum):
     FOCUS_ON_OUTPUT_VIEW = "Output: Focus on Output View"
     FOCUS_ON_EXPLORER_VIEW = "MTA: focus on explorer view"
     REFRESH_CONFIGURATIONS = "MTA: Refresh Configurations"
+    DELETE_CONFIGURATIONS = "MTA: Delete"
     FOCUS_ON_PROBLEMS_VIEW = "Problems: Focus on Problems View"
     RUN_ANALYSIS = "MTA: Run"
