@@ -1,9 +1,9 @@
-import re
 import subprocess
 import time
 
 from src.models.application import Application
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
+from src.models.configuration.configuration import Configuration
 from src.utils.general import get_clipboard_text
 from src.utils.general import is_date_today
 from src.utils.general import parse_log_string
@@ -15,7 +15,7 @@ class VisualStudioCode(Application):
     """
 
     def __init__(self):
-        self.configurations = []
+        self.configurations: [Configuration] = []
         super().__init__()
 
     def cmd_palette_exec_command(self, command: VSCodeCommandEnum):
@@ -32,17 +32,14 @@ class VisualStudioCode(Application):
         """
         self.press_keys("ctrl", "q")
 
-    def delete_config_files(self):
-        try:
-            self.click_element(locator_type="image", locator="config_name_region.png")
-        except Exception as exc:
-            if re.match(r"Found [0-9] matches+", str(exc)):
-                config_region = self.image_locator("config_name_region.png")
-                config_region_circles = self.find_elements(config_region)
-                self.click(config_region_circles[0])
-                for i in config_region_circles:
-                    time.sleep(3)
-                    self.click_element(locator_type="image", locator="delete_analysis_config.png")
+    def delete_configuration(self, configuration_name: str):
+        """
+        Deletes a configuration by its name
+        """
+        self.cmd_palette_exec_command(VSCodeCommandEnum.DELETE_CONFIGURATIONS)
+        self.type_text(configuration_name)
+        self.press_keys("enter")
+        self.configurations = [config for config in self.configurations if config.name != configuration_name]
 
     def open_mta_perspective(self):
         """
