@@ -35,7 +35,6 @@ class ConfigurationsObject:
         options = Options.from_dict(application_data["options"])
         options.input = [project_path]
         options.cli = config["windup_cli_path"]
-        options.source_mode = True
         options.output = f"{application_config['plugin_cache_path']}/{uuid}"
 
         configuration = Configuration(name=app_name, id=uuid, options=options)
