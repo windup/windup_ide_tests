@@ -23,7 +23,7 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     application = Intellij() if ide == "intellij" else VisualStudioCode()
     application_config = intellij_config if ide == "intellij" else vscode_config
 
-    html_file_location = f"{application_config['plugin_cache_path']}/{uuid}/index.html"
+    html_file_location = f"{application_config['plugin_cache_path']}/{uuid}/static-report/index.html"
     model_json_path = f"{application_config['plugin_cache_path']}/model.json"
 
     configurations_object = ConfigurationsObject()
@@ -45,11 +45,6 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     # endregion
 
     yield configurations_object, html_file_location, uuid
-
-    if ide == "intellij":
-        Intellij().set_focus()
-    else:
-        VisualStudioCode().set_focus()
 
     # delete the directory containing all the analysis details
     delete_directory(os.path.join(application_config["plugin_cache_path"], uuid))
