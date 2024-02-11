@@ -6,6 +6,7 @@ from src.models.configuration.configuration import Configuration
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.utils.general import get_clipboard_text
 from src.utils.general import is_date_today
+from src.utils.general import parse_kantra_cli_command
 from src.utils.general import parse_log_string
 
 
@@ -189,3 +190,7 @@ class VisualStudioCode(Application):
         Close only the active tab
         """
         self.press_keys("ctrl", "w")
+
+    def fetch_executed_cli_command_map(self):
+        log_lines = self.copy_terminal_output()
+        return parse_kantra_cli_command(log_lines[0])
