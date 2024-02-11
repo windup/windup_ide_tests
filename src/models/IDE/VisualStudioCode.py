@@ -4,8 +4,9 @@ import time
 from src.models.application import Application
 from src.models.configuration.configuration import Configuration
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
-from src.utils.general import get_clipboard_text, parse_kantra_cli_command
+from src.utils.general import get_clipboard_text
 from src.utils.general import is_date_today
+from src.utils.general import parse_kantra_cli_command
 from src.utils.general import parse_log_string
 
 
