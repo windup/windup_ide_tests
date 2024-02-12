@@ -12,7 +12,7 @@ CUSTOM_SRC_JSON = [
 @pytest.mark.parametrize("ide", ["vscode"])
 @pytest.mark.vscode
 def test_custom_source_vscode(setup_vscode, configurations, app_name, analysis_data, ide):
-    # Automates Polarion MTA-485
+    # Automates Polarion MTA-487
 
     vscode = setup_vscode
 
