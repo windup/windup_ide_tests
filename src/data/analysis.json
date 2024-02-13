@@ -147,5 +147,16 @@
         "eap8"
       ]
     }
+  },
+    "multiple src to 1 tgt": {
+    "options": {
+      "target": [
+        "eap8"
+      ],
+      "source": [
+        "openjdk",
+        "openjdk11"
+      ]
+    }
   }
 }
