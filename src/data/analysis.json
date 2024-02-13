@@ -158,5 +158,17 @@
         "openjdk11"
       ]
     }
+  },
+    "1 src to multiple tgt": {
+    "options": {
+      "target": [
+        "eap",
+        "eap7",
+        "eap8"
+      ],
+      "source": [
+        "openjdk"
+      ]
+    }
   }
 }
