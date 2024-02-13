@@ -3,6 +3,7 @@ import time
 
 from src.models.application import Application
 from src.models.configuration.configuration import Configuration
+from src.models.configuration.configurations_object import ConfigurationsObject
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.utils.general import get_clipboard_text
 from src.utils.general import is_date_today
@@ -16,7 +17,7 @@ class VisualStudioCode(Application):
     """
 
     def __init__(self):
-        self.configurations: [Configuration] = []
+        self.configurations_object = ConfigurationsObject()
         super().__init__()
 
     def cmd_palette_exec_command(self, command: VSCodeCommandEnum):
@@ -200,3 +201,17 @@ class VisualStudioCode(Application):
     def fetch_executed_cli_command_map(self):
         log_lines = self.copy_terminal_output()
         return parse_kantra_cli_command(log_lines[0])
+
+    def update_configuration(self, json_model_path, updated_configuration_object: Configuration):
+        """
+        This method updates only one configuration in the configurations_list list , not hte whole configurations_list
+        remove the old configuration from the configuration_object list
+        then append the updated configuration object to the configuration_object list
+        then update the model.json file
+        Finally, refresh the configuration in UI
+        """
+
+        self.configurations_object.configurations = [conf for conf in self.configurations_object.configurations if conf.name != updated_configuration_object.name]
+        self.configurations_object.configurations.append(updated_configuration_object)
+        self.configurations_object.update_model_json(json_model_path)
+        self.refresh_configuration()

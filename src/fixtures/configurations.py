@@ -40,7 +40,7 @@ def configurations(config, intellij_config, vscode_config, app_name, analysis_da
     write_data_to_file(model_json_path, final_configuration_json)
 
     # append the configuration to the object
-    application.configurations.append(configuration)
+    application.configurations_object.configurations.append(configuration)
 
     # endregion
 
