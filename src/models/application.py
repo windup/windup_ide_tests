@@ -1,11 +1,14 @@
+import json
 import logging
 import os
 
 from RPA.Desktop import Desktop
 
+from src.models.configuration.configurations_object import ConfigurationsObject
 from src.utils.general import find_elements_in_html_file
 from src.utils.general import focus_chrome
 from src.utils.general import get_clipboard_text
+from src.utils.general import read_file
 
 
 class Application(Desktop):
@@ -315,3 +318,8 @@ class Application(Desktop):
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
         return get_clipboard_text()
+
+    def get_configurations_list_from_model_file(self, model_file_path) -> ConfigurationsObject:
+        file_content = read_file(model_file_path)
+        configurations_object = ConfigurationsObject().from_dict(json.loads(file_content))
+        return configurations_object

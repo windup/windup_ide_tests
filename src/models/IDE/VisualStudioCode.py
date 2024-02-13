@@ -47,7 +47,8 @@ class VisualStudioCode(Application):
         self.cmd_palette_exec_command(VSCodeCommandEnum.DELETE_CONFIGURATIONS)
         self.type_text(configuration_name)
         self.press_keys("enter")
-        self.configurations = [config for config in self.configurations if config.name != configuration_name]
+        self.configurations_object.configurations = [config for config in self.configurations_object.configurations if config.name != configuration_name]
+        time.sleep(2)
 
     def open_mta_perspective(self):
         """
