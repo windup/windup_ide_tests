@@ -150,16 +150,29 @@ class VisualStudioCode(Application):
         self.open_mta_perspective()
         self.cmd_palette_exec_command(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
 
-    def open_plugin_info(self, plugin):
+    def open_plugin_info(self):
         """
         Open the MTA plugin info
         """
         self.press_keys("ctrl", "shift", "x")
-        self.type_text(f"migration toolkit for {plugin}")
+        self.type_text("migration toolkit for Applications")
         time.sleep(5)
+        self.press_keys("tab")
         self.press_keys("tab")
         self.press_keys("down")
         self.press_keys("enter")
+
+    def get_plugin_text(self):
+        self.close_all_tabs()
+        self.open_plugin_info()
+        time.sleep(1)
+        self.press_keys("ctrl", "tab")
+        time.sleep(2)
+        self.press_keys("ctrl", "a")
+        time.sleep(2)
+        self.press_keys("ctrl", "c")
+        time.sleep(2)
+        return get_clipboard_text(split=True)
 
     def focus_problems_panel(self):
         """
