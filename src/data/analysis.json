@@ -4,150 +4,105 @@
       "target": [
         "azure-appservice"
       ]
-    },
-    "story_points": [
-      19
-    ]
+    }
   },
   "to camel 3": {
     "options": {
       "target": [
         "camel 3"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to camel 4": {
     "options": {
       "target": [
         "camel 4"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to containerization": {
     "options": {
       "target": [
         "containerization"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to eap": {
     "options": {
       "target": [
         "eap"
       ]
-    },
-    "story_points": [
-      42
-    ]
+    }
   },
   "to eap7": {
     "options": {
       "target": [
         "eap7"
       ]
-    },
-    "story_points": [
-      20
-    ]
+    }
   },
   "eap7 to eap8": {
     "options": {
       "target": [
         "eap8"
       ]
-    },
-    "story_points": [
-      5
-    ]
+    }
   },
   "to jakarta-ee": {
     "options": {
       "target": [
         "jakarta-ee"
       ]
-    },
-    "story_points": [
-      13
-    ]
+    }
   },
   "to jakarta-ee8": {
     "options": {
       "target": [
         "jakarta-ee8+"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to jakarta-ee9": {
     "options": {
       "target": [
         "jakarta-ee9+"
       ]
-    },
-    "story_points": [
-      13
-    ]
+    }
   },
   "to jws6": {
     "options": {
       "target": [
         "jws6"
       ]
-    },
-    "story_points": [
-      5
-    ]
+    }
   },
   "to linux": {
     "options": {
       "target": [
         "linux"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to openJDK": {
     "options": {
       "target": [
         "openjdk"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to openJDK11": {
     "options": {
       "target": [
         "openJDK11"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to openJDK17": {
     "options": {
       "target": [
         "openJDK17"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "openJDK11 to openJDK21": {
     "options": {
@@ -157,39 +112,27 @@
       "source": [
         "openJDK11"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to openliberty": {
     "options": {
       "target": [
         "openliberty"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   },
   "to quarkus": {
     "options": {
       "target": [
         "quarkus"
       ]
-    },
-    "story_points": [
-      40
-    ]
+    }
   },
   "to springboot": {
     "options": {
       "target": [
         "springboot"
       ]
-    },
-    "story_points": [
-      2
-    ]
+    }
   }
 }
