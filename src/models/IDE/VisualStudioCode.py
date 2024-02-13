@@ -133,7 +133,7 @@ class VisualStudioCode(Application):
         """
         Bring vscode into focus
         """
-        subprocess.run("wmctrl -R code", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run('wmctrl -R "Visual Studio Code"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     def refresh_configuration(self):
         """
