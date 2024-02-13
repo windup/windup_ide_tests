@@ -12,7 +12,7 @@ MIN = 60
 @pytest.mark.vscode
 def test_analysis_vscode(setup_vscode, configurations, app_name, ide):
     """Analysis tests for VScode using various migration paths"""
-    # Automates polarion MTA-475, MTA-476, MTA-477, MTA-478, MTA-479, MTA-480
+    # Automates polarion MTA-475, MTA-476, MTA-477, MTA-478, MTA-479, MTA-480, MTA-492
     vscode = setup_vscode
     vscode.set_focus()
     vscode.open_mta_perspective()
