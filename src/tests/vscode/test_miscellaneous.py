@@ -40,7 +40,6 @@ def test_delete_configuration(setup_vscode, vscode_config, configurations, app_n
     configurations_object = vscode.get_configurations_list_from_model_file(model_json_path)
     found_configurations = [config for config in configurations_object.configurations if config.name == app_name]
     assert len(found_configurations) == 0, "Configuration not removed from model.json"
-    # todo: add assertion if the "analysis canceled" is printed to the terminal output once a new build is available
 
 
 @pytest.mark.parametrize("app_name", ["selected targets"])
