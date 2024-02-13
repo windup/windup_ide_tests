@@ -1,4 +1,8 @@
+import os
+
 import pytest
+
+from src.utils.general import read_file
 
 DELETE_CONFIG = [
     {
@@ -18,6 +22,8 @@ SELECTED_SOURCES_CONFIG = [
     },
 ]
 
+DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))) + "/data/"
+
 
 @pytest.mark.parametrize("app_name", ["delete configuration"])
 @pytest.mark.parametrize("analysis_data", DELETE_CONFIG)
@@ -34,6 +40,7 @@ def test_delete_configuration(setup_vscode, vscode_config, configurations, app_n
     configurations_object = vscode.get_configurations_list_from_model_file(model_json_path)
     found_configurations = [config for config in configurations_object.configurations if config.name == app_name]
     assert len(found_configurations) == 0, "Configuration not removed from model.json"
+    # todo: add assertion if the "analysis canceled" is printed to the terminal output once a new build is available
 
 
 @pytest.mark.parametrize("app_name", ["selected targets"])
@@ -74,3 +81,16 @@ def test_selected_sources(setup_vscode, configurations, app_name, analysis_data,
     inserted_sources = configurations_object.configurations[0].options.source
     picked_sources = command_map["source"]
     assert set(inserted_sources) == set(picked_sources), f"Some sources were not picked by the UI: {[tgt for tgt in inserted_sources if tgt not in picked_sources]}"
+
+
+@pytest.mark.vscode
+def test_plugin_info(setup_vscode):
+    # Automates Polarion MTA-511
+
+    vscode = setup_vscode
+    vscode.set_focus()
+    fetched_vscode_plugin_info = vscode.get_plugin_text()
+    expected_vscode_plugin_info = read_file(DATA_DIR + "vscode_plugin_info.txt").split("\n")
+    vscode.close_active_tab()
+
+    assert set(expected_vscode_plugin_info) == set(fetched_vscode_plugin_info)
