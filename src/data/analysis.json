@@ -134,5 +134,18 @@
         "springboot"
       ]
     }
+  },
+    "multiple src to multiple tgt": {
+    "options": {
+      "target": [
+        "eap7",
+        "eap8"
+      ],
+      "source": [
+        "eap6",
+        "eap7",
+        "eap8"
+      ]
+    }
   }
 }
