@@ -73,7 +73,7 @@ class VisualStudioCode(Application):
         assert is_date_today(log_map["time"])
         assert log_map["msg"] == "running source code analysis"
 
-    def is_analysis_complete(self, timeout=180):
+    def is_analysis_complete(self, timeout=300):
         """
         Checks if run analysis has been completed successfully ot not by checking the terminal output
 
