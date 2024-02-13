@@ -1,3 +1,4 @@
+import json
 from typing import Any
 from typing import List
 
@@ -5,6 +6,7 @@ from src.models.configuration.configuration import Configuration
 from src.models.configuration.options import Options
 from src.utils.data_control import from_list
 from src.utils.data_control import to_class
+from src.utils.general import write_data_to_file
 
 
 class ConfigurationsObject:
@@ -42,3 +44,6 @@ class ConfigurationsObject:
         self.configurations.append(configuration)
 
         return configuration
+
+    def update_model_json(self, model_json_path):
+        write_data_to_file(model_json_path, json.dumps(self.to_dict()))
