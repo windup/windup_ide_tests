@@ -120,6 +120,13 @@ class VisualStudioCode(Application):
         self.press_keys("esc")
         return get_clipboard_text(True)
 
+    def clear_terminal_output_panel(self):
+        """
+        Clears the content of the terminal output panel
+        """
+        self.cmd_palette_exec_command(VSCodeCommandEnum.CLEAR_OUTPUT)
+
+
     def open_report_page(self):
         """
         Open the report page and retrieve what is the url for the opened tab in chrome
