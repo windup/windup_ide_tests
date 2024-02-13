@@ -21,6 +21,7 @@ class Options:
     legacy_reports: bool
     mode: str
     overwrite: Optional[bool]
+    analyze_known_libraries: Optional[bool]
     source: Optional[List[str]]
 
     def __init__(
@@ -31,6 +32,7 @@ class Options:
         target: Optional[List[str]] = [],
         overwrite: Optional[bool] = False,
         source: Optional[List[str]] = [],
+        analyze_known_libraries: Optional[bool] = False,
     ) -> None:
         self.source_mode = True
         self.output = output
@@ -42,6 +44,7 @@ class Options:
         self.mode = "source-only"
         self.overwrite = overwrite
         self.source = source
+        self.analyze_known_libraries = analyze_known_libraries
 
     @staticmethod
     def from_dict(obj: Any) -> "Options":
@@ -51,8 +54,9 @@ class Options:
         cli = from_union([from_str, from_none], obj.get("cli"))
         target = from_union([lambda x: from_list(from_str, x), from_none], obj.get("target"))
         overwrite = from_union([from_none, lambda x: from_stringified_bool(from_str(x))], obj.get("overwrite"))
+        analyze_known_libraries = from_union([from_none, from_bool, lambda x: from_stringified_bool(from_str(x)) if isinstance(x, str) else x], obj.get("analyze-known-libraries"))
         source = from_union([lambda x: from_list(from_str, x), from_none], obj.get("source"))
-        return Options(output, input, cli, target, overwrite, source)
+        return Options(output, input, cli, target, overwrite, source, analyze_known_libraries)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -74,4 +78,9 @@ class Options:
             )
         if self.source is not None:
             result["source"] = from_union([lambda x: from_list(from_str, x), from_none], self.source)
+        if self.analyze_known_libraries is not None:
+            result["analyze_known_libraries"] = from_union(
+                [lambda x: from_none((lambda x: is_type(type(None), x))(x)), lambda x: from_str((lambda x: str((lambda x: is_type(bool, x))(x)).lower())(x))],
+                self.analyze_known_libraries,
+            )
         return result
