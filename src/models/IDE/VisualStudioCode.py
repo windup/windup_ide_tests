@@ -86,6 +86,7 @@ class VisualStudioCode(Application):
         while True:
             output_log_lines = self.copy_terminal_output()
             if output_log_lines[-1:][0] == "Analysis completed successfully":
+                self.update_analysis_summery()
                 return True, ""
             elif output_log_lines[-1:][0] == "Analysis failed":
                 return False, "Analysis Failed"
@@ -229,3 +230,14 @@ class VisualStudioCode(Application):
         self.configurations_object.configurations.append(updated_configuration_object)
         self.configurations_object.update_model_json(json_model_path)
         self.refresh_configuration()
+
+    def update_analysis_summery(self):
+        """
+        Update the configuration analysis summery from the model.json file
+        """
+        model_file_path = self.get_model_file_path()
+        self.configurations_object = self.get_configurations_list_from_model_file(model_file_path)
+
+    def get_model_file_path(self):
+        output_path = self.configurations_object.configurations[0].options.output
+        return output_path.rsplit("/", 1)[0] + "/model.json"

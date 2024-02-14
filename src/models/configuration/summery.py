@@ -45,7 +45,7 @@ class Summary:
         self.classification_count = classification_count
 
     @staticmethod
-    def from_dict(obj: Any, from_int=None) -> "Summary":
+    def from_dict(obj: Any) -> "Summary":
         assert isinstance(obj, dict)
         skipped_reports = from_union([from_bool, from_none], obj.get("skippedReports"))
         output_location = from_union([from_str, from_none], obj.get("outputLocation"))
