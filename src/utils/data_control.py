@@ -53,3 +53,8 @@ def is_type(t: Type[T], x: typing.Any) -> T:
 def to_class(c: Type[T], x: typing.Any) -> dict:
     assert isinstance(x, c)
     return cast(typing.Any, x).to_dict()
+
+
+def from_int(x: typing.Any) -> int:
+    assert isinstance(x, int) and not isinstance(x, bool)
+    return x
