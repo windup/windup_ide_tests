@@ -217,7 +217,7 @@ class VisualStudioCode(Application):
         log_lines = self.copy_terminal_output()
         return parse_kantra_cli_command(log_lines[0])
 
-    def update_configuration(self, json_model_path, updated_configuration_object: Configuration):
+    def update_configuration(self, updated_configuration_object: Configuration):
         """
         This method updates only one configuration in the configurations_list list , not hte whole configurations_list
         remove the old configuration from the configuration_object list
@@ -228,7 +228,8 @@ class VisualStudioCode(Application):
 
         self.configurations_object.configurations = [conf for conf in self.configurations_object.configurations if conf.name != updated_configuration_object.name]
         self.configurations_object.configurations.append(updated_configuration_object)
-        self.configurations_object.update_model_json(json_model_path)
+        model_file_path = self.get_model_file_path()
+        self.configurations_object.update_model_json(model_file_path)
         self.refresh_configuration()
 
     def update_analysis_summery(self):

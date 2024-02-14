@@ -17,7 +17,7 @@ ANALYZE_KNOWN_LIBRARIES_JSON = [
 @pytest.mark.parametrize("analysis_data", CONF_JSON)
 @pytest.mark.parametrize("ide", ["vscode"])
 @pytest.mark.vscode
-def test_overwrite_option(setup_vscode, vscode_config, configurations, app_name, analysis_data, ide):
+def test_overwrite_option(setup_vscode, configurations, app_name, analysis_data, ide):
     # Automates polarion MTA-481
     vscode = setup_vscode
     vscode.set_focus()
@@ -29,8 +29,7 @@ def test_overwrite_option(setup_vscode, vscode_config, configurations, app_name,
     running_configuration = configurations_object.configurations[0]
     running_configuration.options.overwrite = True
 
-    model_json_path = f"{vscode_config['plugin_cache_path']}/model.json"
-    vscode.update_configuration(model_json_path, running_configuration)
+    vscode.update_configuration(running_configuration)
 
     vscode.clear_terminal_output_panel()
     vscode.run_simple_analysis(app_name)
