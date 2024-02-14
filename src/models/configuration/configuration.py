@@ -14,7 +14,7 @@ class Configuration:
     id: str
     summary: Summary
 
-    def __init__(self, name: str = None, options: Options = Options(), id: str = None, summary=Summary()) -> None:
+    def __init__(self, name: str = None, options: Options = Options(), id: str = None, summary=None) -> None:
         self.name = name
         self.options = options
         self.id = id
@@ -26,7 +26,7 @@ class Configuration:
         name = from_str(obj.get("name"))
         options = Options.from_dict(obj.get("options"))
         id = obj.get("id")
-        summary = from_union([Summary.from_dict, from_none], obj.get("summary"))
+        summary = Summary.from_dict(obj.get("summary")) if obj.get("summary") else None
         return Configuration(name, options, id, summary)
 
     def to_dict(self) -> dict:
