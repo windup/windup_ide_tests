@@ -198,8 +198,6 @@ class VisualStudioCode(Application):
         self.focus_notification_in_progress()
         self.press_keys("tab")
         self.press_keys("enter")
-        # todo: implement console.log("analysis canceled") in the plugin
-        #  so the cancellation can be asserted more properly
 
     def close_all_tabs(self):
         """
