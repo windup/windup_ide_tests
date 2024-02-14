@@ -2,7 +2,9 @@ from typing import Any
 
 from src.models.configuration.options import Options
 from src.models.configuration.summery import Summary
-from src.utils.data_control import from_str, from_none, from_union
+from src.utils.data_control import from_none
+from src.utils.data_control import from_str
+from src.utils.data_control import from_union
 from src.utils.data_control import to_class
 
 

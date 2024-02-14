@@ -1,6 +1,12 @@
-from typing import Optional, Any, Dict
+from typing import Any
+from typing import Dict
+from typing import Optional
 
-from src.utils.data_control import from_union, from_bool, from_none, from_str, from_int
+from src.utils.data_control import from_bool
+from src.utils.data_control import from_int
+from src.utils.data_control import from_none
+from src.utils.data_control import from_str
+from src.utils.data_control import from_union
 
 
 class Summary:
@@ -14,12 +20,18 @@ class Summary:
     hint_count: Optional[int]
     classification_count: Optional[int]
 
-    def __init__(self, skipped_reports: Optional[bool] = False, output_location: Optional[str] = "",
-                 executed_timestamp: Optional[str] = "", executable: Optional[str] = "",
-                 executed_timestamp_raw: Optional[str] = "",
-                 active: Optional[bool] = False, quickfixes=None,
-                 hint_count: Optional[int] = 0,
-                 classification_count: Optional[int] = 0) -> None:
+    def __init__(
+        self,
+        skipped_reports: Optional[bool] = False,
+        output_location: Optional[str] = "",
+        executed_timestamp: Optional[str] = "",
+        executable: Optional[str] = "",
+        executed_timestamp_raw: Optional[str] = "",
+        active: Optional[bool] = False,
+        quickfixes=None,
+        hint_count: Optional[int] = 0,
+        classification_count: Optional[int] = 0,
+    ) -> None:
         if quickfixes is None:
             quickfixes = {}
         self.skipped_reports = skipped_reports
@@ -33,7 +45,7 @@ class Summary:
         self.classification_count = classification_count
 
     @staticmethod
-    def from_dict(obj: Any, from_int=None) -> 'Summary':
+    def from_dict(obj: Any, from_int=None) -> "Summary":
         assert isinstance(obj, dict)
         skipped_reports = from_union([from_bool, from_none], obj.get("skippedReports"))
         output_location = from_union([from_str, from_none], obj.get("outputLocation"))
@@ -44,8 +56,7 @@ class Summary:
         quickfixes = from_union([lambda x: x, from_none], obj.get("quickfixes"))
         hint_count = from_union([from_int, from_none], obj.get("hintCount"))
         classification_count = from_union([from_int, from_none], obj.get("classificationCount"))
-        return Summary(skipped_reports, output_location, executed_timestamp, executable, executed_timestamp_raw, active,
-                       quickfixes, hint_count, classification_count)
+        return Summary(skipped_reports, output_location, executed_timestamp, executable, executed_timestamp_raw, active, quickfixes, hint_count, classification_count)
 
     def to_dict(self) -> dict:
         result: dict = {}
