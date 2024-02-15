@@ -47,3 +47,6 @@ class ConfigurationsObject:
 
     def update_model_json(self, model_json_path):
         write_data_to_file(model_json_path, json.dumps(self.to_dict()))
+
+    def get_configuration(self, configuration_name) -> Configuration:
+        return [config for config in self.configurations if config.name == configuration_name][0]
