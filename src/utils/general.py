@@ -114,6 +114,7 @@ def parse_kantra_cli_command(command):
     cmd_map = defaultdict(list)
     last_was_flag = False
     checked_advanced_options = []
+    current_flag = ""
 
     for item in command_items:
         if item.startswith("--"):
@@ -134,7 +135,7 @@ def parse_kantra_cli_command(command):
             cmd_map[key] = value[0]
 
     if checked_advanced_options:
-        cmd_map['advanced_options'] = checked_advanced_options
+        cmd_map["advanced_options"] = checked_advanced_options
 
     return dict(cmd_map)
 
