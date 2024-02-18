@@ -106,24 +106,36 @@ def parse_log_string(log_string):
 
 def parse_kantra_cli_command(command):
     """
-    Parse the kantra cli string and returns a dictionary with keys as command flags
+    Parse the kantra cli string and returns a dictionary with keys as command flags.
+    Flags without associated values are categorized under 'advanced_options'.
     """
     command_items = shlex.split(command)
     command_items = command_items[1:]
     cmd_map = defaultdict(list)
     last_was_flag = False
+    checked_advanced_options = []
+    current_flag = ""
 
     for item in command_items:
         if item.startswith("--"):
+            if last_was_flag:
+                checked_advanced_options.append(current_flag)
             current_flag = item[2:]
             last_was_flag = True
         else:
             if last_was_flag:
                 cmd_map[current_flag].append(item)
                 last_was_flag = False
-    for key, value in cmd_map.items():
-        if len(value) == 1:
+
+    if last_was_flag:
+        checked_advanced_options.append(current_flag)
+
+    for key, value in list(cmd_map.items()):
+        if isinstance(value, list) and len(value) == 1:
             cmd_map[key] = value[0]
+
+    if checked_advanced_options:
+        cmd_map["advanced_options"] = checked_advanced_options
 
     return dict(cmd_map)
 
