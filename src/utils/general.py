@@ -155,3 +155,10 @@ def focus_chrome():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
+
+
+def file_exists(file_path):
+    """
+    Checks if a file exists at the given path.
+    """
+    return os.path.exists(file_path)
