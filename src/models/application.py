@@ -6,8 +6,6 @@ from RPA.Desktop import Desktop
 
 from src.models.configuration.configurations_object import ConfigurationsObject
 from src.utils.general import find_elements_in_html_file
-from src.utils.general import focus_chrome
-from src.utils.general import get_clipboard_text
 from src.utils.general import read_file
 
 
@@ -215,14 +213,6 @@ class Application(Desktop):
         self.click_element(locator_type="text", locator="File")
         self.click_element(locator_type="text", locator="Exit")
 
-    def close_report_tab(self):
-        """
-        Closes the current browser tab having report opened in it
-        """
-        pass
-        # Need to write logic to handle browser window, when single tab is only open
-        # self.press_keys("ctrl", "w")
-
     def switch_tab(self):
         """
         Switch context between apps using home+tab buttons
@@ -311,13 +301,6 @@ class Application(Desktop):
         found_story_points = [int(element.text) for element in story_points_elements]
 
         assert set(found_story_points) == set(expected_story_points), f"Error: found story points are not as expected.\nExpected: [{expected_story_points}],\nInstead found : [{found_story_points}]"
-
-    def get_chrome_focused_tab_url(self):
-        focus_chrome()
-        self.press_keys("ctrl", "l")
-        self.press_keys("ctrl", "a")
-        self.press_keys("ctrl", "c")
-        return get_clipboard_text()
 
     def get_configurations_list_from_model_file(self, model_file_path) -> ConfigurationsObject:
         file_content = read_file(model_file_path)
