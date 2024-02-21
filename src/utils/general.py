@@ -148,15 +148,6 @@ def is_date_today(date: str):
     return extracted_date.date() == today
 
 
-def focus_chrome():
-    subprocess.run(
-        'wmctrl -a "Chrome"',
-        shell=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-
 def file_exists(file_path):
     """
     Checks if a file exists at the given path.

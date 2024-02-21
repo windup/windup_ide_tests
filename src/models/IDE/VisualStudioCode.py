@@ -2,6 +2,7 @@ import subprocess
 import time
 
 from src.models.application import Application
+from src.models.chrome import Chrome
 from src.models.configuration.configuration import Configuration
 from src.models.configuration.configurations_object import ConfigurationsObject
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
@@ -18,6 +19,7 @@ class VisualStudioCode(Application):
 
     def __init__(self):
         self.configurations_object = ConfigurationsObject()
+        self.chrome = Chrome()
         super().__init__()
 
     def cmd_palette_exec_command(self, command: VSCodeCommandEnum):
@@ -136,7 +138,7 @@ class VisualStudioCode(Application):
         self.focus_notification_in_progress()
         self.press_keys("tab")
         self.press_keys("enter")
-        return self.get_chrome_focused_tab_url()
+        return self.chrome.get_chrome_focused_tab_url()
 
     def set_focus(self):
         """
