@@ -1,6 +1,9 @@
 import pytest
 
+from src.models.chrome import Chrome
 from src.utils.general import file_exists
+
+chrome = Chrome()
 
 
 @pytest.mark.parametrize("app_name", ["report generated"])
@@ -25,3 +28,32 @@ def test_report_generated(setup_vscode, configurations, app_name, analysis_data,
 
     _, report_file_path, _ = configurations
     assert file_exists(report_file_path)
+
+
+@pytest.mark.parametrize("app_name", ["report opened"])
+@pytest.mark.parametrize(
+    "analysis_data",
+    [
+        {
+            "report opened": {"options": {"target": ["eap8"]}},
+        },
+    ],
+)
+@pytest.mark.parametrize("ide", ["vscode"])
+@pytest.mark.vscode
+def test_report_opened(setup_vscode, configurations, app_name, analysis_data, ide):
+    # Automates Polarion MTA-515
+
+    vscode = setup_vscode
+    vscode.set_focus()
+    vscode.refresh_configuration()
+    vscode.run_simple_analysis(app_name)
+    vscode.is_analysis_complete()
+
+    _, report_file_path, id = configurations
+    vscode.open_report_page()
+    chrome.focus_tab(id)
+    active_url = chrome.get_chrome_focused_tab_url()
+    assert id in active_url, "The report that was opened is not for this analysis run"
+    chrome.close_tab(id)
+    vscode.set_focus()
