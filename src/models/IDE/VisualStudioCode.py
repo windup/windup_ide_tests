@@ -33,6 +33,17 @@ class VisualStudioCode(Application):
         self.press_keys("enter")
         time.sleep(1)
 
+    def cmd_palette_open_file(self, file_name=None):
+        """
+        Opens a file by its name, or if file_name is None, then it opens recent window focused
+        """
+        self.press_keys("ctrl", "p")
+        time.sleep(1)
+        if file_name:
+            self.type_text(file_name)
+            time.sleep(1)
+        self.press_keys("enter")
+
     def image_locator(self, locator):
         return f"image:{self.IMG_DIR}/vscode/{locator}"
 
@@ -153,7 +164,7 @@ class VisualStudioCode(Application):
         self.open_mta_perspective()
         self.cmd_palette_exec_command(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
 
-    def open_plugin_info(self):
+    def open_plugin_info(self, refocus=False):
         """
         Open the MTA plugin info
         """
@@ -164,6 +175,8 @@ class VisualStudioCode(Application):
         self.press_keys("tab")
         self.press_keys("down")
         self.press_keys("enter")
+        if refocus:
+            self.cmd_palette_open_file()
 
     def get_plugin_text(self):
         self.close_all_tabs()
