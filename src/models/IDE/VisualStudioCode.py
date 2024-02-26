@@ -164,7 +164,7 @@ class VisualStudioCode(Application):
         self.open_mta_perspective()
         self.cmd_palette_exec_command(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
 
-    def open_plugin_info(self):
+    def open_plugin_info(self, refocus=False):
         """
         Open the MTA plugin info
         """
