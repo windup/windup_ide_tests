@@ -51,6 +51,7 @@ class VisualStudioCode(Application):
         """
         Closes the IDE
         """
+        self.set_focus()
         self.press_keys("ctrl", "q")
 
     def delete_configuration(self, configuration_name: str):
@@ -151,11 +152,24 @@ class VisualStudioCode(Application):
         self.press_keys("enter")
         return self.chrome.get_chrome_focused_tab_url()
 
-    def set_focus(self):
+    def set_focus(self, timeout=10):
         """
-        Bring vscode into focus
+        Bring vscode into focus, with default timeout of 10 seconds
         """
         subprocess.run('wmctrl -R "Visual Studio Code"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        start_time = time.time()
+        while not self.is_focused():
+            if time.time() - start_time > timeout:
+                raise TimeoutError(f"VS Code did not come into focus within {timeout} seconds.")
+            else:
+                time.sleep(1)
+
+    def is_focused(self):
+        """
+        Checks if the vscode is in focus
+        """
+        active_window_title = subprocess.run("xdotool getactivewindow getwindowname", shell=True, stdout=subprocess.PIPE, text=True).stdout.strip()
+        return "Visual Studio Code" in active_window_title
 
     def refresh_configuration(self):
         """
