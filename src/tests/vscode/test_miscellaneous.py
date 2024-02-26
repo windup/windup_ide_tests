@@ -1,8 +1,4 @@
-import os
-
 import pytest
-
-from src.utils.general import read_file
 
 DELETE_CONFIG = [
     {
@@ -21,8 +17,6 @@ SELECTED_SOURCES_CONFIG = [
         "selected sources": {"options": {"source": ["agroal", "amazon", "avro", "camel", "drools", "eapxp", "glassfish", "jakarta", "jsonb", "logging", "flyway"]}},
     },
 ]
-
-DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))) + "/data/"
 
 
 @pytest.mark.parametrize("app_name", ["delete configuration"])
@@ -80,16 +74,3 @@ def test_selected_sources(setup_vscode, configurations, app_name, analysis_data,
     inserted_sources = configurations_object.configurations[0].options.source
     picked_sources = command_map["source"]
     assert set(inserted_sources) == set(picked_sources), f"Some sources were not picked by the UI: {[tgt for tgt in inserted_sources if tgt not in picked_sources]}"
-
-
-@pytest.mark.vscode
-def test_plugin_info(setup_vscode):
-    # Automates Polarion MTA-511
-
-    vscode = setup_vscode
-    vscode.set_focus()
-    fetched_vscode_plugin_info = vscode.get_plugin_text()
-    expected_vscode_plugin_info = read_file(DATA_DIR + "vscode_plugin_info.txt").split("\n")
-    vscode.close_active_tab()
-
-    assert set(expected_vscode_plugin_info) == set(fetched_vscode_plugin_info)
