@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import re
@@ -23,8 +24,14 @@ class Intellij(Application):
         self.configurations = []
 
     def get_ide_version(self, ide_directory):
-        pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
-        return [name for name in os.listdir(ide_directory) if pattern.search(name) is not None][0]
+        info_file_path = os.path.join(ide_directory, 'product-info.json')
+        try:
+            with open(info_file_path, 'r') as info_file:
+                info_data = json.load(info_file)
+                return info_data["version"]
+        except FileNotFoundError:
+            print(f"Version info file not found at {info_file_path}")
+        return None
 
     def close_ide(self):
         """
