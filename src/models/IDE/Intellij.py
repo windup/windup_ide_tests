@@ -88,9 +88,7 @@ class Intellij(Application):
             (bool): True or False
         """
         try:
-            self.wait_find_element(
-                locator_type="image", locator="mta_perspective_active.png"
-            )
+            self.wait_find_element(locator_type="image", locator="mta_perspective_active.png")
             return True
         except Exception as exc:
             try:
