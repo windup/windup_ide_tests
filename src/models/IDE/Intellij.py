@@ -6,6 +6,7 @@ import time
 
 from src.models.application import Application
 from src.models.configuration.configurations_object import ConfigurationsObject
+from src.utils.general import read_file
 
 
 class Intellij(Application):
@@ -23,13 +24,11 @@ class Intellij(Application):
         self.configurations = []
 
     def get_ide_version(self, ide_directory):
-        info_file_path = os.path.join(ide_directory, 'product-info.json')
-        try:
-            with open(info_file_path, 'r') as info_file:
-                info_data = json.load(info_file)
-                return info_data["version"]
-        except FileNotFoundError:
-            print(f"Version info file not found at {info_file_path}")
+        info_file_path = os.path.join(ide_directory, "product-info.json")
+        file_contents = read_file(info_file_path)
+        if file_contents is not None:
+            info_data = json.loads(file_contents)
+            return info_data.get("version")
         return None
 
     def close_ide(self):
@@ -89,7 +88,9 @@ class Intellij(Application):
             (bool): True or False
         """
         try:
-            self.wait_find_element(locator_type="image", locator="mta_perspective_active.png")
+            self.wait_find_element(
+                locator_type="image", locator="mta_perspective_active.png"
+            )
             return True
         except Exception as exc:
             try:
