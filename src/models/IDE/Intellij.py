@@ -1,11 +1,12 @@
+import json
 import logging
 import os
-import re
 import subprocess
 import time
 
 from src.models.application import Application
 from src.models.configuration.configurations_object import ConfigurationsObject
+from src.utils.general import read_file
 
 
 class Intellij(Application):
@@ -23,8 +24,12 @@ class Intellij(Application):
         self.configurations = []
 
     def get_ide_version(self, ide_directory):
-        pattern = re.compile(r"\d{3}\.\d{4}\.\d{2}")
-        return [name for name in os.listdir(ide_directory) if pattern.search(name) is not None][0]
+        info_file_path = os.path.join(ide_directory, "product-info.json")
+        file_contents = read_file(info_file_path)
+        if file_contents is not None:
+            info_data = json.loads(file_contents)
+            return info_data.get("version")
+        return None
 
     def close_ide(self):
         """

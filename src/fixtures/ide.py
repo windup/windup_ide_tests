@@ -82,8 +82,7 @@ def setup_intellij(intellij_config, config):
     """
     intellij = Intellij()
     ide_path = intellij_config["ide_path"]
-    ide_version = intellij.get_ide_version(ide_path)
-    path = ide_path + f"/{ide_version}/bin/idea.sh"
+    path = os.path.join(ide_path, "bin", "idea.sh")
     intellij.open_application(path)
     intellij.set_default_timeout(timeout=config["timeout_in_seconds"])
     time.sleep(5)

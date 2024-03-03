@@ -32,9 +32,13 @@ def write_data_to_file(file_path, content):
 
 
 def read_file(filename):
-    with open(filename, "r") as file:
-        contents = file.read()
-    return contents
+    try:
+        with open(filename, "r") as file:
+            contents = file.read()
+        return contents
+    except FileNotFoundError:
+        print(f"File not found: {filename}")
+        return None
 
 
 def assert_valid_csv_file(file_path, **kwargs):
