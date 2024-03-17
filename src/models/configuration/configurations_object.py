@@ -6,6 +6,7 @@ from src.models.configuration.configuration import Configuration
 from src.models.configuration.options import Options
 from src.utils.data_control import from_list
 from src.utils.data_control import to_class
+from src.utils.general import read_file
 from src.utils.general import write_data_to_file
 
 
@@ -50,3 +51,8 @@ class ConfigurationsObject:
 
     def get_configuration(self, configuration_name) -> Configuration:
         return [config for config in self.configurations if config.name == configuration_name][0]
+
+    def get_model_object(self, model_json_path):
+        content = read_file(model_json_path)
+        configurations = ConfigurationsObject.from_dict(json.loads(content))
+        return configurations
