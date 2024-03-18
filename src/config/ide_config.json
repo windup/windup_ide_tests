@@ -1,5 +1,5 @@
 {
   "timeout_in_seconds": 15.0,
-  "windup_cli_path": "",
+  "kantra_cli_path": "",
   "project_path": ""
 }
