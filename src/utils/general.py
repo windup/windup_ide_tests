@@ -157,3 +157,12 @@ def file_exists(file_path):
     Checks if a file exists at the given path.
     """
     return os.path.exists(file_path)
+
+
+def run_command(command):
+    result = subprocess.run(command, shell=True, text=True, capture_output=True)
+
+    if result.returncode != 0:
+        raise Exception(f"failed to run command {command},\n {result.stderr}")
+
+    return result.stdout
