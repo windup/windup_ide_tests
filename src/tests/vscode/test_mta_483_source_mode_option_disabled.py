@@ -14,7 +14,7 @@ from src.models.configuration.configurations_object import ConfigurationsObject
 )
 @pytest.mark.parametrize("ide", ["vscode"])
 @pytest.mark.vscode
-def test_delete_configuration(setup_vscode, configurations, app_name, analysis_data, ide):
+def test_source_mode_option(setup_vscode, configurations, app_name, analysis_data, ide):
     # Automates Polarion MTA-483
 
     vscode = setup_vscode
