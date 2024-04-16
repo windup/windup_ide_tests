@@ -27,11 +27,11 @@ class VisualStudioCode(Application):
         Execute commands in the command palette in vscode
         """
         self.press_keys("ctrl", "shift", "p")
-        time.sleep(1)
+        time.sleep(2)
         self.type_text(command.value)
-        time.sleep(1)
+        time.sleep(2)
         self.press_keys("enter")
-        time.sleep(1)
+        time.sleep(2)
 
     def cmd_palette_open_file(self, file_name=None):
         """
