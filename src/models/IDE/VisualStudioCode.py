@@ -22,6 +22,9 @@ class VisualStudioCode(Application):
         self.chrome = Chrome()
         super().__init__()
 
+    def open_application(self, vscode_path, default_application):
+        subprocess.run(f"{vscode_path} {default_application}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
     def cmd_palette_exec_command(self, command: VSCodeCommandEnum):
         """
         Execute commands in the command palette in vscode

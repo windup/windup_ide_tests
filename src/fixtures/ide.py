@@ -55,8 +55,9 @@ def setup_vscode(vscode_config, config):
     Fixture to setup vs code application
     """
     vscode = VisualStudioCode()
-    path = vscode_config["ide_path"]
-    vscode.open_application(path)
+    vscode_path = vscode_config["ide_path"]
+    default_application = config["project_path"]
+    vscode.open_application(vscode_path, default_application)
     vscode.set_default_timeout(timeout=config["timeout_in_seconds"])
     time.sleep(3)
     yield vscode
