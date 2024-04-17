@@ -2,19 +2,21 @@ import pytest
 
 from src.models.configuration.configurations_object import ConfigurationsObject
 
+APP_NAME = "source mode option"
 
-@pytest.mark.parametrize("app_name", ["source mode option"])
+
+@pytest.mark.parametrize("app_name", [APP_NAME])
 @pytest.mark.parametrize(
     "analysis_data",
     [
         {
-            "source mode option": {"options": {"target": ["eap8"]}},
+            APP_NAME: {"options": {"target": ["eap8"]}},
         },
     ],
 )
 @pytest.mark.parametrize("ide", ["vscode"])
 @pytest.mark.vscode
-def test_source_mode_option(setup_vscode, configurations, app_name, analysis_data, ide):
+def test_mta_583_source_mode_option(setup_vscode, configurations, app_name, analysis_data, ide):
     # Automates Polarion MTA-483
 
     vscode = setup_vscode

@@ -2,18 +2,21 @@ import time
 
 import pytest
 
-CANCEL_ANALYSIS = [
-    {
-        "cancel analysis": {"options": {"target": ["eap8"]}},
-    },
-]
+APP_NAME = "cancel analysis"
 
 
-@pytest.mark.parametrize("app_name", ["cancel analysis"])
-@pytest.mark.parametrize("analysis_data", CANCEL_ANALYSIS)
+@pytest.mark.parametrize("app_name", [APP_NAME])
+@pytest.mark.parametrize(
+    "analysis_data",
+    [
+        {
+            APP_NAME: {"options": {"target": ["eap8"]}},
+        },
+    ],
+)
 @pytest.mark.parametrize("ide", ["vscode"])
 @pytest.mark.vscode
-def test_delete_configuration(setup_vscode, configurations, app_name, analysis_data, ide):
+def test_mta_497_delete_configuration(setup_vscode, configurations, app_name, analysis_data, ide):
     # Automates Polarion MTA-497
 
     vscode = setup_vscode
