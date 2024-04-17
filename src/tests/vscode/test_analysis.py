@@ -10,6 +10,7 @@ MIN = 60
 @pytest.mark.parametrize("app_name", json.load(open(DATA_DIR + "analysis.json")))
 @pytest.mark.parametrize("ide", ["vscode"])
 @pytest.mark.vscode
+@pytest.mark.sanity
 def test_analysis_vscode(setup_vscode, configurations, app_name, ide):
     # Automates polarion MTA-475, MTA-476, MTA-477, MTA-478, MTA-479, MTA-480, MTA-492, MTA-491, MTA-490
     vscode = setup_vscode
