@@ -8,7 +8,7 @@ from src.models.configuration.configurations_object import ConfigurationsObject
     "analysis_data",
     [
         {
-            "cancel analysis": {"options": {"target": ["eap8"]}},
+            "source mode option": {"options": {"target": ["eap8"]}},
         },
     ],
 )
