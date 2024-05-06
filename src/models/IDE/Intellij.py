@@ -3,6 +3,7 @@ import logging
 import os
 import subprocess
 import time
+
 import pyautogui
 
 from src.models.application import Application
