@@ -1,9 +1,11 @@
+import logging
 import re
 
 import cv2
 import numpy as np
 import pyautogui
 import pytesseract
+from PIL import ImageGrab
 
 
 def find_all_string_occurrences(string):
@@ -23,6 +25,33 @@ def find_all_string_occurrences(string):
 
     # Use a regular expression to find all occurrences of the substring
     return re.findall(re.escape(string), extracted_text)
+
+
+def find_on_screen(image_path, threshold=0.8):
+    """
+    Uses OpenCV to find the element on the screen based on the provided image path.
+    Args:
+        image_path (str): The path to the image file used as the template.
+        threshold (float): The threshold for the match (default is 0.8).
+    Returns:
+        Coordinates x,y of the found element
+    """
+    screen = np.array(ImageGrab.grab())  # Take a screenshot
+    screen_gray = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
+    template = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    if template is None:
+        logging.error(f"Template image not loaded: {image_path}")
+        return None
+    res = cv2.matchTemplate(screen_gray, template, cv2.TM_CCOEFF_NORMED)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+    if max_val >= threshold:
+        # Calculate the center of the template match
+        top_left = max_loc
+        w, h = template.shape[::-1]
+        center_x = top_left[0] + w // 2
+        center_y = top_left[1] + h // 2
+        return (center_x, center_y)
+    return None
 
 
 def find_all_sentence_occurrences(sentence):

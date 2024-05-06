@@ -4,9 +4,12 @@ import os
 import subprocess
 import time
 
+import pyautogui
+
 from src.models.application import Application
 from src.models.configuration.configurations_object import ConfigurationsObject
 from src.utils.general import read_file
+from src.utils.ocr import find_on_screen
 
 
 class Intellij(Application):
@@ -21,7 +24,7 @@ class Intellij(Application):
             x_coordinate=110,
             y_coordinate=470,
         )
-        self.configurations = []
+        self.configurations_object = ConfigurationsObject()
 
     def get_ide_version(self, ide_directory):
         info_file_path = os.path.join(ide_directory, "product-info.json")
@@ -49,7 +52,7 @@ class Intellij(Application):
         self.press_keys("up")
         self.press_keys("enter")
         time.sleep(1)
-        self.configurations = []
+        self.configurations_object.configurations.clear()
 
     def create_configuration_in_ui(self):
         self.click(self.config_run_region)
@@ -66,62 +69,48 @@ class Intellij(Application):
         config,
         uuid,
     ):
-        configurations_object = ConfigurationsObject()
-        configuration = configurations_object.create(
+        self.configurations_object.create(
             analysis_data,
             app_name,
             application_config,
             config,
             uuid,
         )
-        self.configurations.append(configuration)
-        self.refresh_configuration()
 
     def image_locator(self, locator):
-        return f"image:{self.IMG_DIR}/intellij/{locator}"
+        return os.path.join(self.IMG_DIR, "intellij", locator)
 
     def is_open_mta_perspective(self):
         """
-        Checks if MTA perspective is already opened in IntelliJ
+        Checks if the MTA perspective is currently visible on the screen.
 
         Returns:
-            (bool): True or False
+            bool: True if the MTA perspective is visible, False otherwise.
         """
-        try:
-            self.wait_find_element(locator_type="image", locator="mta_perspective_active.png")
+        mta_perspective_active_path = self.image_locator("mta_perspective_active.png")
+        if find_on_screen(mta_perspective_active_path) is not None:
             return True
-        except Exception as exc:
-            try:
-                self.wait_find_element(
-                    locator_type="image",
-                    locator="mta_perspective_active_alt.png",
-                )
-                return True
-            except Exception:
-                logging.debug(
-                    "An error occured while finding \
-                    MTA perspective tab ! {}".format(
-                        str(exc),
-                    ),
-                )
-            if "No matches found" in str(exc):
-                return False
-            else:
-                raise Exception(exc)
+        else:
+            logging.info("MTA perspective not visible on the screen.")
+            return False
 
     def open_mta_perspective(self):
         """
-        Opens MTA perspective in IntelliJ
+        Opens MTA perspective
         """
         if self.is_open_mta_perspective():
-            logging.info("MTA perspective is already opened !")
+            logging.info("MTA perspective is already open!")
         else:
-            # Click on the MTA tab in left sidebar
-            self.click_element(locator_type="image", locator="mta_tab.png")
+            coordinates = find_on_screen(self.image_locator("mta_tab.png"))
+            print(coordinates)
+            if coordinates is None:
+                logging.info("MTA tab not found!")
+                return False
+            else:
+                pyautogui.click(coordinates)
+            self.click(self.config_run_region)
 
-        self.click(self.config_run_region)
-
-    def run_simple_analysis(self, app_name, wait_for_analysis_finish=False):
+    def run_simple_analysis(self, app_name, wait_for_analysis_finish=True):
         self.refresh_configuration()
 
         # Search for configuration name that has to be run
