@@ -10,6 +10,7 @@ from src.models.application import Application
 from src.models.configuration.configurations_object import ConfigurationsObject
 from src.utils.general import read_file
 from src.utils.ocr import find_on_screen
+from src.utils.ocr import wait_for_element
 
 
 class Intellij(Application):
@@ -124,11 +125,7 @@ class Intellij(Application):
         # Wait for analysis to be completed in IDE terminal
         if wait_for_analysis_finish:
             time.sleep(2)
-            self.wait_find_element(
-                locator_type="image",
-                locator="analysis_complete_terminal.png",
-                timeout=120.0,
-            )
+            wait_for_element(self.image_locator("analysis_complete_terminal.png"), 120)
 
     def open_report_page(self, app_name):
         self.click(self.config_run_region)
