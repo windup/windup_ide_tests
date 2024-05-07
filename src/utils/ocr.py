@@ -1,5 +1,6 @@
 import logging
 import re
+import time
 
 import cv2
 import numpy as np
@@ -25,6 +26,17 @@ def find_all_string_occurrences(string):
 
     # Use a regular expression to find all occurrences of the substring
     return re.findall(re.escape(string), extracted_text)
+
+
+def wait_for_element(image_path, timeout, threshold=0.8):
+    start_time = time.time()
+    while (time.time() - start_time) < timeout:
+        coordinates = find_on_screen(image_path, threshold)
+        if coordinates:
+            return coordinates
+        time.sleep(1)
+    logging.warning(f"Timeout reached. Element not found for {image_path}")
+    return None
 
 
 def find_on_screen(image_path, threshold=0.8):
