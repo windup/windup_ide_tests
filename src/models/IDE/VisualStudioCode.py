@@ -86,11 +86,10 @@ class VisualStudioCode(Application):
         # Verify analysis has started
         time.sleep(5)
         terminal_lines = self.copy_terminal_output()
-        log_map = parse_log_string(terminal_lines[1])
+        log_map = parse_log_string(terminal_lines[6])
 
         assert is_date_today(log_map["time"])
-        # todo: implement a function to return a list of all the messages in all the terminal lines
-        assert "running source code analysis" in terminal_lines
+        assert log_map["msg"] == "running source code analysis"
 
     def is_analysis_complete(self, timeout=300):
         """
