@@ -22,8 +22,8 @@ class VisualStudioCode(Application):
         self.chrome = Chrome()
         super().__init__()
 
-    def open_application(self, vscode_path, default_application):
-        subprocess.run(f"{vscode_path} {default_application}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    def open_application(self, vscode_path, default_application, trust_workspace=False):
+        subprocess.run(f"{vscode_path} {default_application} {'--disable-workspace-trust' if trust_workspace else ''}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     def cmd_palette_exec_command(self, command: VSCodeCommandEnum):
         """
