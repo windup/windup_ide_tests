@@ -84,10 +84,10 @@ class VisualStudioCode(Application):
         self.press_keys("enter")
 
         # Verify analysis has started
-        time.sleep(5)
+        time.sleep(3)
         terminal_lines = self.copy_terminal_output()
         log_map = parse_log_string(terminal_lines[6])
-        print(log_map)
+
         assert is_date_today(log_map["time"])
         assert log_map["msg"] == "running source code analysis"
 
