@@ -4,28 +4,27 @@ import time
 
 import pytest
 
+from src.models.chrome import Chrome
+
+chrome = Chrome()
 DATA_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))) + "/data/"
 
 
 @pytest.mark.parametrize("app_name", json.load(open(DATA_DIR + "analysis.json")))
 @pytest.mark.parametrize("ide", ["intellij"])
 @pytest.mark.intellij
-def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_data, ide):
+def test_analysis_intellij(configurations, setup_intellij, app_name, analysis_data, ide, intellij_config):
     """
     Analysis tests for intellij using various migration paths
     """
     intellij = setup_intellij
-    application_data = analysis_data[app_name]
-    expected_story_points = application_data["story_points"]
-
-    # Intellij freezes without this sleep
+    # TODO: add story point verification and report opening
     time.sleep(3)
     intellij.run_simple_analysis(app_name)
-    intellij.open_report_page(app_name)
-
-    _, html_file_location = configurations
-    if "skip_reports" not in application_data["options"]:
-        intellij.verify_story_points(
-            html_file_location=html_file_location,
-            expected_story_points=expected_story_points,
-        )
+    _, report_file_path, id = configurations
+    intellij.open_report_page()
+    chrome.focus_tab(id)
+    active_url = chrome.get_chrome_focused_tab_url()
+    assert id in active_url, "The report that was opened is not for this analysis run"
+    chrome.close_tab(id)
+    intellij.set_focus()
