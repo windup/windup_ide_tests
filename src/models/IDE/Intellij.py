@@ -125,7 +125,7 @@ class Intellij(Application):
         # Wait for analysis to be completed in IDE terminal
         if wait_for_analysis_finish:
             time.sleep(2)
-            wait_for_element(self.image_locator("analysis_complete_terminal.png"), 120)
+            wait_for_element(self.image_locator("analysis_complete_terminal.png"), 160)
 
     def open_report_page(self):
         coordinates = find_on_screen(self.image_locator("Report_logo.png"))
