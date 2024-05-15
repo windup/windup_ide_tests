@@ -87,7 +87,10 @@ class VisualStudioCode(Application):
         time.sleep(3)
         terminal_lines = self.copy_terminal_output()
         log_map = parse_log_string(terminal_lines[6])
-
+        print("=====================================================")
+        print("terminal lines: ")
+        print(terminal_lines)
+        print("=====================================================")
         assert is_date_today(log_map["time"])
         assert log_map["msg"] == "running source code analysis"
 
