@@ -138,9 +138,13 @@ class VisualStudioCode(Application):
         split into lines, and return the list
         """
         self.focus_terminal_output_panel()
+        time.sleep(1)
         self.press_keys("ctrl", "a")
+        time.sleep(1)
         self.press_keys("ctrl", "c")
+        time.sleep(1)
         self.press_keys("esc")
+        time.sleep(1)
         return get_clipboard_text(True)
 
     def clear_terminal_output_panel(self):
