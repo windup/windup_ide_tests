@@ -90,6 +90,7 @@ class VisualStudioCode(Application):
         time.sleep(10)
         terminal_lines = self.copy_terminal_output()
         log_map = parse_log_string(terminal_lines[6])
+        print(log_map)
         assert log_map["msg"] == "running source code analysis"
 
     def is_analysis_complete(self, timeout=300):
