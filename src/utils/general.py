@@ -94,8 +94,7 @@ def get_clipboard_text(split=False):
     """Returns the text currently copied in the clipboard."""
     try:
         pyperclip.set_clipboard("xclip")
-        text = pyperclip.paste()
-        text = text.split("\n") if split else pyperclip.paste()
+        text = pyperclip.paste().split("\n") if split else pyperclip.paste()
         return text
     except pyperclip.PyperclipException as e:
         print(f"Error accessing clipboard: {e}")
