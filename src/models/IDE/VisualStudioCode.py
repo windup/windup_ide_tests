@@ -83,15 +83,8 @@ class VisualStudioCode(Application):
         self.press_keys("enter")
 
         # Verify analysis has started
-        # todo: instead of time.sleep(10),
-        # implement a function to keep checking if the "running source code analysis" is found
-        # in the terminal output with a default timeout
-        time.sleep(10)
         terminal_lines = self.copy_terminal_output()
-        print(terminal_lines)
-        print("terminal_lines")
         log_map = parse_log_string(terminal_lines[7])
-        print(log_map)
         assert log_map["msg"] == "running source code analysis"
 
     def is_analysis_complete(self, timeout=300):
@@ -139,13 +132,9 @@ class VisualStudioCode(Application):
         split into lines, and return the list
         """
         self.focus_terminal_output_panel()
-        time.sleep(1)
         self.press_keys("ctrl", "a")
-        time.sleep(1)
         self.press_keys("ctrl", "c")
-        time.sleep(1)
         self.press_keys("esc")
-        time.sleep(1)
         return get_clipboard_text(True)
 
     def clear_terminal_output_panel(self):

@@ -95,8 +95,6 @@ def get_clipboard_text(split=False):
     try:
         pyperclip.set_clipboard('xclip')
         text = pyperclip.paste()
-        print(text)
-        print("text")
         text = text.split("\n") if split else pyperclip.paste()
         return text
     except pyperclip.PyperclipException as e:
