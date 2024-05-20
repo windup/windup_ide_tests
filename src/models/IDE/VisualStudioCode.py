@@ -90,7 +90,7 @@ class VisualStudioCode(Application):
         terminal_lines = self.copy_terminal_output()
         print(terminal_lines)
         print("terminal_lines")
-        log_map = parse_log_string(terminal_lines[6])
+        log_map = parse_log_string(terminal_lines[7])
         print(log_map)
         assert log_map["msg"] == "running source code analysis"
 
