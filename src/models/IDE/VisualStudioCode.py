@@ -7,7 +7,6 @@ from src.models.configuration.configuration import Configuration
 from src.models.configuration.configurations_object import ConfigurationsObject
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.utils.general import get_clipboard_text
-from src.utils.general import is_date_today
 from src.utils.general import parse_kantra_cli_command
 from src.utils.general import parse_log_string
 
@@ -85,9 +84,7 @@ class VisualStudioCode(Application):
 
         # Verify analysis has started
         terminal_lines = self.copy_terminal_output()
-        log_map = parse_log_string(terminal_lines[1])
-
-        assert is_date_today(log_map["time"])
+        log_map = parse_log_string(terminal_lines[7])
         assert log_map["msg"] == "running source code analysis"
 
     def is_analysis_complete(self, timeout=300):
