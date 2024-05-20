@@ -93,6 +93,7 @@ def get_screen_size():
 def get_clipboard_text(split=False):
     """Returns the text currently copied in the clipboard."""
     try:
+        pyperclip.set_clipboard('xclip')
         text = pyperclip.paste()
         print(text)
         print("text")
