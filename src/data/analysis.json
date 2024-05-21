@@ -1,29 +1,29 @@
 {
-  "to Azure appservicce": {
+  "to Azure": {
     "options": {
       "target": [
-        "azure-appservice"
+        "azure"
       ]
     }
   },
   "to camel 3": {
     "options": {
       "target": [
-        "camel 3"
+        "camel3"
       ]
     }
   },
   "to camel 4": {
     "options": {
       "target": [
-        "camel 4"
+        "camel4"
       ]
     }
   },
-  "to containerization": {
+  "to containerization (cloud-readiness)": {
     "options": {
       "target": [
-        "containerization"
+        "cloud-readiness"
       ]
     }
   },
@@ -34,6 +34,13 @@
       ]
     }
   },
+  "to eap6": {
+    "options": {
+      "target": [
+        "eap6"
+      ]
+    }
+  },
   "to eap7": {
     "options": {
       "target": [
@@ -41,31 +48,66 @@
       ]
     }
   },
-  "eap7 to eap8": {
+  "to eap8": {
     "options": {
       "target": [
         "eap8"
       ]
     }
   },
-  "to jakarta-ee": {
+  "to eapxp": {
     "options": {
       "target": [
-        "jakarta-ee"
+        "eapxp"
       ]
     }
   },
-  "to jakarta-ee8": {
+  "to fsw": {
     "options": {
       "target": [
-        "jakarta-ee8+"
+        "fsw"
       ]
     }
   },
-  "to jakarta-ee9": {
+  "to fuse": {
     "options": {
       "target": [
-        "jakarta-ee9+"
+        "fuse"
+      ]
+    }
+  },
+  "to hibernate": {
+    "options": {
+      "target": [
+        "hibernate"
+      ]
+    }
+  },
+  "to hibernate-search": {
+    "options": {
+      "target": [
+        "hibernate-search"
+      ]
+    }
+  },
+   "to jakarta": {
+    "options": {
+      "target": [
+        "jakarta"
+      ]
+    }
+  },
+   "to java": {
+    "options": {
+      "target": [
+        "java"
+      ]
+    }
+  },
+   "to jbpm": {
+    "options": {
+      "target": [
+        "jbpm"
       ]
     }
   },
@@ -128,10 +170,17 @@
       ]
     }
   },
-  "to springboot": {
+  "to resteasy": {
     "options": {
       "target": [
-        "springboot"
+        "resteasy"
+      ]
+    }
+  },
+  "to rhr": {
+    "options": {
+      "target": [
+        "rhr"
       ]
     }
   },

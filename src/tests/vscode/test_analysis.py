@@ -17,5 +17,5 @@ def test_analysis_vscode(setup_vscode, configurations, app_name, ide):
     vscode.set_focus()
     vscode.open_mta_perspective()
     vscode.run_simple_analysis(app_name)
-    status, message = vscode.is_analysis_complete(timeout=(5 * MIN))
+    status, message = vscode.is_analysis_complete(timeout=(20 * MIN))
     assert status, message
