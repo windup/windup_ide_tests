@@ -16,6 +16,7 @@ APP_NAME = "overwrite analysis"
 @pytest.mark.vscode
 def test_overwrite_option(setup_vscode, configurations, app_name, analysis_data, ide):
     # Automates polarion MTA-481
+    pytest.skip("Overwrite option is disabled")
     vscode = setup_vscode
     vscode.set_focus()
 
