@@ -1,6 +1,8 @@
 import subprocess
 import time
 
+import pytest
+
 from src.models.application import Application
 from src.models.chrome import Chrome
 from src.models.configuration.configuration import Configuration
@@ -10,6 +12,7 @@ from src.utils.general import get_clipboard_text
 from src.utils.general import parse_kantra_cli_command
 from src.utils.general import parse_log_string
 
+logger = pytest.test_logger
 
 class VisualStudioCode(Application):
     """
@@ -28,8 +31,10 @@ class VisualStudioCode(Application):
         """
         Execute commands in the command palette in vscode
         """
+        logger.info("Open command palette")
         self.press_keys("ctrl", "shift", "p")
         time.sleep(1)
+        logger.info(f"Execute command: {command.value}")
         self.type_text(command.value)
         time.sleep(1)
         self.press_keys("enter")
@@ -53,6 +58,7 @@ class VisualStudioCode(Application):
         """
         Closes the IDE
         """
+        logger.info("Close IDE")
         self.set_focus()
         self.press_keys("ctrl", "q")
 
@@ -77,14 +83,20 @@ class VisualStudioCode(Application):
         Runs analysis after creating an analysis configuration
         """
         # Wait for new configuration' to become visible
+        logger.info("Refresh configuration")
         self.refresh_configuration()
         self.cmd_palette_exec_command(VSCodeCommandEnum.RUN_ANALYSIS)
+        logger.info(f"Type text: [{configuration_name}]")
         self.type_text(configuration_name)
+        logger.info("CLick enter")
         self.press_keys("enter")
 
         # Verify analysis has started
+        logger.info("Copy terminal lines:")
         terminal_lines = self.copy_terminal_output()
+        logger.info("Parse 7th line:")
         log_map = parse_log_string(terminal_lines[7])
+        logger.info(log_map)
         assert log_map["msg"] == "running source code analysis"
 
     def is_analysis_complete(self, timeout=300):
@@ -131,11 +143,15 @@ class VisualStudioCode(Application):
         Copy the content of the output panel to the clipboard
         split into lines, and return the list
         """
+        logger.info("Focus output MTA console")
         self.focus_terminal_output_panel()
+        logger.info("Copy Console output")
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
         self.press_keys("esc")
-        return get_clipboard_text(True)
+        clipboard_text = get_clipboard_text(True)
+        logger.info(clipboard_text)
+        return clipboard_text
 
     def clear_terminal_output_panel(self):
         """
@@ -175,7 +191,6 @@ class VisualStudioCode(Application):
         """
         Refresh the configuration tree
         """
-        self.open_mta_perspective()
         self.cmd_palette_exec_command(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
 
     def open_plugin_info(self, refocus=False):
