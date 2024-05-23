@@ -1,3 +1,4 @@
+import logging
 import subprocess
 import time
 
@@ -8,6 +9,10 @@ from src.models.configuration.configurations_object import ConfigurationsObject
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.utils.general import get_clipboard_text
 from src.utils.general import parse_kantra_cli_command
+
+logging.basicConfig(level=logging.DEBUG)
+
+logger = logging.getLogger(__name__)
 
 
 class VisualStudioCode(Application):
@@ -27,8 +32,10 @@ class VisualStudioCode(Application):
         """
         Execute commands in the command palette in vscode
         """
+        logger.info("Open command palette")
         self.press_keys("ctrl", "shift", "p")
         time.sleep(1)
+        logger.info(f"Execute command: {command.value}")
         self.type_text(command.value)
         time.sleep(1)
         self.press_keys("enter")
@@ -52,6 +59,7 @@ class VisualStudioCode(Application):
         """
         Closes the IDE
         """
+        logger.info("Close IDE")
         self.set_focus()
         self.press_keys("ctrl", "q")
 
@@ -76,9 +84,12 @@ class VisualStudioCode(Application):
         Runs analysis after creating an analysis configuration
         """
         # Wait for new configuration' to become visible
+        logger.info("Refresh configuration")
         self.refresh_configuration()
         self.cmd_palette_exec_command(VSCodeCommandEnum.RUN_ANALYSIS)
+        logger.info(f"Type text: [{configuration_name}]")
         self.type_text(configuration_name)
+        logger.info("CLick enter")
         self.press_keys("enter")
 
         # todo: There's is really no need to verify if the analysis started or not, because it will eventually go to one of 3 states, analysis failed, analysis completed, or timout error
@@ -104,11 +115,14 @@ class VisualStudioCode(Application):
         while True:
             output_log_lines = self.copy_terminal_output()
             if output_log_lines[-1:][0] == "Analysis completed successfully":
+                logger.info("Analysis completed successfully")
                 self.update_analysis_summery()
                 return True, ""
             elif output_log_lines[-1:][0] == "Analysis failed":
+                logger.info("Analysis failed")
                 return False, "Analysis Failed"
             elif time.time() - start_time > timeout:
+                logger.info("Timeout analysis not complete")
                 return False, "Timeout analysis not complete"
             time.sleep(15)
 
@@ -135,11 +149,15 @@ class VisualStudioCode(Application):
         Copy the content of the output panel to the clipboard
         split into lines, and return the list
         """
+        logger.info("Focus output MTA console")
         self.focus_terminal_output_panel()
+        logger.info("Copy Console output")
         self.press_keys("ctrl", "a")
         self.press_keys("ctrl", "c")
         self.press_keys("esc")
-        return get_clipboard_text(True)
+        clipboard_text = get_clipboard_text(True)
+        logger.info(clipboard_text)
+        return clipboard_text
 
     def clear_terminal_output_panel(self):
         """
