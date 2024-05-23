@@ -1,7 +1,6 @@
+import logging
 import subprocess
 import time
-
-import pytest
 
 from src.models.application import Application
 from src.models.chrome import Chrome
@@ -12,7 +11,9 @@ from src.utils.general import get_clipboard_text
 from src.utils.general import parse_kantra_cli_command
 from src.utils.general import parse_log_string
 
-logger = pytest.test_logger
+logging.basicConfig(level=logging.DEBUG)
+
+logger = logging.getLogger(__name__)
 
 
 class VisualStudioCode(Application):
