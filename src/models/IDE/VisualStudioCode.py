@@ -175,7 +175,6 @@ class VisualStudioCode(Application):
         """
         Refresh the configuration tree
         """
-        self.open_mta_perspective()
         self.cmd_palette_exec_command(VSCodeCommandEnum.REFRESH_CONFIGURATIONS)
 
     def open_plugin_info(self, refocus=False):
