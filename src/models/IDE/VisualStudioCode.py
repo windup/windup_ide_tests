@@ -9,7 +9,6 @@ from src.models.configuration.configurations_object import ConfigurationsObject
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.utils.general import get_clipboard_text
 from src.utils.general import parse_kantra_cli_command
-from src.utils.general import parse_log_string
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -93,13 +92,15 @@ class VisualStudioCode(Application):
         logger.info("CLick enter")
         self.press_keys("enter")
 
+        # todo: There's is really no need to verify if the analysis started or not, because it will eventually go to one of 3 states, analysis failed, analysis completed, or timout error
+        # todo: add assertion when the developers stop tweaking the cli output so often.
         # Verify analysis has started
-        logger.info("Copy terminal lines:")
-        terminal_lines = self.copy_terminal_output()
-        logger.info("Parse 7th line:")
-        log_map = parse_log_string(terminal_lines[7])
-        logger.info(log_map)
-        assert log_map["msg"] == "running source code analysis"
+        # logger.info("Copy terminal lines:")
+        # terminal_lines = self.copy_terminal_output()
+        # logger.info("Parse 7th line:")
+        # log_map = parse_log_string(terminal_lines[7])
+        # logger.info(log_map)
+        # assert log_map["msg"] == "running source code analysis"
 
     def is_analysis_complete(self, timeout=300):
         """
@@ -114,11 +115,14 @@ class VisualStudioCode(Application):
         while True:
             output_log_lines = self.copy_terminal_output()
             if output_log_lines[-1:][0] == "Analysis completed successfully":
+                logger.info("Analysis completed successfully")
                 self.update_analysis_summery()
                 return True, ""
             elif output_log_lines[-1:][0] == "Analysis failed":
+                logger.info("Analysis failed")
                 return False, "Analysis Failed"
             elif time.time() - start_time > timeout:
+                logger.info("Timeout analysis not complete")
                 return False, "Timeout analysis not complete"
             time.sleep(15)
 
