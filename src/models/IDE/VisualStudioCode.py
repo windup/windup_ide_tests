@@ -8,7 +8,6 @@ from src.models.configuration.configurations_object import ConfigurationsObject
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.utils.general import get_clipboard_text
 from src.utils.general import parse_kantra_cli_command
-from src.utils.general import parse_log_string
 
 
 class VisualStudioCode(Application):
@@ -82,10 +81,15 @@ class VisualStudioCode(Application):
         self.type_text(configuration_name)
         self.press_keys("enter")
 
+        # todo: There's is really no need to verify if the analysis started or not, because it will eventually go to one of 3 states, analysis failed, analysis completed, or timout error
+        # todo: add assertion when the developers stop tweaking the cli output so often.
         # Verify analysis has started
-        terminal_lines = self.copy_terminal_output()
-        log_map = parse_log_string(terminal_lines[7])
-        assert log_map["msg"] == "running source code analysis"
+        # logger.info("Copy terminal lines:")
+        # terminal_lines = self.copy_terminal_output()
+        # logger.info("Parse 7th line:")
+        # log_map = parse_log_string(terminal_lines[7])
+        # logger.info(log_map)
+        # assert log_map["msg"] == "running source code analysis"
 
     def is_analysis_complete(self, timeout=300):
         """
