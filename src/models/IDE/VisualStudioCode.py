@@ -14,6 +14,7 @@ from src.utils.general import parse_log_string
 
 logger = pytest.test_logger
 
+
 class VisualStudioCode(Application):
     """
     Class for managing VSCode application
