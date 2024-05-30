@@ -1,4 +1,5 @@
 import logging
+import re
 import subprocess
 import time
 
@@ -9,6 +10,7 @@ from src.models.configuration.configurations_object import ConfigurationsObject
 from src.models.IDE.VSCodeCommandEnum import VSCodeCommandEnum
 from src.utils.general import get_clipboard_text
 from src.utils.general import parse_kantra_cli_command
+from src.utils.general import read_file
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -213,7 +215,7 @@ class VisualStudioCode(Application):
         if refocus:
             self.cmd_palette_open_file()
 
-    def get_plugin_text(self):
+    def get_plugin_details_text(self):
         self.close_all_tabs()
         self.open_plugin_info()
         time.sleep(1)
@@ -224,6 +226,22 @@ class VisualStudioCode(Application):
         self.press_keys("ctrl", "c")
         time.sleep(2)
         return get_clipboard_text(split=True)
+
+    def get_plugin_details_text_from_file(self, readme_file_path):
+        readme_content = read_file(readme_file_path)
+        readme_content = re.sub(r"<!--.*?-->", "", readme_content, flags=re.DOTALL)
+        readme_content = re.sub(r"\[([^\]]+)\]\((https?://[^\)]+)\)", r"\1", readme_content)
+        readme_content = re.sub(r"!\[([^\]]*)\]\((https?://[^\)]+)\)", r"\1", readme_content)
+        readme_content = re.sub(r"```[\s\S]*?```", lambda m: m.group(0).replace("```", ""), readme_content)
+        readme_content = re.sub(r"`([^`]+)`", r"\1", readme_content)
+        readme_content = re.sub(r"#+\s*", "", readme_content)
+        readme_content = re.sub(r"^[\*\-\+]\s+", "", readme_content, flags=re.MULTILINE)
+        readme_content = re.sub(r"^>\s+", "", readme_content, flags=re.MULTILINE)
+        readme_content = re.sub(r"\n{2,}", "\n\n", readme_content)
+        readme_content = "\n".join(line.strip() for line in readme_content.splitlines() if line.strip())
+        readme_content = readme_content.strip()
+
+        return readme_content
 
     def focus_problems_panel(self):
         """
