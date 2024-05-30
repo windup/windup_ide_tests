@@ -167,3 +167,10 @@ def run_command(command):
         raise Exception(f"failed to run command {command},\n {result.stderr}")
 
     return result.stdout
+
+
+def find_mta_directory(extensions_dir_path):
+    for dir_name in os.listdir(extensions_dir_path):
+        if os.path.isdir(os.path.join(extensions_dir_path, dir_name)) and "mta" in dir_name.lower():
+            return os.path.join(extensions_dir_path, dir_name)
+    raise Exception(f"No directory containing 'mta' found in {extensions_dir_path}")
