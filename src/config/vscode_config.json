@@ -1,4 +1,5 @@
 {
   "ide_path": "/usr/bin/code",
-  "plugin_cache_path": "/home/midays/.mta/tooling/vscode"
+  "plugin_cache_path": "",
+  "extensions_path" : ""
 }
