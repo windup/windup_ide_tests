@@ -125,16 +125,11 @@ class Intellij(Application):
         # Wait for analysis to be completed in IDE terminal
         if wait_for_analysis_finish:
             time.sleep(2)
-            wait_for_element(self.image_locator("analysis_complete_terminal.png"), 120)
+            wait_for_element(self.image_locator("analysis_complete_terminal.png"), 160)
 
-    def open_report_page(self, app_name):
-        self.click(self.config_run_region)
-        self.type_text(app_name)
-        self.press_keys("enter")
-        self.press_keys("enter")
-        self.click_element(locator_type="image", locator="report_selector.png")
-        # Verify the report page is opened
-        self.wait_find_element(locator_type="image", locator="report_page_header.png")
+    def open_report_page(self):
+        coordinates = find_on_screen(self.image_locator("Report_logo.png"))
+        pyautogui.click(coordinates)
 
     def refresh_configuration(self):
         """
