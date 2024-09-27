@@ -4,6 +4,7 @@ import time
 
 import cv2
 import numpy as np
+import pandas as pd
 import pyautogui
 import pytesseract
 from PIL import ImageGrab
@@ -22,10 +23,26 @@ def find_all_string_occurrences(string):
     # Preprocess the image
     processed_img = preprocess_image(screenshot_bgr)
     # Use pytesseract to extract text from the screenshot
-    extracted_text = pytesseract.image_to_string(processed_img, config="--psm 6 -l eng")
+    extracted_data = pytesseract.image_to_data(processed_img, config="--psm 6 -l eng",
+                                               output_type=pytesseract.Output.DATAFRAME)
 
-    # Use a regular expression to find all occurrences of the substring
-    return re.findall(re.escape(string), extracted_text)
+    occurrences = []
+    locations = []
+
+    for i, row in extracted_data.iterrows():
+        if pd.isna(row['text']):
+            continue
+        found_positions = [m.start() for m in re.finditer(re.escape(string), row['text'])]
+        for pos in found_positions:
+            occurrences.append(string)
+            locations.append({
+                'left': row['left'] + pos,
+                'top': row['top'],
+                'width': row['width'],
+                'height': row['height']
+            })
+
+    return occurrences, locations
 
 
 def wait_for_element(image_path, timeout, threshold=0.8):
